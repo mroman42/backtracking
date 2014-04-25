@@ -20,16 +20,17 @@ int main () {
     // Lectura del problema
     cin >> tamanio;
     cin >> numero;
-
-    string lineapesos, lineabeneficios;
-    getline(cin, lineapesos);
-    getline(cin, lineabenef);
-    istringstream cinpesos (lineapesos);
-    istringstream cinbenef (lineabenef);
     
     int leido;
-    while (cinpesos >> leido)
+    for (int i=0; i<numero; i++) {
+	cin >> leido;
 	pesos.push_back(leido);
-    while (cinbenef >> leido)
+    }
+    for (int i=0; i<numero; i++) {
+	cin >> leido;
 	beneficios.push_back(leido);
+    }
+
+    // Representación del problema
+
 }

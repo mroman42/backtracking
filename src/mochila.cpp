@@ -32,6 +32,8 @@ int main () {
 	beneficios.push_back(leido);
     }
 
+
+
     // Resolución del problema
     typedef vector<bool> Mochila;
     Mochila solucion;
@@ -66,11 +68,23 @@ int main () {
 	    sin_nuevo.push_back(false);
 
 	    int nuevo_peso = 0;
-	    for (uint i=0; i<tamanio; i++)
-		nuevo_peso += actual[i]? pesos[i] : 0;
-	    if (nuevo_peso <= limite)
+	    for (uint i=0; i<con_nuevo.size(); i++)
+		nuevo_peso += con_nuevo[i]? pesos[i] : 0;
+	    if (nuevo_peso <= limite) {
 		posibles_mochilas.push(con_nuevo);
+	    }
+
 	    posibles_mochilas.push(sin_nuevo);
 	}
     }
+
+
+
+    // Muestra la solución.
+    cout << "\nSOLUCIÓN:\n";
+    cout << "Valor obtenido: " << max_valor << endl;
+    cout << "Mochila: ";
+    for (uint i=0; i<solucion.size(); i++)
+	cout << solucion[i] << ',';
+    cout << endl;
 }

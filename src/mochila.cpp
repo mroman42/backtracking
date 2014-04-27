@@ -24,8 +24,7 @@ public:
 };
 
 typedef vector<bool> Mochila;
-Mochila rellenar (int n, vector<Objeto>& objeto, int tamanio) {
-    if ()
+Mochila rellenar (Mochila& mochila, int n, vector<Objeto>& objeto, int tamanio) {
 }
 
 int main () {
@@ -53,7 +52,5 @@ int main () {
 
 
     // Resolución del problema
-    Mochila mochila(tamanio);
-    mochila.llenar(objetos);
-    
+    Mochila mochila;
 }

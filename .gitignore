@@ -1,1 +1,11 @@
 bin/
+*.aux
+*.log
+*.toc
+*.backup
+*.directory
+*.zip
+*.pdf
+*.directory
+*.fuse_hidden*
+*.synctex.gz

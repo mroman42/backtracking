@@ -23,8 +23,11 @@ Ruta mejor_ruta;
 Coste mejor_coste;
 
 
-Coste distancia (Point a, Point b) {
+Coste distancia (int i, int j) {
     // Calcula la distancia entre dos puntos.
+    Point a = ciudades[i];
+    Point b = ciudades[j];
+
     Coste x = a.first - b.first;
     Coste y = a.second - b.second;
     return sqrt(x*x - y*y);

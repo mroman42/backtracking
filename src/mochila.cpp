@@ -1,16 +1,20 @@
-#include <iostream>
-#include <vector>
-#include <queue>
-using namespace std;
-typedef unsigned int uint;
-
 /**
+ * mochila.cpp
+ * Problema de la mochila.
+ * Implementación de un algoritmo de backtracking en C++.
+ *
  * Formato del problema: 
  *  [tamaño de mochila]
  *  [número de objetos]
  *  [vector de pesos]
  *  [vector de beneficios]
  */
+
+#include <iostream>
+#include <vector>
+#include <queue>
+using namespace std;
+typedef unsigned int uint;
 
 
 int main () {
@@ -36,10 +40,11 @@ int main () {
 
     // Resolución del problema
     typedef vector<bool> Mochila;
+    queue<Mochila> posibles_mochilas;
     Mochila solucion;
     int max_valor = 0;
-    queue<Mochila> posibles_mochilas;
     
+    // Prueba cada una de las posibles mochilas.
     posibles_mochilas.push(Mochila());
     while (!posibles_mochilas.empty()) {
 	Mochila actual = posibles_mochilas.front();

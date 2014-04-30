@@ -90,4 +90,12 @@ int main() {
     mejor_coste = numeric_limits<Coste>::infinity();
 
     permutaciones(ruta, 0, 1);
+
+
+    // Muestra la solución
+    cout << "Mejor coste obtenido: " << mejor_coste << endl;
+    cout << "Mejor ruta: " << endl;
+    for (int i=0; i<dimension; ++i)
+	cout << ruta[i] << ' ';
+    cout << endl;
 }

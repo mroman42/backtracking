@@ -17,7 +17,7 @@ using namespace std;
 typedef unsigned int uint;
 typedef vector<bool> Mochila;
 
-Mochila resolver(pesos, beneficios) {
+Mochila resolver(vector<int> pesos, vector<int> beneficios) {
     // Resolución del problema
     queue<Mochila> posibles_mochilas;
     Mochila solucion;

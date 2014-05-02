@@ -79,17 +79,13 @@ void permutaciones(Ruta& ruta, Coste& coste_actual, uint indice){
             ruta[i] = ruta[indice];
             ruta[indice] = temp;
             
-            // Si hay alguna arista...
-            if (indice)
-                coste_actual += distancia(ruta[indice - 1], ruta[indice]);
+            coste_actual += distancia(ruta[indice - 1], ruta[indice]);
             
             // Estudia permutaciones con ese cambio.
             permutaciones (ruta, coste_actual, indice + 1);
             
             // Deshace la permutación.
-            if (indice)
-                coste_actual -= distancia(ruta[indice - 1], ruta[indice]);
-            
+            coste_actual -= distancia(ruta[indice - 1], ruta[indice]);
             ruta[indice] = ruta[i];
             ruta[i] = temp;
         }
@@ -115,7 +111,7 @@ int main() {
     Ruta ruta(dimension);
     std::iota(ruta.begin(),ruta.end(),0);
 
-    permutaciones(ruta, coste_actual, 0);
+    permutaciones(ruta, coste_actual, 1);
     
     // Muestra la solución
     std::cout << "Mejor coste obtenido: " << mejor_coste << std::endl

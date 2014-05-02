@@ -17,6 +17,7 @@ typedef std::pair<double,double> Point;
 typedef std::vector<int> Ruta;
 typedef float Coste;
 
+// Función de impresión de vectores
 template<class T>
 ostream& operator<< (ostream& output, std::vector<T>& v){
     for (auto i : v)
@@ -31,7 +32,6 @@ int dimension;
 Ruta mejor_ruta;
 Coste mejor_coste;
 
-
 Coste distancia (int i, int j) {
     // Calcula la distancia entre dos puntos.
     Point a = ciudades[i];
@@ -43,12 +43,23 @@ Coste distancia (int i, int j) {
     return sqrt(x*x + y*y);
 }
 
+// Función de depuración
+/* 
+Coste total (Ruta &ruta){
+    Coste result(0);
+    for (uint i = 1; i <= ruta.size(); ++i){
+        result += distancia (i-1,i%ruta.size());
+    }
+    return result;
+}
+
+*/
 void permutaciones(Ruta& ruta, Coste& coste_actual, uint indice){
     Coste arista;
     // Caso de la ruta finalizada
     // Comprueba si se mejora el óptimo.
     if (indice == dimension && 
-        (coste_actual + (arista = distancia(ruta[indice], ruta[0]))) < mejor_coste) {
+        (coste_actual + (arista = distancia(ruta[indice-1], ruta[0]))) < mejor_coste) {
         mejor_ruta = ruta;
         mejor_coste = coste_actual + arista;
     }
@@ -58,14 +69,13 @@ void permutaciones(Ruta& ruta, Coste& coste_actual, uint indice){
     else {
         for (uint i = indice; i < dimension; ++i) {
             // Produce una permutación en la ruta.
-            auto temp = ruta[i];
+            uint temp = ruta[i];
             ruta[i] = ruta[indice];
             ruta[indice] = temp;
             
             // Si hay alguna arista...
             if (indice)
                 coste_actual += distancia(ruta[indice - 1], ruta[indice]);
-            
             
             // Estudia permutaciones con ese cambio.
             permutaciones (ruta, coste_actual, indice + 1);
@@ -104,4 +114,7 @@ int main() {
     // Muestra la solución
     std::cout << "Mejor coste obtenido: " << mejor_coste << std::endl
               << "Mejor ruta: " << std::endl << mejor_ruta;
+    
+    // Depuración
+    //std::cout << "Recalculado: " << total(mejor_ruta);
 }

@@ -45,19 +45,17 @@ Coste distancia (int i, int j) {
 void permutaciones(Ruta& ruta, Coste& coste_actual, int indice){
     // Caso de la ruta finalizada
     // Comprueba si se mejora el óptimo.
-    if (indice == dimension) {
-        if (coste_actual < mejor_coste) {
-            mejor_ruta = ruta;
-            mejor_coste = coste_actual;
-        }
+    if (indice == dimension && coste_actual < mejor_coste) {
+        mejor_ruta = ruta;
+        mejor_coste = coste_actual;
     }
     
     // Caso de recorrido intermedio
     // Prueba posibles permutaciones para los restantes elementos.
     else {
-        for (int i = indice; i < dimension; ++i) {
+        for (uint i = indice; i < dimension; ++i) {
             // Produce una permutación en la ruta.
-            Point temp = ruta[i];
+            auto temp = ruta[i];
             ruta[i] = ruta[indice];
             ruta[indice] = temp;
             coste_actual += distancia(ruta[indice - 1], ruta[indice]);
@@ -67,23 +65,25 @@ void permutaciones(Ruta& ruta, Coste& coste_actual, int indice){
             
             // Deshace la permutación.
             coste_actual -= distancia(ruta[indice - 1], ruta[indice]);
-            ruta[i] = ruta[indice];
-            ruta[indice] = temp;
+            ruta[indice] = ruta[i];
+            ruta[i] = temp;
         }
     }
 }
 
 
 int main() {
-    Coste coste_actual;s
-    // Lectura del problema
-    Point leido;
-    cin >> dimension;
+    Coste coste_actual(0);
+    mejor_coste = numeric_limits<Coste>::infinity();
     
-    for (int i=0; i<dimension; i++) {
-        cin >> leido.first;
-        cin >> leido.second;
-        ciudades.push_back(leido);
+    // Lectura del problema
+    std::cout << "Introduce número de ciudades del problema: ";
+    std::cin >> dimension;
+    ciudades.reserve(dimension);
+    
+    for (auto p : ciudades) {
+        std::cin >> p.first;
+        std::cin >> p.second;
     }
     
     // Resolución del problema
@@ -91,11 +91,8 @@ int main() {
     // Crea una primera ruta con la permutación identidad.
     Ruta ruta(dimension);
     std::iota(ruta.begin(),ruta.end(),0);
-    
-    mejor_ruta = ruta;
-    mejor_coste = numeric_limits<Coste>::infinity();
-    
-    permutaciones(ruta, 0, 1);
+
+    permutaciones(ruta, coste_actual, 0);
     
     // Muestra la solución
     std::cout << "Mejor coste obtenido: " << mejor_coste << std::endl

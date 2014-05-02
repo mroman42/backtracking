@@ -13,7 +13,7 @@
 
 using namespace std;
 typedef unsigned int uint;
-typedef std::pair<int,int> Point;
+typedef std::pair<double,double> Point;
 typedef std::vector<int> Ruta;
 typedef float Coste;
 
@@ -39,15 +39,18 @@ Coste distancia (int i, int j) {
     
     Coste x = a.first - b.first;
     Coste y = a.second - b.second;
-    return sqrt(x*x - y*y);
+    
+    return sqrt(x*x + y*y);
 }
 
 void permutaciones(Ruta& ruta, Coste& coste_actual, uint indice){
+    Coste arista;
     // Caso de la ruta finalizada
     // Comprueba si se mejora el óptimo.
-    if (indice == dimension && coste_actual < mejor_coste) {
+    if (indice == dimension && 
+        (coste_actual + (arista = distancia(ruta[indice], ruta[0]))) < mejor_coste) {
         mejor_ruta = ruta;
-        mejor_coste = coste_actual;
+        mejor_coste = coste_actual + arista;
     }
     
     // Caso de recorrido intermedio
@@ -62,6 +65,7 @@ void permutaciones(Ruta& ruta, Coste& coste_actual, uint indice){
             // Si hay alguna arista...
             if (indice)
                 coste_actual += distancia(ruta[indice - 1], ruta[indice]);
+            
             
             // Estudia permutaciones con ese cambio.
             permutaciones (ruta, coste_actual, indice + 1);
@@ -84,12 +88,10 @@ int main() {
     // Lectura del problema
     std::cout << "Introduce número de ciudades del problema: ";
     std::cin >> dimension;
-    ciudades.reserve(dimension);
+    ciudades.resize(dimension);
     
-    for (auto p : ciudades) {
-        std::cin >> p.first;
-        std::cin >> p.second;
-    }
+    for (auto& p : ciudades)
+        std::cin >> p.first >> p.second;
     
     // Resolución del problema
     // Recorre las posibles permutaciones dejando fija la primera ciudad.
@@ -101,5 +103,5 @@ int main() {
     
     // Muestra la solución
     std::cout << "Mejor coste obtenido: " << mejor_coste << std::endl
-              << "Mejor ruta: " << std::endl << ruta;
+              << "Mejor ruta: " << std::endl << mejor_ruta;
 }

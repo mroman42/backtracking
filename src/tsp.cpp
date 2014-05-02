@@ -42,7 +42,7 @@ Coste distancia (int i, int j) {
     return sqrt(x*x - y*y);
 }
 
-void permutaciones(Ruta& ruta, Coste& coste_actual, int indice){
+void permutaciones(Ruta& ruta, Coste& coste_actual, uint indice){
     // Caso de la ruta finalizada
     // Comprueba si se mejora el óptimo.
     if (indice == dimension && coste_actual < mejor_coste) {
@@ -58,13 +58,18 @@ void permutaciones(Ruta& ruta, Coste& coste_actual, int indice){
             auto temp = ruta[i];
             ruta[i] = ruta[indice];
             ruta[indice] = temp;
-            coste_actual += distancia(ruta[indice - 1], ruta[indice]);
+            
+            // Si hay alguna arista...
+            if (indice)
+                coste_actual += distancia(ruta[indice - 1], ruta[indice]);
             
             // Estudia permutaciones con ese cambio.
             permutaciones (ruta, coste_actual, indice + 1);
             
             // Deshace la permutación.
-            coste_actual -= distancia(ruta[indice - 1], ruta[indice]);
+            if (indice)
+                coste_actual -= distancia(ruta[indice - 1], ruta[indice]);
+            
             ruta[indice] = ruta[i];
             ruta[i] = temp;
         }

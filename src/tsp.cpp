@@ -58,11 +58,17 @@ void permutaciones(Ruta& ruta, Coste& coste_actual, uint indice){
     Coste arista;
     // Caso de la ruta finalizada
     // Comprueba si se mejora el óptimo.
+    
     if (indice == dimension && 
         (coste_actual + (arista = distancia(ruta[indice-1], ruta[0]))) < mejor_coste) {
         mejor_ruta = ruta;
         mejor_coste = coste_actual + arista;
     }
+    
+    #ifdef BBOUND
+    else if (coste_actual > mejor_coste)
+        return;
+    #endif
     
     // Caso de recorrido intermedio
     // Prueba posibles permutaciones para los restantes elementos.

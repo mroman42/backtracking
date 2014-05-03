@@ -17,8 +17,9 @@ using namespace std;
 typedef unsigned int uint;
 typedef vector<bool> Mochila;
 
-Mochila resolver(vector<int> pesos, vector<int> beneficios) {
+pair<Mochila, int> resolver(int limite, vector<int> pesos, vector<int> beneficios) {
     // Resolución del problema
+    uint tamanio = pesos.size();
     queue<Mochila> posibles_mochilas;
     Mochila solucion;
     int max_valor = 0;
@@ -62,7 +63,7 @@ Mochila resolver(vector<int> pesos, vector<int> beneficios) {
         }
     }
 
-    return solucion;
+    return pair<Mochila, int>(solucion, max_valor);
 } 
 
 int main () {
@@ -84,13 +85,14 @@ int main () {
         beneficios.push_back(leido);
     }
 
-    Mochila solucion = resolver(pesos, beneficios);
+    pair<Mochila, int> resultado = resolver(limite, pesos, beneficios);
+    Mochila solucion = resultado.first;
 
     // Muestra la solución.
     cout << "\nSOLUCIÓN:\n";
-    cout << "Valor obtenido: " << max_valor << endl;
+    cout << "Valor obtenido: " << resultado.second << endl;
     cout << "Mochila: ";
-    for (auto &i : solucion)
-        cout << i << ',';
+    for (uint i = 0; i < tamanio; ++i)
+        cout << solucion[i] << ',';
     cout << endl;
 }

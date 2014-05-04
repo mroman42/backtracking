@@ -62,7 +62,7 @@ Mochila resolver(int limite, std::vector<int> pesos, std::vector<int> beneficios
             Mochila con_nuevo = actual;
             Mochila sin_nuevo = actual;
             con_nuevo.first.push_back(true);
-            con_nuevo.second += pesos[actual.first.size()];
+            con_nuevo.second += beneficios[actual.first.size()];
             sin_nuevo.first.push_back(false);
 
             int nuevo_peso = 0;

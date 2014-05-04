@@ -9,6 +9,7 @@
 #include <cmath>
 #include <limits>
 #include <numeric>
+#include <chrono>
 
 typedef unsigned int uint;
 typedef std::pair<double,double> Point;
@@ -125,7 +126,6 @@ int main() {
     mejor_coste = std::numeric_limits<Coste>::infinity();
     
     // Lectura del problema
-    std::cout << "Introduce número de ciudades del problema: ";
     std::cin >> dimension;
     ciudades.resize(dimension);
     
@@ -138,11 +138,17 @@ int main() {
     Ruta ruta(dimension);
     std::iota(ruta.begin(),ruta.end(),0);
 
+    auto time1 = std::chrono::high_resolution_clock::now();
     permutaciones(ruta, coste_actual, 1);
-    
+    auto time2 = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> time_span = std::chrono::duration_cast<std::chrono::duration<double>>(time2 - time1);
+    double time = time_span.count();
+
     // Muestra la solución
     std::cout << "Mejor coste obtenido: " << mejor_coste << std::endl
-              << "Mejor ruta: " << std::endl << mejor_ruta;
+              << "Mejor ruta: " << std::endl << mejor_ruta
+	      << "Tiempo de cómputo: " << time << std::endl;
+    
     
     // Depuración
     //std::cout << "Recalculado: " << total(mejor_ruta);

@@ -48,11 +48,6 @@ Coste distancia (int i, int j) {
 #ifdef OPTBOUND
 bool cruce (int u, int v, int w, int z) {
     // Calcula si se cruzan los segmentos uv, wz.
-    Point a = ciudades[u];
-    Point b = ciudades[v];
-    Point c = ciudades[w];
-    Point d = ciudades[z];
-	
     return distancia(u,v) + distancia(w,z) > distancia(u,w) + distancia(v,z);
 }
 #endif

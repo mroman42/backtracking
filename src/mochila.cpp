@@ -14,7 +14,7 @@
 #include <vector>
 #include <queue>
 typedef unsigned int uint;
-typedef std::vector<bool> Mochila;
+typedef std::pair<std::vector<bool>,int> Mochila;
 
 template<class T>
 std::ostream& operator<< (std::ostream& output, std::vector<T>& v){
@@ -24,28 +24,33 @@ std::ostream& operator<< (std::ostream& output, std::vector<T>& v){
     output << std::endl;
 }
 
-std::pair<Mochila, int> resolver(int limite, std::vector<int> pesos, std::vector<int> beneficios) {
+struct cmp{
+    bool operator() (const Mochila& una, 
+                     const Mochila& otra){
+        return una.second < otra.second;
+    }
+};
+
+Mochila resolver(int limite, std::vector<int> pesos, std::vector<int> beneficios) {
     // Resolución del problema
     uint tamanio = pesos.size();
-    std::queue<Mochila> posibles_mochilas;
+    
+    std::priority_queue<Mochila, std::vector<Mochila>, cmp> posibles_mochilas;
+    posibles_mochilas.push(Mochila(std::vector<bool>(),0));
+    
     Mochila solucion;
     int max_valor = 0;
     
     // Prueba cada una de las posibles mochilas.
-    posibles_mochilas.push(Mochila());
     while (!posibles_mochilas.empty()) {
-        Mochila actual = posibles_mochilas.front();
+        Mochila actual = posibles_mochilas.top();
         posibles_mochilas.pop();
         
         // Caso de mochila llena
         // Calculamos su valor y si es mejor que la mejor mochila actual.
-        if (actual.size() == tamanio) {
-            int valor = 0;
-            for (uint i=0; i<tamanio; i++)
-                valor += actual[i] ? beneficios[i] : 0;
-
-            if (valor > max_valor) {
-                max_valor = valor;
+        if (actual.first.size() == tamanio) {                    
+            if (actual.second > max_valor) {
+                max_valor = actual.second;
                 solucion = actual;
             }
         }
@@ -56,12 +61,13 @@ std::pair<Mochila, int> resolver(int limite, std::vector<int> pesos, std::vector
         else {
             Mochila con_nuevo = actual;
             Mochila sin_nuevo = actual;
-            con_nuevo.push_back(true);
-            sin_nuevo.push_back(false);
+            con_nuevo.first.push_back(true);
+            con_nuevo.second += pesos[actual.first.size()];
+            sin_nuevo.first.push_back(false);
 
             int nuevo_peso = 0;
-            for (uint i=0; i<con_nuevo.size(); i++)
-                nuevo_peso += con_nuevo[i] ? pesos[i] : 0;
+            for (uint i=0; i<con_nuevo.first.size(); i++)
+                nuevo_peso += con_nuevo.first[i] ? pesos[i] : 0;
             if (nuevo_peso <= limite) {
                 posibles_mochilas.push(con_nuevo);
             }
@@ -70,21 +76,21 @@ std::pair<Mochila, int> resolver(int limite, std::vector<int> pesos, std::vector
         }
     }
 
-    return std::pair<Mochila, int>(solucion, max_valor);
+    return solucion;
 } 
 
 int main () {
     // Lectura del problema
-    int limite;
+    int limite, leido;
     uint tamanio;
+    std::vector<int> pesos;
+    std::vector<int> beneficios;
+
     std::cout << "Introduce límite de peso de la mochila: ";
     std::cin >> limite;
     std::cout << "Introduce número de objetos de la mochila: ";
     std::cin >> tamanio;
     
-    std::vector<int> pesos;
-    std::vector<int> beneficios;
-    int leido;
     std::cout << "Introduce pesos, separados por espacios:" << std::endl;
     for (uint i=0; i<tamanio; i++) {
         std::cin >> leido;
@@ -96,7 +102,7 @@ int main () {
         beneficios.push_back(leido);
     }
 
-    std::pair<Mochila, int> resultado = resolver(limite, pesos, beneficios);
+    Mochila resultado = resolver(limite, pesos, beneficios);
 
     // Muestra la solución.
     // Muestra la solución.

@@ -23,6 +23,7 @@ ostream& operator<< (ostream& output, vector<T>& v){
         output << i << ' ';
     
     output << endl;
+    return output;
 }
 
 pair<Mochila, int> resolver(int limite, vector<int> pesos, vector<int> beneficios) {

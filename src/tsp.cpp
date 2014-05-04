@@ -64,13 +64,14 @@ Coste total (Ruta &ruta){
 
 */
 void permutaciones(Ruta& ruta, Coste coste_actual, uint indice){
-    Coste arista;
-
     // Caso de la ruta finalizada
     // Comprueba si se mejora el óptimo.    
-    if (indice == dimension and (coste_actual + (arista = distancia(ruta[indice-1], ruta[0]))) < mejor_coste) {
-        mejor_ruta = ruta;
-        mejor_coste = coste_actual + arista;
+    if (indice == dimension) {
+	Coste coste_total = coste_actual + distancia(ruta[indice-1], ruta[0]);
+	if (coste_total < mejor_coste) {
+	    mejor_ruta = ruta;
+	    mejor_coste = coste_total;
+	}
     }
     
     #ifdef BBOUND

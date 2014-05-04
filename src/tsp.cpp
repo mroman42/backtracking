@@ -63,7 +63,7 @@ Coste total (Ruta &ruta){
 }
 
 */
-void permutaciones(Ruta& ruta, Coste& coste_actual, uint indice){
+void permutaciones(Ruta& ruta, Coste coste_actual, uint indice){
     Coste arista;
 
     // Caso de la ruta finalizada

@@ -6,12 +6,10 @@
 
 #include <iostream>
 #include <vector>
-#include <queue>
 #include <cmath>
 #include <limits>
 #include <numeric>
 
-using namespace std;
 typedef unsigned int uint;
 typedef std::pair<double,double> Point;
 typedef std::vector<int> Ruta;
@@ -19,7 +17,7 @@ typedef float Coste;
 
 // Función de impresión de vectores
 template<class T>
-ostream& operator<< (ostream& output, std::vector<T>& v){
+std::ostream& operator<< (std::ostream& output, std::vector<T>& v){
     for (auto i : v)
         output << i << ' ';
     
@@ -95,7 +93,7 @@ void permutaciones(Ruta& ruta, Coste& coste_actual, uint indice){
 
 int main() {
     Coste coste_actual(0);
-    mejor_coste = numeric_limits<Coste>::infinity();
+    mejor_coste = std::numeric_limits<Coste>::infinity();
     
     // Lectura del problema
     std::cout << "Introduce número de ciudades del problema: ";

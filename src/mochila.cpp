@@ -13,14 +13,21 @@
 #include <iostream>
 #include <vector>
 #include <queue>
-using namespace std;
 typedef unsigned int uint;
-typedef vector<bool> Mochila;
+typedef std::vector<bool> Mochila;
 
-pair<Mochila, int> resolver(int limite, vector<int> pesos, vector<int> beneficios) {
+template<class T>
+std::ostream& operator<< (std::ostream& output, std::vector<T>& v){
+    for (auto i : v)
+        output << i << ' ';
+    
+    output << std::endl;
+}
+
+std::pair<Mochila, int> resolver(int limite, std::vector<int> pesos, std::vector<int> beneficios) {
     // Resolución del problema
     uint tamanio = pesos.size();
-    queue<Mochila> posibles_mochilas;
+    std::queue<Mochila> posibles_mochilas;
     Mochila solucion;
     int max_valor = 0;
     
@@ -63,36 +70,37 @@ pair<Mochila, int> resolver(int limite, vector<int> pesos, vector<int> beneficio
         }
     }
 
-    return pair<Mochila, int>(solucion, max_valor);
+    return std::pair<Mochila, int>(solucion, max_valor);
 } 
 
 int main () {
     // Lectura del problema
     int limite;
     uint tamanio;
-    cin >> limite;
-    cin >> tamanio;
+    std::cout << "Introduce límite de peso de la mochila: ";
+    std::cin >> limite;
+    std::cout << "Introduce número de objetos de la mochila: ";
+    std::cin >> tamanio;
     
-    vector<int> pesos;
-    vector<int> beneficios;
+    std::vector<int> pesos;
+    std::vector<int> beneficios;
     int leido;
+    std::cout << "Introduce pesos, separados por espacios:" << std::endl;
     for (uint i=0; i<tamanio; i++) {
-        cin >> leido;
+        std::cin >> leido;
         pesos.push_back(leido);
     }
+    std::cout << "Introduce beneficios, separados por espacios:" << std::endl;
     for (uint i=0; i<tamanio; i++) {
-        cin >> leido;
+        std::cin >> leido;
         beneficios.push_back(leido);
     }
 
-    pair<Mochila, int> resultado = resolver(limite, pesos, beneficios);
-    Mochila solucion = resultado.first;
+    std::pair<Mochila, int> resultado = resolver(limite, pesos, beneficios);
 
     // Muestra la solución.
-    cout << "\nSOLUCIÓN:\n";
-    cout << "Valor obtenido: " << resultado.second << endl;
-    cout << "Mochila: ";
-    for (uint i = 0; i < tamanio; ++i)
-        cout << solucion[i] << ',';
-    cout << endl;
+    // Muestra la solución.
+    std::cout << std::endl << "SOLUCIÓN:" << std::endl 
+        << "Valor obtenido: " << resultado.second << std::endl
+        << "Mochila: " << resultado.first << std::endl;
 }

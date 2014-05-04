@@ -90,11 +90,11 @@ void permutaciones(Ruta& ruta, Coste coste_actual, uint indice){
 	    // Caso en el que la permutación introduciría un cruce de caminos.
 	    // Por optimización OPT-2, no puede ser el óptimo.
 	    bool opt2 = false;
-	    for (uint j = 0; j < indice-1 and !opt2; j++)
-		opt2 = cruce(ruta[i],ruta[indice-1], ruta[j],ruta[j+1]);
+	    for (uint j = 1; j < indice-1 and !opt2; j++)
+		opt2 = cruce(ruta[i],ruta[indice-1], ruta[j],ruta[j-1]);
 
 	    if (opt2)
-		return;
+		continue;
             #endif
 
 

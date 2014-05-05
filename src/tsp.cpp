@@ -9,11 +9,13 @@
 #include <cmath>
 #include <limits>
 #include <numeric>
+#include <chrono>
 
 typedef unsigned int uint;
 typedef std::pair<double,double> Point;
 typedef std::vector<int> Ruta;
 typedef float Coste;
+
 
 // Función de impresión de vectores
 template<class T>
@@ -22,13 +24,15 @@ std::ostream& operator<< (std::ostream& output, std::vector<T>& v){
         output << i << ' ';
     
     output << std::endl;
+    return output;
 }
 
 
 std::vector<Point> ciudades;
-int dimension;
+uint dimension;
 Ruta mejor_ruta;
 Coste mejor_coste;
+
 
 Coste distancia (int i, int j) {
     // Calcula la distancia entre dos puntos.
@@ -41,6 +45,13 @@ Coste distancia (int i, int j) {
     return sqrt(x*x + y*y);
 }
 
+#ifdef OPTBOUND
+bool cruce (int u, int v, int w, int z) {
+    // Calcula si se cruzan los segmentos uv, wz.
+    return distancia(u,v) + distancia(w,z) > distancia(u,w) + distancia(v,z);
+}
+#endif
+
 // Función de depuración
 /* 
 Coste total (Ruta &ruta){
@@ -52,26 +63,41 @@ Coste total (Ruta &ruta){
 }
 
 */
-void permutaciones(Ruta& ruta, Coste& coste_actual, uint indice){
-    Coste arista;
+void permutaciones(Ruta& ruta, Coste coste_actual, uint indice){
     // Caso de la ruta finalizada
-    // Comprueba si se mejora el óptimo.
-    
-    if (indice == dimension && 
-        (coste_actual + (arista = distancia(ruta[indice-1], ruta[0]))) < mejor_coste) {
-        mejor_ruta = ruta;
-        mejor_coste = coste_actual + arista;
+    // Comprueba si se mejora el óptimo.    
+    if (indice == dimension) {
+	Coste coste_total = coste_actual + distancia(ruta[indice-1], ruta[0]);
+	if (coste_total < mejor_coste) {
+	    mejor_ruta = ruta;
+	    mejor_coste = coste_total;
+	}
     }
     
     #ifdef BBOUND
+    // Caso de superar el coste óptimo.
+    // No es necesario seguir estudiando este caso.
     else if (coste_actual > mejor_coste)
         return;
     #endif
     
+
     // Caso de recorrido intermedio
     // Prueba posibles permutaciones para los restantes elementos.
     else {
         for (uint i = indice; i < dimension; ++i) {
+    	    #ifdef OPTBOUND
+	    // Caso en el que la permutación introduciría un cruce de caminos.
+	    // Por optimización OPT-2, no puede ser el óptimo.
+	    bool opt2 = false;
+	    for (uint j = 1; j < indice-1 and !opt2; j++)
+		opt2 = cruce(ruta[i],ruta[indice-1], ruta[j],ruta[j-1]);
+
+	    if (opt2)
+		continue;
+            #endif
+
+
             // Produce una permutación en la ruta.
             uint temp = ruta[i];
             ruta[i] = ruta[indice];
@@ -96,7 +122,6 @@ int main() {
     mejor_coste = std::numeric_limits<Coste>::infinity();
     
     // Lectura del problema
-    std::cout << "Introduce número de ciudades del problema: ";
     std::cin >> dimension;
     ciudades.resize(dimension);
     
@@ -109,11 +134,17 @@ int main() {
     Ruta ruta(dimension);
     std::iota(ruta.begin(),ruta.end(),0);
 
+    auto time1 = std::chrono::high_resolution_clock::now();
     permutaciones(ruta, coste_actual, 1);
-    
+    auto time2 = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> time_span = std::chrono::duration_cast<std::chrono::duration<double>>(time2 - time1);
+    double time = time_span.count();
+
     // Muestra la solución
     std::cout << "Mejor coste obtenido: " << mejor_coste << std::endl
-              << "Mejor ruta: " << std::endl << mejor_ruta;
+              << "Mejor ruta: " << std::endl << mejor_ruta
+	      << "Tiempo de cómputo: " << time << std::endl;
+    
     
     // Depuración
     //std::cout << "Recalculado: " << total(mejor_ruta);

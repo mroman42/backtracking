@@ -14,6 +14,7 @@
 #include <vector>
 #include <queue>
 #include <algorithm>
+#include <chrono>
 using namespace std;
 
 typedef unsigned int uint;
@@ -162,26 +163,27 @@ int main () {
     vector<int> pesos;
     vector<int> beneficios;
 
-    cout << "Introduce límite de peso de la mochila: ";
     cin >> limite;
-    cout << "Introduce número de objetos de la mochila: ";
     cin >> tamanio;
     
-    cout << "Introduce pesos, separados por espacios:" << endl;
     for (uint i=0; i<tamanio; i++) {
         cin >> leido;
         pesos.push_back(leido);
     }
-    cout << "Introduce beneficios, separados por espacios:" << endl;
     for (uint i=0; i<tamanio; i++) {
         cin >> leido;
         beneficios.push_back(leido);
     }
-    // Muestra la solución.
+    
+    auto time1 = chrono::high_resolution_clock::now();
     pair<vector<bool>, int> resultado = resolver(limite, pesos, beneficios);
-
+    auto time2 = chrono::high_resolution_clock::now();
+    chrono::duration<double> time_span = chrono::duration_cast<chrono::duration<double>>(time2 - time1);
+    double time = time_span.count();
     // Muestra la solución.
+    
     cout << endl << "SOLUCIÓN:" << endl 
-        << "Valor obtenido: " << resultado.second << endl
-        << "Mochila: " << resultado.first << endl;
+        << "Valor obtenido: " << resultado.second 
+        << endl << "Mochila: " << resultado.first 
+        << endl << "Tiempo de cómputo: " << time << endl;
 }

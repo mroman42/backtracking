@@ -13,15 +13,18 @@
 #include <iostream>
 #include <vector>
 #include <queue>
+#include <algorithm>
+using namespace std;
+
 typedef unsigned int uint;
-typedef std::pair<std::vector<bool>,int> Mochila;
+typedef pair<vector<bool>,int> Mochila;
 
 template<class T>
-std::ostream& operator<< (std::ostream& output, std::vector<T>& v){
+ostream& operator<< (ostream& output, vector<T>& v){
     for (auto i : v)
         output << i << ' ';
     
-    output << std::endl;
+    output << endl;
 }
 
 struct cmp{
@@ -31,12 +34,16 @@ struct cmp{
     }
 };
 
-Mochila resolver(int limite, std::vector<int> pesos, std::vector<int> beneficios) {
+bool srt(const pair<double,int>& uno, const pair<double,int>& otro){
+    return uno.first < otro.first;
+}
+
+pair<vector<bool>,int> resolver(int limite, vector<int> pesos, vector<int> beneficios) {
     // Resolución del problema
     uint tamanio = pesos.size();
     
-    std::priority_queue<Mochila, std::vector<Mochila>, cmp> posibles_mochilas;
-    posibles_mochilas.push(Mochila(std::vector<bool>(),0));
+    priority_queue<Mochila, vector<Mochila>, cmp> posibles_mochilas;
+    posibles_mochilas.push(Mochila(vector<bool>(),0));
     
     Mochila solucion;
     int max_valor = 0;
@@ -71,8 +78,31 @@ Mochila resolver(int limite, std::vector<int> pesos, std::vector<int> beneficios
             if (nuevo_peso <= limite) {
                 posibles_mochilas.push(con_nuevo);
             }
-
-            posibles_mochilas.push(sin_nuevo);
+            
+            
+            // Calculamos una cota superior para el llenado de la parte de la mochila que falta
+            vector<pair<double,int>> w;
+            int n = sin_nuevo.first.size();
+            int restante = limite - nuevo_peso + pesos[n-1];
+            int max_beneficio(0);
+            double coef;
+            
+            for (uint i=0; i < tamanio - n; ++i)                
+                w.push_back(make_pair (beneficios[i+n]/pesos[i+n], i+n));
+            
+            sort(w.begin(), w.end(), srt);
+            
+            while (restante != 0 && !w.empty()){
+                coef = min(1.0,restante*1.0/pesos[w.back().second]);
+                restante -= pesos[w.back().second] * coef;
+                max_beneficio += beneficios[w.back().second];
+                w.pop_back();
+            }
+            
+            // Si dicha cota superior supera al mejor valor hasta el momento,
+            // introducimos la nueva mochila, caso opuesto no
+            if (max_valor < sin_nuevo.second + max_beneficio)
+                posibles_mochilas.push(sin_nuevo);
         }
     }
 
@@ -83,22 +113,22 @@ int main () {
     // Lectura del problema
     int limite, leido;
     uint tamanio;
-    std::vector<int> pesos;
-    std::vector<int> beneficios;
+    vector<int> pesos;
+    vector<int> beneficios;
 
-    std::cout << "Introduce límite de peso de la mochila: ";
-    std::cin >> limite;
-    std::cout << "Introduce número de objetos de la mochila: ";
-    std::cin >> tamanio;
+    cout << "Introduce límite de peso de la mochila: ";
+    cin >> limite;
+    cout << "Introduce número de objetos de la mochila: ";
+    cin >> tamanio;
     
-    std::cout << "Introduce pesos, separados por espacios:" << std::endl;
+    cout << "Introduce pesos, separados por espacios:" << endl;
     for (uint i=0; i<tamanio; i++) {
-        std::cin >> leido;
+        cin >> leido;
         pesos.push_back(leido);
     }
-    std::cout << "Introduce beneficios, separados por espacios:" << std::endl;
+    cout << "Introduce beneficios, separados por espacios:" << endl;
     for (uint i=0; i<tamanio; i++) {
-        std::cin >> leido;
+        cin >> leido;
         beneficios.push_back(leido);
     }
 
@@ -106,7 +136,7 @@ int main () {
 
     // Muestra la solución.
     // Muestra la solución.
-    std::cout << std::endl << "SOLUCIÓN:" << std::endl 
-        << "Valor obtenido: " << resultado.second << std::endl
-        << "Mochila: " << resultado.first << std::endl;
+    cout << endl << "SOLUCIÓN:" << endl 
+        << "Valor obtenido: " << resultado.second << endl
+        << "Mochila: " << resultado.first << endl;
 }

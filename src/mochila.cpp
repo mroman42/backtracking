@@ -18,11 +18,8 @@
 using namespace std;
 
 typedef unsigned int uint;
-#ifdef BBOUND
+
 typedef pair<vector<bool>,int> Mochila;
-#else
-typedef vector<bool> Mochila;
-#endif
 
 template<class T>
 ostream& operator<< (ostream& output, vector<T>& v){
@@ -46,17 +43,17 @@ bool srt(const pair<double,int>& uno, const pair<double,int>& otro){
 }
 #endif
 
-pair<vector<bool>,int> resolver(int limite, vector<int> pesos, vector<int> beneficios) {
+Mochila resolver(int limite, vector<int> pesos, vector<int> beneficios) {
     // Resolución del problema
     uint tamanio = pesos.size();
     
     #ifdef BBOUND
-    priority_queue<Mochila, vector<Mochila>, cmp> posibles_mochilas;
-    posibles_mochilas.push(Mochila(vector<bool>(),0));
+        priority_queue<Mochila, vector<Mochila>, cmp> posibles_mochilas;
     #else
-    queue<Mochila> posibles_mochilas;
-    posibles_mochilas.push(Mochila());
+        queue<Mochila> posibles_mochilas;
     #endif
+
+    posibles_mochilas.push(Mochila(vector<bool>(),0));
     
     Mochila solucion;
     int max_valor = 0;
@@ -64,33 +61,21 @@ pair<vector<bool>,int> resolver(int limite, vector<int> pesos, vector<int> benef
     // Prueba cada una de las posibles mochilas.
     while (!posibles_mochilas.empty()) {
         #ifdef BBOUND
-        Mochila actual = posibles_mochilas.top();
+            Mochila actual = posibles_mochilas.top();
         #else
-        Mochila actual = posibles_mochilas.front();
+            Mochila actual = posibles_mochilas.front();
         #endif
+
         posibles_mochilas.pop();
         
         // Caso de mochila llena
         // Calculamos su valor y si es mejor que la mejor mochila actual.
-        #ifdef BBOUND
-        if (actual.first.size() == tamanio) {                    
+        if (actual.first.size() == tamanio) {
             if (actual.second > max_valor) {
                 max_valor = actual.second;
                 solucion = actual;
             }
         }
-        #else
-        if (actual.size() == tamanio) {
-            int valor = 0;
-            for (uint i=0; i<tamanio; i++)
-                valor += actual[i] ? beneficios[i] : 0;
-
-            if (valor > max_valor) {
-                max_valor = valor;
-                solucion = actual;
-            }
-        }
-        #endif
         
         // Caso de la mochila sin llenar
         // Rellenamos o no con el siguiente objeto.
@@ -99,61 +84,50 @@ pair<vector<bool>,int> resolver(int limite, vector<int> pesos, vector<int> benef
             Mochila con_nuevo = actual;
             Mochila sin_nuevo = actual;
             
-            #ifdef BBOUND
-            con_nuevo.first.push_back(true);
             con_nuevo.second += beneficios[actual.first.size()];
+            
+            con_nuevo.first.push_back(true);
             sin_nuevo.first.push_back(false);
-            #else
-            con_nuevo.push_back(true);
-            sin_nuevo.push_back(false);
-            #endif
             
             int nuevo_peso = 0;
-            #ifdef BBOUND
             for (uint i=0; i<con_nuevo.first.size(); i++){
                 nuevo_peso += con_nuevo.first[i] ? pesos[i] : 0;
-            #else
-            for (uint i=0; i<con_nuevo.size(); i++){   
-                nuevo_peso += con_nuevo[i] ? pesos[i] : 0;
-            #endif
             }
+
             if (nuevo_peso <= limite) {
                 posibles_mochilas.push(con_nuevo);
             }
             
             #ifdef BBOUND
-            // Calculamos una cota superior para el llenado de la parte de la mochila que falta
-            vector<pair<double,int>> w;
-            int n = sin_nuevo.first.size();
-            int restante = limite - nuevo_peso + pesos[n-1];
-            int max_beneficio(0);
-            double coef;
-            
-            for (uint i=0; i < tamanio - n; ++i)                
-                w.push_back(make_pair (beneficios[i+n]/pesos[i+n], i+n));
-            
-            sort(w.begin(), w.end(), srt);
-            
-            while (restante != 0 && !w.empty()){
-                coef = min(1.0,restante*1.0/pesos[w.back().second]);
-                restante -= pesos[w.back().second] * coef;
-                max_beneficio += beneficios[w.back().second];
-                w.pop_back();
-            }
-            
-            // Si dicha cota superior supera al mejor valor hasta el momento,
-            // introducimos la nueva mochila, caso opuesto no
-            if (max_valor < sin_nuevo.second + max_beneficio)
+                // Calculamos una cota superior para el llenado de la parte de la mochila que falta
+                vector<pair<double,int>> w;
+                int n = sin_nuevo.first.size();
+                int restante = limite - nuevo_peso + pesos[n-1];
+                int max_beneficio(0);
+                double coef;
+                
+                for (uint i=0; i < tamanio - n; ++i)                
+                    w.push_back(make_pair (beneficios[i+n]/pesos[i+n], i+n));
+                
+                sort(w.begin(), w.end(), srt);
+                
+                while (restante != 0 && !w.empty()){
+                    coef = min(1.0,restante*1.0/pesos[w.back().second]);
+                    restante -= pesos[w.back().second] * coef;
+                    max_beneficio += beneficios[w.back().second];
+                    w.pop_back();
+                }
+                
+                // Si dicha cota superior supera al mejor valor hasta el momento,
+                // introducimos la nueva mochila, en caso opuesto no
+                if (max_valor < sin_nuevo.second + max_beneficio)
             #endif
-                posibles_mochilas.push(sin_nuevo);
+                    posibles_mochilas.push(sin_nuevo);
             
         }
     }
-    #ifdef BBOUND
+
     return solucion;
-    #else
-    return pair<Mochila, int>(solucion, max_valor);
-    #endif
 } 
 
 int main () {

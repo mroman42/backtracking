@@ -13,6 +13,9 @@ all: $(patsubst $(SRC)/%.cpp, $(BIN)/%, $(wildcard $(SRC)/*.cpp)) $(BIN)/tsp_bbo
 $(BIN)/%: $(SRC)/%.cpp
 	g++ $< -o $@ $(FLAGS)
 
+$(BIN)/mochila_bbound: $(SRC)/mochila.cpp
+	g++ $< -o $@ $(FLAGS) -DBBOUND
+
 $(BIN)/tsp_bbound: $(SRC)/tsp.cpp
 	g++ $< -o $@ $(FLAGS) -DBBOUND
 

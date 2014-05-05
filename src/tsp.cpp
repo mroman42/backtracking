@@ -10,25 +10,26 @@
 #include <limits>
 #include <numeric>
 #include <chrono>
+using namespace std;
 
 typedef unsigned int uint;
-typedef std::pair<double,double> Point;
-typedef std::vector<int> Ruta;
+typedef pair<double,double> Point;
+typedef vector<int> Ruta;
 typedef float Coste;
 
 
 // Función de impresión de vectores
 template<class T>
-std::ostream& operator<< (std::ostream& output, std::vector<T>& v){
+ostream& operator<< (ostream& output, vector<T>& v){
     for (auto i : v)
         output << i << ' ';
     
-    output << std::endl;
+    output << endl;
     return output;
 }
 
 
-std::vector<Point> ciudades;
+vector<Point> ciudades;
 uint dimension;
 Ruta mejor_ruta;
 Coste mejor_coste;
@@ -119,33 +120,33 @@ void permutaciones(Ruta& ruta, Coste coste_actual, uint indice){
 
 int main() {
     Coste coste_actual(0);
-    mejor_coste = std::numeric_limits<Coste>::infinity();
+    mejor_coste = numeric_limits<Coste>::infinity();
     
     // Lectura del problema
-    std::cin >> dimension;
+    cin >> dimension;
     ciudades.resize(dimension);
     
     for (auto& p : ciudades)
-        std::cin >> p.first >> p.second;
+        cin >> p.first >> p.second;
     
     // Resolución del problema
     // Recorre las posibles permutaciones dejando fija la primera ciudad.
     // Crea una primera ruta con la permutación identidad.
     Ruta ruta(dimension);
-    std::iota(ruta.begin(),ruta.end(),0);
+    iota(ruta.begin(),ruta.end(),0);
 
-    auto time1 = std::chrono::high_resolution_clock::now();
+    auto time1 = chrono::high_resolution_clock::now();
     permutaciones(ruta, coste_actual, 1);
-    auto time2 = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double> time_span = std::chrono::duration_cast<std::chrono::duration<double>>(time2 - time1);
+    auto time2 = chrono::high_resolution_clock::now();
+    chrono::duration<double> time_span = chrono::duration_cast<chrono::duration<double>>(time2 - time1);
     double time = time_span.count();
 
     // Muestra la solución
-    std::cout << "Mejor coste obtenido: " << mejor_coste << std::endl
-              << "Mejor ruta: " << std::endl << mejor_ruta
-	      << "Tiempo de cómputo: " << time << std::endl;
+    cout << "Mejor coste obtenido: " << mejor_coste << endl
+              << "Mejor ruta: " << endl << mejor_ruta
+	      << "Tiempo de cómputo: " << time << endl;
     
     
     // Depuración
-    //std::cout << "Recalculado: " << total(mejor_ruta);
+    //cout << "Recalculado: " << total(mejor_ruta);
 }

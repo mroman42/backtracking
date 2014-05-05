@@ -150,7 +150,7 @@ int main () {
     }
     
     auto time1 = chrono::high_resolution_clock::now();
-    pair<vector<bool>, int> resultado = resolver(limite, pesos, beneficios);
+    Mochila resultado = resolver(limite, pesos, beneficios);
     auto time2 = chrono::high_resolution_clock::now();
     chrono::duration<double> time_span = chrono::duration_cast<chrono::duration<double>>(time2 - time1);
     double time = time_span.count();

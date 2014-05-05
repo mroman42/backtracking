@@ -7,7 +7,7 @@ FLAGS=-std=c++11 -Wall
 
 
 # make all: Compilar todos los programas 
-all: $(patsubst $(SRC)/%.cpp, $(BIN)/%, $(wildcard $(SRC)/*.cpp)) $(BIN)/tsp_bbound $(BIN)/tsp_optbound
+all: $(patsubst $(SRC)/%.cpp, $(BIN)/%, $(wildcard $(SRC)/*.cpp)) $(BIN)/mochila_bbound $(BIN)/tsp_bbound $(BIN)/tsp_optbound
 
 # Opciones individuales 
 $(BIN)/%: $(SRC)/%.cpp

@@ -11,10 +11,23 @@
 using namespace std;
 
 typedef tuple<int,int,int> Triple;
-typedef vector<bool> Matching;
 
-class Matching {
-public:
+// Estructura para representar una arista.
+// Indica los tres puntos en los tres conjuntos unidos por la arista.
+struct Triple {
+    int x;
+    int y;
+    int z;
+    
+    Triple (int xi, int yi, int zi)
+	:x(xi), y(yi), z(zi)
+    {}
+}
+
+// Estructura para representar una asignación.
+// Señala las aristas seleccionadas y los nodos usados de cada conjunto.
+// Señala además la cardinalidad de la asignación (su valor).
+struct Matching {
     vector<bool> aristas;
     vector<bool> nodos1;
     vector<bool> nodos2;

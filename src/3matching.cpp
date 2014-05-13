@@ -10,19 +10,17 @@
 #include <chrono>
 using namespace std;
 
-typedef tuple<int,int,int> Triple;
-
 // Estructura para representar una arista.
 // Indica los tres puntos en los tres conjuntos unidos por la arista.
-struct Triple {
-    int x;
-    int y;
-    int z;
+struct Arista {
+    int a;
+    int b;
+    int c;
     
-    Triple (int xi, int yi, int zi)
-	:x(xi), y(yi), z(zi)
+    Arista (int x, int y, int z)
+	:a(x), b(y), c(z)
     {}
-}
+};
 
 // Estructura para representar una asignación.
 // Señala las aristas seleccionadas y los nodos usados de cada conjunto.
@@ -41,29 +39,29 @@ struct Matching {
 	  nodos3(false, size3),
 	  valor(0)
     {}
-}
+};
 
 
 int main () {
     // Bloque de entradas
-    vector<Triple> aristas;
+    vector<Arista> aristas;
     int a,b,c;
     while (cin >> a >> b >> c)
-	aristas.push_back(Triple(a,b,c));
+	aristas.push_back(Arista(a,b,c));
 
 
     // Bloque de cómputos
     // El tamaño de cada tabla de nodos usados será la mayor de sus componentes.
-    int size1 = 0;
-    int size2 = 0;
-    int size3 = 0;
+    int sizea = 0;
+    int sizeb = 0;
+    int sizec = 0;
     for (Triple arista : aristas) {
-	if (size1 < get<1>(arista))
-	    size1 = get<1>(arista);
-	if (size2 < get<2>(arista))
-	    size2 = get<2>(arista);
-	if (size3 < get<3>(arista))
-	    size3 = get<3>(arista);
+	if (sizea < arista.a)
+	    sizea = arista.a;
+	if (sizeb < arista.b)
+	    sizeb = arista.b;
+	if (sizec < arista.c)
+	    sizec = arista.c;
     }
 
     // Prueba combinaciones de aristas.
@@ -87,6 +85,14 @@ int main () {
 	else {
 	    Matching con_nueva = actual;
 	    Matching sin_nueva = actual;
+	    con_nueva.aristas.push_back(true);
+	    sin_nueva.aristas.push_back(false);
+
+	    // Comprobamos si se puede añadir la arista.
+	    Triple nueva_arista = aristas[];
+	    if (actual[aristas])
+
+
 	}
     }
     

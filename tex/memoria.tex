@@ -136,23 +136,43 @@ Backtracking y Branch \& Bound} % Subtitle
 
 \subsection{Algoritmo}
 
+Definimos una mochila como un par \texttt{(vector<bool>,beneficios)} donde el vector
+representa si un determinado objeto de una lista está o no en la solución.
+
+Una mochila vacía será un par \texttt{([],0)}
 \begin{algorithm}[H]
 	\begin{algorithmic}[1]
 		\REQUIRE \ \\
-        	\texttt{monedas}, vector con los valores de monedas disponibles \\
-        	\texttt{precio}, cantidad de dinero a devolver\\\
-     	\STATE{Ordenar \texttt{monedas} de mayor a menor}
-     	%  He usado un vector aunque en el código final usábamos 
-     	%  un diccionario, si queréis lo cambio -David
-     	\STATE{Crear un vector \texttt{vuelta}}
-		\FORALL{\texttt{moneda} en \texttt{monedas}}
-			\STATE{\texttt{cantidad} = \texttt{precio} / \texttt{moneda}}
-			\STATE{\texttt{precio} = \texttt{precio} $-$ \texttt{cantidad} $\times$ \texttt{moneda}}
-			\STATE{Añadir [\texttt{moneda}, \texttt{cantidad}] a \texttt{vuelta}}
-		\ENDFOR
-		\RETURN{vuelta}
+        	\texttt{limite}, de peso de la mochila \\
+        	\texttt{pesos}, vector de pesos de objetos\\
+        	\texttt{beneficios}, vector de beneficios de objetos\\\
+     	\STATE{\texttt{tamanio = \# pesos}}
+	\STATE{\texttt{solucion = empty Mochila}}
+	\STATE{\texttt{max\_valor=0}}
+     	\STATE{Creamos una cola \texttt{posibles\_mochilas}}
+     	\STATE{\texttt{posibles\_mochilas.push(empty Mochila)}}
+     	
+     	\WHILE{\texttt{posibles\_mochilas}$\neq \emptyset$}
+	  \STATE{\texttt{actual = posibles\_mochilas.pop()}}
+	  \IF{\texttt{\#actual[0] = tamanio}}
+	    \IF{\texttt{\#actual[1] > max\_valor}}
+	      \STATE{\texttt{max\_valor = actual[1]}}
+	      \STATE{\texttt{solucion = actual}}
+	    \ENDIF
+	  \ELSE
+	    \STATE{\texttt{con\_nuevo = sin\_nuevo = actual}}
+	    \STATE{\texttt{con\_nuevo[1] += beneficios[\#actual[0]]}}
+	    \STATE{\texttt{con\_nuevo.push\_back(true)}}
+	    \STATE{\texttt{nuevo\_peso = 'peso de' \texttt{con\_nuevo}}}
+	    \IF{\texttt{nuevo\_peso <= limite}}
+	      \STATE{\texttt{posibles\_mochilas.push(con\_nuevo)}}
+	    \ENDIF
+	    \STATE{\texttt{posibles\_mochilas.push(sin\_nuevo}}
+	  \ENDIF
+     	\ENDWHILE
+     	
 	\end{algorithmic}
-    \caption{Devolución en mínimo número de monedas}
+    \caption{Algoritmo backtracking para el problema de la mochila}
     \label{monedas}
 \end{algorithm}  
 

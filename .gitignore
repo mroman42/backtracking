@@ -9,3 +9,4 @@ bin/
 *.directory
 *.fuse_hidden*
 *.synctex.gz
+src/a.out

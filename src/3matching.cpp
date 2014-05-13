@@ -38,7 +38,7 @@ struct Matching {
     vector<bool> nodos3;
     int valor;
 
-    Matching (int size1, int size2, int size3)	
+    Matching ()	
 	: aristas(), 
 	  nodos1(false, size1), 
 	  nodos2(false, size2),
@@ -58,7 +58,6 @@ int main () {
 
     // Bloque de cómputos
     // El tamaño de cada tabla de nodos usados será la mayor de sus componentes.
-
     for (Arista arista : aristas) {
 	if (sizea < arista.a)
 	    sizea = arista.a;

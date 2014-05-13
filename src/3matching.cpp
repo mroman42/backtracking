@@ -10,6 +10,7 @@
 #include <tuple>
 #include <chrono>
 using namespace std;
+typedef unsigned int uint;
 
 // Estructura para representar una arista.
 // Indica los tres puntos en los tres conjuntos unidos por la arista.
@@ -40,9 +41,9 @@ struct Matching {
 
     Matching ()	
 	: aristas(), 
-	  nodos1(false, size1), 
-	  nodos2(false, size2),
-	  nodos3(false, size3),
+	  nodos1(false, sizea), 
+	  nodos2(false, sizeb),
+	  nodos3(false, sizec),
 	  valor(0)
     {}
 };
@@ -71,10 +72,10 @@ int main () {
     // Marca como true las aristas escogidas.
     queue<Matching> posibles_particiones;
     Matching solucion;
-    int tamanio = aristas.size();
+    uint tamanio = aristas.size();
     
     while (!posibles_particiones.empty()) {
-	Matching actual = posibles_particiones.top();
+	Matching actual = posibles_particiones.front();
 	posibles_particiones.pop();
 
 	// Caso de matching completo
@@ -92,7 +93,7 @@ int main () {
 	    sin_nueva.aristas.push_back(false);
 
 	    // Comprobamos si se puede añadir la arista.
-	    Triple nueva_arista = aristas[];
+	    Arista nueva_arista = aristas[];
 	    if (actual[aristas])
 
 

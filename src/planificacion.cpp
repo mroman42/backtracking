@@ -7,7 +7,7 @@ using std::vector;
 struct Tarea;
 
 typedef double tiempo;
-typedef vector<Tarea>  procesador; // Importantes los dos espacios!
+typedef vector<int>  procesador; // Importantes los dos espacios!
 
 /* Tarea v1: struct */
 struct Tarea {
@@ -66,7 +66,7 @@ struct cmp {
 };
 
 // Calcula el tiempo (coste) de una ordenación de tareas en un multiprocesador
-tiempo hallaTiempo(vector<procesador> historial) {
+tiempo hallaTiempo(vector<procesador> historial, vector<Tarea> tareas) {
     tiempo max_time = 0;
     int num_cores = historial[0].size();
 
@@ -74,7 +74,7 @@ tiempo hallaTiempo(vector<procesador> historial) {
         tiempo suma = 0;
 
         for (auto& m : historial)
-            suma += m[i].ejecucion;
+            suma += tareas[m[i]].ejecucion;
 
         if (suma > max_time)
             max_time = suma;
@@ -83,33 +83,63 @@ tiempo hallaTiempo(vector<procesador> historial) {
     return max_time;
 }
 
-vector<procesador> planifica(vector<Tarea>, int num_cores) {
+unsigned cuentaTareas(vector<procesador> historial) {
+    unsigned contenidas = 0;
+
+    for (auto& p : historial)
+        for (auto& i : p)
+            if (i > -1)
+                contenidas++;
+
+    return contenidas;
+}
+
+/**
+ * Representación de una solución
+ * Una solución es un vector de procesadores, que a su vez son vectores de
+ * enteros de un tamaño específico. Cada entero indica la tarea que se
+ * realiza en el núcleo en ese momento, y el vector de procesadores indica
+ * la secuencia de tareas que se realizarán en cada núcleo.
+ */
+
+vector<procesador> planifica(vector<Tarea> tareas, int num_cores) {
     std::queue<vector<procesador>> posibles;
     vector<procesador> solucion;
+    tiempo mejor;
 
     posibles.push(vector<procesador>());
-    posibles.front().push_back(procesador(num_cores, (Tarea){0,0} ));
+    posibles.front().push_back(procesador(num_cores, -1));
 
     while (!posibles.empty()) {
-        //vector<procesador> actual = posibles.front();
-        //procesador ahora = actual.front();
-        //posibles.pop();
+        vector<procesador> actual = posibles.front();
+        posibles.pop();
 
-        bool very_dependencia = false;
-        int c = 0;
+        if (cuentaTareas(actual) == tareas.size()) { // El vector está lleno
+            tiempo t_actual = hallaTiempo(actual, tareas);
+            if (t_actual < mejor) {
+                mejor = t_actual;
+                solucion = actual;
+            }
+        }
+        else {
+            procesador ahora = actual.front();
 
-        while (!very_dependencia && c < num_cores) {
-            //actual[c] = 0;
-            /* TODO
-                Asignar tareas al procesador actual, evitando asignar
-                tareas dependientes de posteriores o actuales
+            bool very_dependencia = false;
+            int core = 0, i = 0;
 
-                Añadir un procesador más con las siguientes tareas de
-                cada core, calculadas de la misma forma
+            while (!very_dependencia && core < num_cores) {
+                ahora[core] = i;
+                /* TODO
+                    Asignar tareas al procesador actual, evitando asignar
+                    tareas dependientes de posteriores o actuales
 
-                Contabilizar el coste y encontrar la solución óptima.
-            */
-            c++;
+                    Añadir un procesador más con las siguientes tareas de
+                    cada core, calculadas de la misma forma
+
+                    Contabilizar el coste y encontrar la solución óptima.
+                */
+                core++;
+            }
         }
 
     }

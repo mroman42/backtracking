@@ -106,9 +106,9 @@ int main () {
 
 	    // Comprobamos si se puede añadir la arista.
 	    Arista nueva_arista = aristas[indice];
-	    if (not actual.nodosa[nueva_arista.a] and 
-		not actual.nodosb[nueva_arista.b] and
-		not actual.nodosc[nueva_arista.c]) 
+	    if ((not actual.nodosa[nueva_arista.a]) and 
+		(not actual.nodosb[nueva_arista.b]) and
+		(not actual.nodosc[nueva_arista.c])) 
 	    {
 		con_nueva.nodosa[nueva_arista.a] = true;
 		con_nueva.nodosa[nueva_arista.b] = true;

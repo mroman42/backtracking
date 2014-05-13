@@ -111,8 +111,8 @@ int main () {
 		(not actual.nodosc[nueva_arista.c])) 
 	    {
 		con_nueva.nodosa[nueva_arista.a] = true;
-		con_nueva.nodosa[nueva_arista.b] = true;
-		con_nueva.nodosa[nueva_arista.c] = true;
+		con_nueva.nodosb[nueva_arista.b] = true;
+		con_nueva.nodosc[nueva_arista.c] = true;
 		con_nueva.valor++;
 		posibles_particiones.push(con_nueva);
  	    }

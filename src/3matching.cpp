@@ -53,9 +53,9 @@ struct Matching {
 
     Matching ()	
 	: aristas(), 
-	  nodosa(false, sizea+1), 
-	  nodosb(false, sizeb+1),
-	  nodosc(false, sizec+1),
+	  nodosa(sizea, false), 
+	  nodosb(sizeb, false),
+	  nodosc(sizec, false),
 	  valor(0)
     {}
 };
@@ -72,13 +72,14 @@ int main () {
     // Bloque de cómputos
     // El tamaño de cada tabla de nodos usados será la mayor de sus componentes.
     for (Arista arista : aristas) {
-	if (sizea < arista.a)
-	    sizea = arista.a;
-	if (sizeb < arista.b)
-	    sizeb = arista.b;
-	if (sizec < arista.c)
-	    sizec = arista.c;
+	if (sizea < arista.a+1)
+	    sizea = arista.a+1;
+	if (sizeb < arista.b+1)
+	    sizeb = arista.b+1;
+	if (sizec < arista.c+1)
+	    sizec = arista.c+1;
     }
+    cerr << sizea << sizeb << sizec;
 
     // Prueba combinaciones de aristas.
     // Marca como true las aristas escogidas.

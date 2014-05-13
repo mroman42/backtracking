@@ -6,6 +6,7 @@
 
 #include <iostream>
 #include <vector>
+#include <queue>
 #include <tuple>
 #include <chrono>
 using namespace std;
@@ -21,6 +22,11 @@ struct Arista {
 	:a(x), b(y), c(z)
     {}
 };
+
+// Tamaños de las tablas de nodos
+int sizea = 0;
+int sizeb = 0;
+int sizec = 0;
 
 // Estructura para representar una asignación.
 // Señala las aristas seleccionadas y los nodos usados de cada conjunto.
@@ -52,10 +58,8 @@ int main () {
 
     // Bloque de cómputos
     // El tamaño de cada tabla de nodos usados será la mayor de sus componentes.
-    int sizea = 0;
-    int sizeb = 0;
-    int sizec = 0;
-    for (Triple arista : aristas) {
+
+    for (Arista arista : aristas) {
 	if (sizea < arista.a)
 	    sizea = arista.a;
 	if (sizeb < arista.b)

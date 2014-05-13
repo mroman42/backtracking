@@ -75,7 +75,7 @@ int main () {
     uint tamanio = aristas.size();
     
     // Prueba cada posible asignación, empezando por la vacía.
-    posibles_particiones.push_back(Matching());
+    posibles_particiones.push(Matching());
     while (!posibles_particiones.empty()) {
 	Matching actual = posibles_particiones.front();
 	posibles_particiones.pop();
@@ -95,7 +95,7 @@ int main () {
 	    sin_nueva.aristas.push_back(false);
 
 	    // Siempre puede continuarse sin añadir nada.
-	    posibles_particiones.push_back(sin_nueva);
+	    posibles_particiones.push(sin_nueva);
 
 	    // Comprobamos si se puede añadir la arista.
 	    Arista nueva_arista = aristas[actual.size()];
@@ -107,11 +107,15 @@ int main () {
 		con_nueva.nodosa[nueva_arista.b] = true;
 		con_nueva.nodosa[nueva_arista.c] = true;
 		con_nueva.valor++;
-		posibles_particiones.push_back(con_nueva);
+		posibles_particiones.push(con_nueva);
  	    }
 	}
     }
     
     // Bloque de salidas
     // Escribe la solución.
+    cout << "Solución:\n";
+    for (Arista arista : solucion.aristas)
+	cout << arista << endl;
+    cout << "Cardinalidad: " << solucion.valor << endl;
 }

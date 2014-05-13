@@ -34,16 +34,16 @@ int sizec = 0;
 // Señala además la cardinalidad de la asignación (su valor).
 struct Matching {
     vector<bool> aristas;
-    vector<bool> nodos1;
-    vector<bool> nodos2;
-    vector<bool> nodos3;
+    vector<bool> nodosa;
+    vector<bool> nodosb;
+    vector<bool> nodosc;
     int valor;
 
     Matching ()	
 	: aristas(), 
-	  nodos1(false, sizea), 
-	  nodos2(false, sizeb),
-	  nodos3(false, sizec),
+	  nodosa(false, sizea), 
+	  nodosb(false, sizeb),
+	  nodosc(false, sizec),
 	  valor(0)
     {}
 };
@@ -74,6 +74,8 @@ int main () {
     Matching solucion;
     uint tamanio = aristas.size();
     
+    // Prueba cada posible asignación, empezando por la vacía.
+    posibles_particiones.push_back(Matching());
     while (!posibles_particiones.empty()) {
 	Matching actual = posibles_particiones.front();
 	posibles_particiones.pop();
@@ -92,14 +94,24 @@ int main () {
 	    con_nueva.aristas.push_back(true);
 	    sin_nueva.aristas.push_back(false);
 
+	    // Siempre puede continuarse sin añadir nada.
+	    posibles_particiones.push_back(sin_nueva);
+
 	    // Comprobamos si se puede añadir la arista.
-	    Arista nueva_arista = aristas[];
-	    if (actual[aristas])
-
-
+	    Arista nueva_arista = aristas[actual.size()];
+	    if (not actual.nodosa[nueva_arista.a] and 
+		not actual.nodosb[nueva_arista.b] and
+		not actual.nodosc[nueva_arista.c]) 
+	    {
+		con_nueva.nodosa[nueva_arista.a] = true;
+		con_nueva.nodosa[nueva_arista.b] = true;
+		con_nueva.nodosa[nueva_arista.c] = true;
+		con_nueva.valor++;
+		posibles_particiones.push_back(con_nueva);
+ 	    }
 	}
     }
     
     // Bloque de salidas
-    
+    // Escribe la solución.
 }

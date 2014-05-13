@@ -10,6 +10,38 @@
  *  [vector de beneficios]
  */
 
+/**
+ Representación de la solución:
+ La solución será un objeto de tipo Mochila, es decir, un par (vector<bool>, int)
+ donde el vector contendrá true o false según si el elemento indizado correspondiente
+ está contenido en la mochila solución; y el entero representa el beneficio asociado
+ a la mochila.
+
+ Tamaño del espacio de soluciones:
+ ????
+
+ Backtracking -  Función de poda/acotación:
+ peso_actual > peso_maximo
+
+ Branch & Bound - Hijos posibles de un nodo intermedio
+ Para una mochila sin llenar, la siguiente mochila puede o no contener 
+ el siguiente elemento, esto nos da dos hijos (en el código, `con_nuevo` y
+ `sin_nuevo`)
+
+ Branch & Bound - Cálculo de las cotas
+ Calculamos una cota superior para el beneficio que puede reportar la
+ mochila actual.
+ 
+ Branch & Bound - Estrategia de poda
+ Solo introducimos la mochila entre las posibles (pendientes de completar)
+ si la cota superior del beneficio es mayor que el mayor beneficio obtenido
+ hasta el momento.
+ 
+ Branch & Bound - Estrategia de ramificación
+ WTF?
+
+ */
+
 #include <iostream>
 #include <vector>
 #include <queue>

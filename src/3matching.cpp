@@ -24,6 +24,12 @@ struct Arista {
     {}
 };
 
+ostream& operator << (ostream& output, Arista& arista) {
+    cout << "(" << arista.a << "," << arista.b << "," << arista.c << ")";
+    return output;
+}
+
+
 // Tamaños de las tablas de nodos
 int sizea = 0;
 int sizeb = 0;
@@ -79,9 +85,10 @@ int main () {
     while (!posibles_particiones.empty()) {
 	Matching actual = posibles_particiones.front();
 	posibles_particiones.pop();
+	uint indice = actual.aristas.size();
 
 	// Caso de matching completo
-	if (actual.aristas.size() == tamanio) {
+	if (indice == tamanio) {
             if (actual.valor > solucion.valor)
                 solucion = actual;
         }
@@ -98,7 +105,7 @@ int main () {
 	    posibles_particiones.push(sin_nueva);
 
 	    // Comprobamos si se puede añadir la arista.
-	    Arista nueva_arista = aristas[actual.size()];
+	    Arista nueva_arista = aristas[indice];
 	    if (not actual.nodosa[nueva_arista.a] and 
 		not actual.nodosb[nueva_arista.b] and
 		not actual.nodosc[nueva_arista.c]) 
@@ -115,7 +122,8 @@ int main () {
     // Bloque de salidas
     // Escribe la solución.
     cout << "Solución:\n";
-    for (Arista arista : solucion.aristas)
-	cout << arista << endl;
+    for (uint i=0; i<aristas.size(); i++)
+	if (solucion.aristas[i])
+	    cout << aristas[i] << endl;
     cout << "Cardinalidad: " << solucion.valor << endl;
 }

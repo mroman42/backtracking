@@ -3,7 +3,7 @@
 
 BIN=./bin
 SRC=./src
-FLAGS=-std=c++11 -Wall
+FLAGS=-std=c++11 -Wall -g
 
 
 # make all: Compilar todos los programas 

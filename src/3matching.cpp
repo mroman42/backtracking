@@ -29,6 +29,12 @@ ostream& operator << (ostream& output, Arista& arista) {
     return output;
 }
 
+ostream& operator << (ostream& output, vector<bool> v) {
+    for (uint i=0; i<v.size(); i++)
+	cout << v[i];
+    cout << endl;
+    return output;
+}
 
 // Tamaños de las tablas de nodos
 int sizea = 0;
@@ -47,9 +53,9 @@ struct Matching {
 
     Matching ()	
 	: aristas(), 
-	  nodosa(false, sizea), 
-	  nodosb(false, sizeb),
-	  nodosc(false, sizec),
+	  nodosa(sizea, false), 
+	  nodosb(sizeb, false),
+	  nodosc(sizec, false),
 	  valor(0)
     {}
 };
@@ -66,13 +72,14 @@ int main () {
     // Bloque de cómputos
     // El tamaño de cada tabla de nodos usados será la mayor de sus componentes.
     for (Arista arista : aristas) {
-	if (sizea < arista.a)
-	    sizea = arista.a;
-	if (sizeb < arista.b)
-	    sizeb = arista.b;
-	if (sizec < arista.c)
-	    sizec = arista.c;
+	if (sizea < arista.a+1)
+	    sizea = arista.a+1;
+	if (sizeb < arista.b+1)
+	    sizeb = arista.b+1;
+	if (sizec < arista.c+1)
+	    sizec = arista.c+1;
     }
+    cerr << sizea << sizeb << sizec;
 
     // Prueba combinaciones de aristas.
     // Marca como true las aristas escogidas.
@@ -106,9 +113,9 @@ int main () {
 
 	    // Comprobamos si se puede añadir la arista.
 	    Arista nueva_arista = aristas[indice];
-	    if ((not actual.nodosa[nueva_arista.a]) and 
-		(not actual.nodosb[nueva_arista.b]) and
-		(not actual.nodosc[nueva_arista.c])) 
+	    if ((not actual.nodosa.at(nueva_arista.a)) and 
+		(not actual.nodosb.at(nueva_arista.b)) and
+		(not actual.nodosc.at(nueva_arista.c))) 
 	    {
 		con_nueva.nodosa[nueva_arista.a] = true;
 		con_nueva.nodosb[nueva_arista.b] = true;

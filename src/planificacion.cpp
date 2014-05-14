@@ -125,8 +125,7 @@ Planificacion planifica(vector<Tarea> tareas, int num_cores) {
                 if (!dependencia){
                     Planificacion copia_actual = actual;
                     copia_actual.procesador_actual[core] = a_planificar;
-
-                    copia_actual.restantes.erase(find(copia_actual.restantes.begin(), copia_actual.restantes.end(), (Tarea) a_planificar));
+                    copia_actual.restantes.erase(find(copia_actual.restantes.begin(), copia_actual.restantes.end(), a_planificar));
                     copia_actual.historial.push_back(Asignacion(core,a_planificar, copia_actual.t_ejecucion));
                     posibles.push(copia_actual);
                 }

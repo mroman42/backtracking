@@ -19,7 +19,7 @@ struct Tarea {
     tiempo ejecucion;
 
     // Como el grafo es acíclico, cada Tarea solo puede depender de una única Tarea.
-    Tarea* dependencia;
+    vector<Tarea*> dependencias;
 };
 
 /* Tarea v2: clase /
@@ -60,13 +60,17 @@ struct cmp {
     // Esto no es una relación de orden completa
     // Decimos que la tarea 'otra' depende de 'una'
     bool operator() (const Tarea& una, const Tarea& otra) {
-        if (otra.dependencia == 0)
+        if (otra.dependencias.empty())
             return false;
-        else if (otra.dependencia == &una)
+        else if (std::find(otra.dependencias.begin(), otra.dependencias.end(), &una) != otra.dependencias.end())
             return true;
         else
             // Subimos un nivel
-            return operator()(una, *(otra.dependencia));
+            for (auto& super : otra.dependencias)
+                if (operator()(una, *super))
+                    return true;
+
+        return false;
     }
 };
 
@@ -155,8 +159,8 @@ vector<procesador> planifica(vector<Tarea> tareas, int num_cores) {
 int main (int argc, char const *argv[]) {
     vector<Tarea> tareas;
 
-    tareas.push_back({2, 0});
-    tareas.push_back({2, &tareas[0]});
+    tareas.push_back({2, vector<Tarea*>()});
+    tareas.push_back({2, {&tareas[0]}});
 
     return 0;
 }

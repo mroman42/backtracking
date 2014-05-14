@@ -6,161 +6,116 @@
 #include <vector>
 #include <queue>
 #include <algorithm>
-
-using std::vector;
-
-struct Tarea;
+#include <utility>
+#include <numeric>
+using namespace std;
 
 typedef double tiempo;
-typedef vector<int>  procesador; // Importantes los dos espacios!
+typedef unsigned int uint;
+int num_cores;
 
-/* Tarea v1: struct */
 struct Tarea {
     tiempo ejecucion;
-
-    // Como el grafo es acíclico, cada Tarea solo puede depender de una única Tarea.
+    // Dependencias de otras tareas
     vector<Tarea*> dependencias;
-};
-
-/* Tarea v2: clase /
-// Similar a una lista enlazada, una Tarea va precedida de una o ninguna Tarea pero
-// precede a varias Tareas.
-class Tarea {
-private:
-    // Como el grafo es acíclico, cada Tarea solo puede depender de una única Tarea.
-    Tarea* dependencia;
-    vector<Tarea*> dependientes;
-    time ejecucion;
-
-public:
-    Tarea(time t) {
-        dependencia = 0;
-        ejecucion = t;
-    }
-    Tarea(time t, Tarea& otra) : Tarea(t) {
-        depende(otra);
-    }
-    Tarea& depende(Tarea& otra) {
-        if (dependencia) {
-            vector<Tarea*>& deps = dependencia->dependientes;
-            deps.erase(std::find(deps.begin(), deps.end(), this));
-        }
-
-        dependencia = &otra;
-
-        otra.dependientes.push_back(this);
-        return *this;
-    }
-    const time& tiempo() const { return ejecucion; } // r-value
-    time& tiempo() { return ejecucion; } // l-value
-    friend struct cmp;
-};*/
-
-struct cmp {
-    // Esto no es una relación de orden completa
-    // Decimos que la tarea 'otra' depende de 'una'
-    bool operator() (const Tarea& una, const Tarea& otra) {
-        if (otra.dependencias.empty())
-            return false;
-        else if (std::find(otra.dependencias.begin(), otra.dependencias.end(), &una) != otra.dependencias.end())
-            return true;
-        else
-            // Subimos un nivel
-            for (auto& super : otra.dependencias)
-                if (operator()(una, *super))
-                    return true;
-
-        return false;
+    
+    Tarea(tiempo t)
+        :ejecucion(t)
+    {}
+    Tarea()
+        :ejecucion(0)
+    {}
+    
+    bool empty(){
+        return ejecucion == 0;
     }
 };
 
-// Calcula el tiempo (coste) de una ordenación de tareas en un multiprocesador
-tiempo hallaTiempo(vector<procesador> historial, vector<Tarea> tareas) {
-    tiempo max_time = 0;
-    int num_cores = historial[0].size();
 
-    for (int i = 0; i < num_cores; ++i) {
-        tiempo suma = 0;
+struct planificacion{
+    // Asignaciones de tareas a cores en orden
+    vector <pair <uint, Tarea>> asignacion;
+    //Estado del procesador en un momento determinado, estará lleno de Tareas vacías cuando se haya terminado la planificación
+    vector <Tareas> procesador_actual; 
+    // Tareas que faltan por planificar
+    vector <Tareas> restantes;
+    tiempo t_ejecucion;
+    
+    planificacion(vector <Tareas> tareas)
+        :restantes(tareas),
+        t_ejecucion(0),
+        procesador_actual(num_cores,null)
+    {}
+};
 
-        for (auto& m : historial)
-            suma += tareas[m[i]].ejecucion;
 
-        if (suma > max_time)
-            max_time = suma;
-    }
+// Decimos que la tarea 'otra' depende de 'una' si desciende directamente de ella, o aguna de sus dependencias depende de 'una'
+bool depende(const Tarea& una, const Tarea& otra) {
+    if (find(otra.dependencias.begin(), otra.dependencias.end(), &una) != otra.dependencias.end())
+        return true;
+    else
+        // Subimos un nivel
+        for (auto& super : otra.dependencias)
+            if (operator()(una, *super))
+                return true;
 
-    return max_time;
+    return false;
 }
 
-unsigned cuentaTareas(vector<procesador> historial) {
-    unsigned contenidas = 0;
+planificacion planifica(vector<Tarea> tareas, int num_cores) {
+    queue<planificacion> posibles;
+    planificacion solucion;
 
-    for (auto& p : historial)
-        for (auto& i : p)
-            if (i > -1)
-                contenidas++;
-
-    return contenidas;
-}
-
-/**
- * Representación de una solución
- * Una solución es un vector de procesadores, que a su vez son vectores de
- * enteros de un tamaño específico. Cada entero indica la tarea que se
- * realiza en el núcleo en ese momento, y el vector de procesadores indica
- * la secuencia de tareas que se realizarán en cada núcleo.
- */
-
-vector<procesador> planifica(vector<Tarea> tareas, int num_cores) {
-    std::queue<vector<procesador>> posibles;
-    vector<procesador> solucion;
-    tiempo mejor;
-
-    posibles.push(vector<procesador>());
-    posibles.front().push_back(procesador(num_cores, -1));
+    posibles.push(planificacion(tareas));
 
     while (!posibles.empty()) {
-        vector<procesador> actual = posibles.front();
+        planificacion actual = posibles.front();
         posibles.pop();
 
-        if (cuentaTareas(actual) == tareas.size()) { // El vector está lleno
-            tiempo t_actual = hallaTiempo(actual, tareas);
-            if (t_actual < mejor) {
-                mejor = t_actual;
+        if (planificacion.asignacion.size() == tareas.size()) {
+            if (actual.t_ejecucion < solucion.t_ejecucion) {
                 solucion = actual;
             }
         }
-        else {
-            procesador ahora = actual.front();
-
-            bool very_dependencia = false;
-            int core = 0, i = 0;
-
-            while (!very_dependencia && core < num_cores) {
-                ahora[core] = i;
-                /* TODO
-                    Asignar tareas al procesador actual, evitando asignar
-                    tareas dependientes de posteriores o actuales
-
-                    Añadir un procesador más con las siguientes tareas de
-                    cada core, calculadas de la misma forma
-
-                    Contabilizar el coste y encontrar la solución óptima.
-                */
-                core++;
+        else{
+            tiempo minimo = numeric_limits<tiempo>::infinity();
+            
+            // Buscamos la tarea en el procesador de menor tiempo de ejecución restante
+            for (auto &tarea : planificacion.procesador_actual)
+                if (!tarea.empty())
+                    if (tarea.ejecucion < min)
+                        minimo = tarea.ejecucion;
+            
+            bool sin_planificar = false;
+            // Actualizamos tiempos de ejecución del procesador
+            for (auto &tarea : planificacion.procesador_actual){
+                tarea.ejecucion -= minimo;
+                
+                if (tarea.ejecucion > 0)
+                    sin_planificar = true;
+                else
+                    tarea.ejecucion = 0;    
             }
+            
+            // Si puedo seguir sin planificar nada más, introduzco actual en cola
+            if (sin_planificar){
+                posibles.push(actual);
+            }
+            
+            
+            
         }
-
     }
 
-    return vector<procesador>();
+    return solucion;
 }
 
 int main (int argc, char const *argv[]) {
     vector<Tarea> tareas;
-
-    tareas.push_back({2, vector<Tarea*>()});
-    tareas.push_back({2, {&tareas[0]}});
-
-    return 0;
+    double t;
+    cin >> num_cores;
+    
+    while (cin >> t){
+        tareas.push(Tarea(t));
+    }
 }

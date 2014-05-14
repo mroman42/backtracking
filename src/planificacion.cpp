@@ -31,10 +31,19 @@ struct Tarea {
     }
 };
 
+struct Asignacion{
+    uint core;
+    Tarea tarea;
+    tiempo t_inicio;
+    
+    Asignacion(uint i, Tarea &t, tiempo &init)
+       :core(i), tarea(t), t_inicio(init)
+    {}
+};
 
-struct planificacion{
+struct Planificacion{
     // Asignaciones de tareas a cores en orden
-    vector <pair <uint, Tarea>> asignacion;
+    vector <Asignacion> historial;
     //Estado del procesador en un momento determinado, estará lleno de Tareas vacías cuando se haya terminado la planificación
     vector <Tareas> procesador_actual; 
     // Tareas que faltan por planificar
@@ -68,7 +77,7 @@ planificacion planifica(vector<Tarea> tareas, int num_cores) {
 
     posibles.push(planificacion(tareas));
 
-    while (!posibles.empty()) {
+    while (!posibles.empty()){
         planificacion actual = posibles.front();
         posibles.pop();
 
@@ -79,31 +88,61 @@ planificacion planifica(vector<Tarea> tareas, int num_cores) {
         }
         else{
             tiempo minimo = numeric_limits<tiempo>::infinity();
+            bool dependencia;
+            uint core;
+            
+            /*
+             Si quedan huecos en el procesador actual, puedo intentar rellenarlos
+             */
+            for (auto &a_planificar : actual.restantes){
+                dependencia = false;
+                for (uint i=0; i<num_cores; ++i){
+                    auto planificada = actual.procesador_actual[i];
+                    if (!planificada.empty()){
+                        dependencia = depende(planificada,a_planificar);
+                        if (dependencia){
+                            break;
+                        }
+                    }
+                    else
+                        core = i;
+                }
+                if (!dependencia){    
+                    planificacion copia_actual = actual;
+                    copia_actual.procesador_actual[i] = a_planificar;
+                    copia_actual.restantes.erase(find(copia_actual.restantes.begin(),copia_actual.restantes.end(), &a_planificar));
+                    copia_actual.historial.push_back(Asignacion(core,a_planificar, copia_actual.t_ejecucion));
+                    posibles.push(copia_actual);
+                }
+            }
+            
+            bool procesador_vacio = true;
             
             // Buscamos la tarea en el procesador de menor tiempo de ejecución restante
-            for (auto &tarea : planificacion.procesador_actual)
-                if (!tarea.empty())
-                    if (tarea.ejecucion < min)
+            for (auto &tarea : actual.procesador_actual)}{
+                if (!tarea.empty()){
+                    procesador_vacio = false;
+                    if (tarea.ejecucion < minimo){
                         minimo = tarea.ejecucion;
-            
-            bool sin_planificar = false;
-            // Actualizamos tiempos de ejecución del procesador
-            for (auto &tarea : planificacion.procesador_actual){
-                tarea.ejecucion -= minimo;
+                    }
+                }
+            }
+            if (!procesador_vacio){
+                bool sin_planificar = false;
+                // Actualizamos tiempos de ejecución del procesador
+                for (auto &tarea : actual.procesador_actual){
+                    tarea.ejecucion -= minimo;
+                    
+                    if (tarea.ejecucion > 0)
+                        sin_planificar = true;
+                    else
+                        tarea.ejecucion = 0;    
+                }
                 
-                if (tarea.ejecucion > 0)
-                    sin_planificar = true;
-                else
-                    tarea.ejecucion = 0;    
+                // Si puedo seguir sin planificar nada más, introduzco actual en cola
+                if (sin_planificar)
+                    posibles.push(actual);
             }
-            
-            // Si puedo seguir sin planificar nada más, introduzco actual en cola
-            if (sin_planificar){
-                posibles.push(actual);
-            }
-            
-            
-            
         }
     }
 

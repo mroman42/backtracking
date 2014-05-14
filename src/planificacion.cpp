@@ -30,6 +30,10 @@ struct Tarea {
     bool empty(){
         return ejecucion == 0;
     }
+
+    bool operator==(const Tarea& otra) {
+        return *this == (Tarea&)otra;
+    }
 };
 
 struct Asignacion{
@@ -72,10 +76,6 @@ bool depende(const Tarea& una, const Tarea& otra) {
                 return true;
 
     return false;
-}
-
-bool operator==(Tarea& una, const Tarea& otra) {
-    return una == (Tarea&)otra;
 }
 
 bool empty(const vector<Tarea> &procesador){

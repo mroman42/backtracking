@@ -1,3 +1,8 @@
+/**
+ * planificacion.cpp
+ * Problema de planificación en multiprocesadores.
+ * Implementación de un algoritmo backtracking en C++.
+ */
 #include <vector>
 #include <queue>
 #include <algorithm>

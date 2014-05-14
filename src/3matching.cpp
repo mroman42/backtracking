@@ -66,49 +66,18 @@ struct cmp{
     bool operator() (const Matching& una, 
                      const Matching& otra){
         return una.valor < otra.valor;
-    }
+                     }
 };
 
-int main () {
-    // Bloque de entradas
-    #ifdef BBOUND
-    vector<Arista> aristas;
-	vector<int> preferencias;
-    int preferencia;
-    #else
-    vector<Arista> aristas;
-    #endif
-    int a,b,c;
-    
-    #ifdef BBOUND
-    while (cin >> a >> b >> c >> preferencia){
-        aristas.push_back(Arista(a,b,c));
-		preferencias.push_back(preferencia);
-	}
-    #else
-    while (cin >> a >> b >> c)
-        aristas.push_back(Arista(a,b,c));
-    #endif
-    
-    // Bloque de cómputos
-    // El tamaño de cada tabla de nodos usados será la mayor de sus componentes.
-    for (auto arista : aristas) {
-        if (sizea < arista.a+1)
-            sizea = arista.a+1;
-        if (sizeb < arista.b+1)
-            sizeb = arista.b+1;
-        if (sizec < arista.c+1)
-            sizec = arista.c+1;
-    }
-    
+Matching resolver(vector<Arista> aristas, vector<int> preferencias) {
     // Prueba combinaciones de aristas.
     // Marca como true las aristas escogidas.
-	#ifdef BBOUND
-	priority_queue<Matching, vector<Matching>, cmp> posibles_particiones;
-	#else
+    #ifdef BBOUND
+    priority_queue<Matching, vector<Matching>, cmp> posibles_particiones;
+    #else
     queue<Matching> posibles_particiones;
     #endif
-	Matching solucion;
+    Matching solucion;
     uint tamanio = aristas.size();
     
     // Prueba cada posible asignación, empezando por la vacía.
@@ -146,11 +115,11 @@ int main () {
                 if ((not actual.nodosa.at(nueva_arista.a)) and 
                     (not actual.nodosb.at(nueva_arista.b)) and
                     (not actual.nodosc.at(nueva_arista.c))) 
-                sum_pref += preferencias[i];
-            
+                    sum_pref += preferencias[i];
+                
             if (sin_nueva.valor + sum_pref > solucion.valor)
                 posibles_particiones.push(sin_nueva);
-                
+            
             #else
             // Siempre puede continuarse sin añadir nada.
             posibles_particiones.push(sin_nueva);
@@ -174,6 +143,37 @@ int main () {
             }
         }
     }
+    return solucion;
+}
+int main () {
+    // Bloque de entradas
+    vector<Arista> aristas;
+    vector<int> preferencias;
+    int preferencia;
+    int a,b,c;
+    
+    #ifdef BBOUND
+    while (cin >> a >> b >> c >> preferencia){
+        aristas.push_back(Arista(a,b,c));
+        preferencias.push_back(preferencia);
+    }
+    #else
+    while (cin >> a >> b >> c)
+        aristas.push_back(Arista(a,b,c));
+    #endif
+    
+    // Bloque de cómputos
+    // El tamaño de cada tabla de nodos usados será la mayor de sus componentes.
+    for (auto arista : aristas) {
+        if (sizea < arista.a+1)
+            sizea = arista.a+1;
+        if (sizeb < arista.b+1)
+            sizeb = arista.b+1;
+        if (sizec < arista.c+1)
+            sizec = arista.c+1;
+    }
+    
+    Matching solucion = resolver(aristas, preferencias);
     
     // Bloque de salidas
     // Escribe la solución.
@@ -181,5 +181,10 @@ int main () {
     for (uint i=0; i<aristas.size(); i++)
         if (solucion.aristas[i])
             cout << aristas[i] << endl;
-        cout << "Cardinalidad: " << solucion.valor << endl;
+    #ifdef BBOUND
+    cout << "Satisfacción: ";
+    #else
+    cout << "Cardinalidad: ";
+    #endif
+    cout << solucion.valor << endl;
 }

@@ -62,11 +62,18 @@ struct Matching {
     {}
 };
 
+struct cmp{
+    bool operator() (const Matching& una, 
+                     const Matching& otra){
+        return una.valor < otra.valor;
+    }
+};
 
 int main () {
     // Bloque de entradas
     #ifdef BBOUND
-    vector<pair <Arista,int>> aristas;
+    vector<Arista> aristas;
+	vector<int> preferencias;
     int preferencia;
     #else
     vector<Arista> aristas;
@@ -74,8 +81,10 @@ int main () {
     int a,b,c;
     
     #ifdef BBOUND
-    while (cin >> a >> b >> c >> preferencia)
-        aristas.push_back(make_pair(Arista(a,b,c),preferencia));
+    while (cin >> a >> b >> c >> preferencia){
+        aristas.push_back(Arista(a,b,c));
+		preferencias.push_back(preferencia);
+	}
     #else
     while (cin >> a >> b >> c)
         aristas.push_back(Arista(a,b,c));
@@ -84,34 +93,32 @@ int main () {
     // Bloque de cómputos
     // El tamaño de cada tabla de nodos usados será la mayor de sus componentes.
     for (auto arista : aristas) {
-        #ifdef BBOUND
-        if (sizea < arista.first.a+1)
-            sizea = arista.first.a+1;
-        if (sizeb < arista.first.b+1)
-            sizeb = arista.first.b+1;
-        if (sizec < arista.first.c+1)
-            sizec = arista.first.c+1;
-        #else
         if (sizea < arista.a+1)
             sizea = arista.a+1;
         if (sizeb < arista.b+1)
             sizeb = arista.b+1;
         if (sizec < arista.c+1)
             sizec = arista.c+1;
-        #endif
     }
-    cerr << sizea << sizeb << sizec;
     
     // Prueba combinaciones de aristas.
     // Marca como true las aristas escogidas.
+	#ifdef BBOUND
+	priority_queue<Matching, vector<Matching>, cmp> posibles_particiones;
+	#else
     queue<Matching> posibles_particiones;
-    Matching solucion;
+    #endif
+	Matching solucion;
     uint tamanio = aristas.size();
     
     // Prueba cada posible asignación, empezando por la vacía.
     posibles_particiones.push(Matching());
     while (!posibles_particiones.empty()) {
+        #ifdef BBOUND
+        Matching actual = posibles_particiones.top();
+        #else
         Matching actual = posibles_particiones.front();
+        #endif
         posibles_particiones.pop();
         uint indice = actual.aristas.size();
         
@@ -129,11 +136,7 @@ int main () {
             con_nueva.aristas.push_back(true);
             sin_nueva.aristas.push_back(false);
             
-            #ifdef BBOUND
-            Arista nueva_arista = aristas[indice].first;
-            #else
             Arista nueva_arista = aristas[indice];
-            #endif
             
             #ifdef BBOUND
             int sum_pref(0);
@@ -143,7 +146,7 @@ int main () {
                 if ((not actual.nodosa.at(nueva_arista.a)) and 
                     (not actual.nodosb.at(nueva_arista.b)) and
                     (not actual.nodosc.at(nueva_arista.c))) 
-                sum_pref += aristas[i].second;
+                sum_pref += preferencias[i];
             
             if (sin_nueva.valor + sum_pref > solucion.valor)
                 posibles_particiones.push(sin_nueva);
@@ -163,7 +166,7 @@ int main () {
                 con_nueva.nodosc[nueva_arista.c] = true;
                 #ifdef BBOUND
                 // Sumamos la preferencia
-                con_nueva.valor+= aristas[indice].second;
+                con_nueva.valor+= preferencias[indice];
                 #else
                 con_nueva.valor++;
                 #endif
@@ -177,10 +180,6 @@ int main () {
     cout << "Solución:\n";
     for (uint i=0; i<aristas.size(); i++)
         if (solucion.aristas[i])
-            #ifdef BBOUND
-            cout << aristas[i].first << endl;
-            #else
             cout << aristas[i] << endl;
-            #endif
         cout << "Cardinalidad: " << solucion.valor << endl;
 }

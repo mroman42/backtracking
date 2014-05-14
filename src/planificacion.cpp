@@ -74,6 +74,15 @@ bool depende(const Tarea& una, const Tarea& otra) {
     return false;
 }
 
+bool empty(const vector<Tarea> &procesador){
+    for (auto t : procesador){
+        if (!t.empty()){
+            return false;
+        }
+    }
+    return true;
+}
+
 Planificacion planifica(vector<Tarea> tareas, int num_cores) {
     queue<Planificacion> posibles;
     Planificacion solucion;
@@ -84,7 +93,7 @@ Planificacion planifica(vector<Tarea> tareas, int num_cores) {
         Planificacion actual = posibles.front();
         posibles.pop();
 
-        if (actual.historial.size() == tareas.size()) {
+        if (actual.historial.size() == tareas.size() && empty(actual.procesador_actual)) {
             if (actual.t_ejecucion < solucion.t_ejecucion) {
                 solucion = actual;
             }
@@ -118,20 +127,18 @@ Planificacion planifica(vector<Tarea> tareas, int num_cores) {
                 }
             }
             
-            bool procesador_vacio = true;
             tiempo minimo = numeric_limits<tiempo>::infinity();
             
             // Buscamos la tarea en el procesador de menor tiempo de ejecución restante
             for (auto &tarea : actual.procesador_actual){
                 if (!tarea.empty()){
-                    procesador_vacio = false;
                     if (tarea.ejecucion < minimo){
                         minimo = tarea.ejecucion;
                     }
                 }
             }
             // Si el procesador no estaba vacío
-            if (!procesador_vacio){
+            if (!empty(actual.procesador_actual)){
                 bool sin_planificar = false;
                 // Actualizamos tiempos de ejecución del procesador
                 for (auto &tarea : actual.procesador_actual){

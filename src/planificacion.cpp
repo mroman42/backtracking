@@ -1,5 +1,5 @@
 /**
- * planificacion.cpp
+ * Planificacion.cpp
  * Problema de planificación en multiprocesadores.
  * Implementación de un algoritmo backtracking en C++.
  */
@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <utility>
 #include <numeric>
+#include <iostream>
 using namespace std;
 
 typedef double tiempo;
@@ -18,33 +19,35 @@ struct Tarea {
     tiempo ejecucion;
     // Dependencias de otras tareas
     vector<Tarea*> dependencias;
-    
+
     Tarea(tiempo t)
         :ejecucion(t)
     {}
     Tarea()
         :ejecucion(0)
     {}
-    
+
     bool empty(){
         return ejecucion == 0;
     }
 };
 
 
-struct planificacion{
+struct Planificacion{
     // Asignaciones de tareas a cores en orden
-    vector <pair <uint, Tarea>> asignacion;
+    vector <pair <uint, Tarea> > asignacion;
     //Estado del procesador en un momento determinado, estará lleno de Tareas vacías cuando se haya terminado la planificación
-    vector <Tareas> procesador_actual; 
+    vector <Tarea> procesador_actual;
     // Tareas que faltan por planificar
-    vector <Tareas> restantes;
+    vector <Tarea> restantes;
     tiempo t_ejecucion;
-    
-    planificacion(vector <Tareas> tareas)
+
+    Planificacion(){}
+
+    Planificacion(vector <Tarea> tareas)
         :restantes(tareas),
         t_ejecucion(0),
-        procesador_actual(num_cores,null)
+        procesador_actual(num_cores, 0)
     {}
 };
 
@@ -56,54 +59,54 @@ bool depende(const Tarea& una, const Tarea& otra) {
     else
         // Subimos un nivel
         for (auto& super : otra.dependencias)
-            if (operator()(una, *super))
+            if (depende(una, *super))
                 return true;
 
     return false;
 }
 
-planificacion planifica(vector<Tarea> tareas, int num_cores) {
-    queue<planificacion> posibles;
-    planificacion solucion;
+Planificacion planifica(vector<Tarea> tareas, int num_cores) {
+    queue<Planificacion> posibles;
+    Planificacion solucion;
 
-    posibles.push(planificacion(tareas));
+    posibles.push(Planificacion(tareas));
 
     while (!posibles.empty()) {
-        planificacion actual = posibles.front();
+        Planificacion actual = posibles.front();
         posibles.pop();
 
-        if (planificacion.asignacion.size() == tareas.size()) {
+        if (actual.asignacion.size() == tareas.size()) {
             if (actual.t_ejecucion < solucion.t_ejecucion) {
                 solucion = actual;
             }
         }
         else{
             tiempo minimo = numeric_limits<tiempo>::infinity();
-            
+
             // Buscamos la tarea en el procesador de menor tiempo de ejecución restante
-            for (auto &tarea : planificacion.procesador_actual)
+            for (auto &tarea : actual.procesador_actual)
                 if (!tarea.empty())
-                    if (tarea.ejecucion < min)
+                    if (tarea.ejecucion < minimo)
                         minimo = tarea.ejecucion;
-            
+
             bool sin_planificar = false;
             // Actualizamos tiempos de ejecución del procesador
-            for (auto &tarea : planificacion.procesador_actual){
+            for (auto &tarea : actual.procesador_actual){
                 tarea.ejecucion -= minimo;
-                
+
                 if (tarea.ejecucion > 0)
                     sin_planificar = true;
                 else
-                    tarea.ejecucion = 0;    
+                    tarea.ejecucion = 0;
             }
-            
+
             // Si puedo seguir sin planificar nada más, introduzco actual en cola
             if (sin_planificar){
                 posibles.push(actual);
             }
-            
-            
-            
+
+
+
         }
     }
 
@@ -114,8 +117,8 @@ int main (int argc, char const *argv[]) {
     vector<Tarea> tareas;
     double t;
     cin >> num_cores;
-    
+
     while (cin >> t){
-        tareas.push(Tarea(t));
+        tareas.push_back(Tarea(t));
     }
 }

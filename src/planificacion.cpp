@@ -58,7 +58,7 @@ struct Planificacion{
     Planificacion(vector <Tarea> tareas)
         :restantes(tareas),
         t_ejecucion(0),
-        procesador_actual(num_cores, 0)
+        procesador_actual(num_cores)
     {}
 };
 
@@ -94,7 +94,7 @@ Planificacion planifica(vector<Tarea> tareas) {
     while (!posibles.empty()) {
         Planificacion actual = posibles.front();
         posibles.pop();
-
+        
         if (actual.historial.size() == tareas.size() && empty(actual.procesador_actual)) {
             if (actual.t_ejecucion < solucion.t_ejecucion) {
                 solucion = actual;
@@ -107,7 +107,8 @@ Planificacion planifica(vector<Tarea> tareas) {
             /*
              Si quedan huecos en el procesador actual, puedo intentar rellenarlos
              */
-            for (auto &a_planificar : actual.restantes){
+            for (uint j=0; j<actual.restantes.size(); ++j){
+                auto a_planificar = actual.restantes[j];
                 dependencia = false;
                 for (uint i=0; i<num_cores; ++i){
                     auto planificada = actual.procesador_actual[i];
@@ -120,17 +121,18 @@ Planificacion planifica(vector<Tarea> tareas) {
                     else
                         core = i;
                 }
+                
                 if (!dependencia){
                     Planificacion copia_actual = actual;
                     copia_actual.procesador_actual[core] = a_planificar;
-                    copia_actual.restantes.erase(find(copia_actual.restantes.begin(), copia_actual.restantes.end(), a_planificar));
+                    vector <Tarea>::iterator it = copia_actual.restantes.begin();
+                    advance (it,j);
+                    copia_actual.restantes.erase(it);
                     copia_actual.historial.push_back(Asignacion(core,a_planificar, copia_actual.t_ejecucion));
                     posibles.push(copia_actual);
                 }
             }
-
             tiempo minimo = numeric_limits<tiempo>::infinity();
-
             // Buscamos la tarea en el procesador de menor tiempo de ejecución restante
             for (auto &tarea : actual.procesador_actual){
                 if (!tarea.empty()){
@@ -158,9 +160,9 @@ Planificacion planifica(vector<Tarea> tareas) {
                 if (sin_planificar)
                     posibles.push(actual);
             }
+            
         }
     }
-
     return solucion;
 }
 

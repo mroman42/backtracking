@@ -13,14 +13,28 @@ using namespace std;
 
 typedef double tiempo;
 typedef unsigned int uint;
-int num_cores;
 
-struct Tarea {
+class Planificador {
+public:
+    struct Tarea;
+    struct Asignacion;
+    struct Planificacion;
+    static const int num_cores = 4;
+    const vector<Tarea> problema;
+private:
+    bool depende(int una, int otra);
+    bool empty(const vector<Tarea> &procesador);
+public:
+    Planificacion planifica();
+    Planificador(vector<Tarea> tareas) :problema(tareas) {}
+};
+
+struct Planificador::Tarea {
     tiempo ejecucion;
     // Dependencias de otras tareas
-    vector<Tarea*> dependencias;
+    vector<int> dependencias;
 
-    Tarea(tiempo t, vector<Tarea*> deps)
+    Tarea(tiempo t, vector<int> deps)
         :ejecucion(t), dependencias(deps) {}
     Tarea(tiempo t) :ejecucion(t) {}
     Tarea() :ejecucion(0) {}
@@ -28,12 +42,9 @@ struct Tarea {
     bool empty(){
         return ejecucion == 0;
     }
-    bool operator==(const Tarea& otra) {
-        return *this == (Tarea&)otra;
-    }
 };
 
-struct Asignacion{
+struct Planificador::Asignacion{
     uint core;
     Tarea tarea;
     tiempo t_inicio;
@@ -43,7 +54,7 @@ struct Asignacion{
     {}
 };
 
-struct Planificacion{
+struct Planificador::Planificacion{
     // Asignaciones de tareas a cores en orden
     vector <Asignacion> historial;
     //Estado del procesador en un momento determinado, estará lleno de Tareas vacías cuando se haya terminado la planificación
@@ -56,31 +67,29 @@ struct Planificacion{
 
     Planificacion(vector <Tarea> tareas)
         :restantes(tareas),
-        t_ejecucion(0),
-        procesador_actual(num_cores)
-    {}
+        t_ejecucion(0)
+    {
+        procesador_actual.resize(num_cores);
+    }
 };
 
 
 // Decimos que la tarea 'otra' depende de 'una' si desciende directamente de ella, o aguna de sus dependencias depende de 'una'
-bool depende(const Tarea& una, const Tarea& otra) {
-    cerr << una.ejecucion << ' ' << otra.ejecucion << ' ' << otra.dependencias.size() << endl;
-    //if (!otra.dependencias.empty())
-    //    cerr << otra.dependencias[0]->ejecucion;
-    
-    if (find(otra.dependencias.begin(), otra.dependencias.end(), &una) != otra.dependencias.end()){
+bool Planificador::depende(int una, int otra) {
+    cerr << (find(problema[otra].dependencias.begin(), problema[otra].dependencias.end(), una) == problema[otra].dependencias.end()) << endl;
+    if (find(problema[otra].dependencias.begin(), problema[otra].dependencias.end(), una) == problema[otra].dependencias.end());
         return true;
     }
     else
         // Subimos un nivel
-        for (auto super : otra.dependencias)
-            if (depende(una, *super))
+        for (auto super : problema[otra].dependencias)
+            if (depende(una, super))
                 return true;
 
     return false;
 }
 
-bool empty(const vector<Tarea> &procesador){
+bool Planificador::empty(const vector<Tarea> &procesador){
     for (auto t : procesador){
         if (!t.empty()){
             return false;
@@ -98,22 +107,22 @@ uint gap(vector<Tarea> &procesador){
     return 0;
 }
 
-Planificacion planifica(vector<Tarea> tareas) {
+Planificador::Planificacion Planificador::planifica() {
     queue<Planificacion> posibles;
     Planificacion solucion;
 
-    posibles.push(Planificacion(tareas));
+    posibles.push(Planificacion(problema));
 
     while (!posibles.empty()) {
         Planificacion actual = posibles.front();
         posibles.pop();
-        
-        if (actual.historial.size() == tareas.size() && empty(actual.procesador_actual)) {
+
+        if (actual.historial.size() == problema.size() && empty(actual.procesador_actual)) {
             if (actual.t_ejecucion < solucion.t_ejecucion) {
                 solucion = actual;
             }
         }
-        else{
+        else {
             bool dependencia;
             uint core;
 
@@ -123,28 +132,25 @@ Planificacion planifica(vector<Tarea> tareas) {
             if (core = gap(actual.procesador_actual)){
                 core--;
                 for (uint j=0; j<actual.restantes.size(); ++j){
-                    auto a_planificar = actual.restantes[j];
                     dependencia = false;
                     for (uint i=0; i<num_cores && !dependencia; ++i){
-                        auto planificada = actual.procesador_actual[i];
                         if (!planificada.empty())
-                            dependencia = depende(planificada,a_planificar);
+                            dependencia = depende(i,j);
                     }
                     for (uint k=0; k<actual.restantes.size() && !dependencia; ++k){
                         if (k!=j){
-                            auto r = actual.restantes[k];
                             if (!r.empty())
-                                dependencia = depende(r,a_planificar);
+                                dependencia = depende(k,j);
                         }
                     }
                     
                     if (!dependencia){
                         Planificacion copia_actual = actual;
-                        copia_actual.procesador_actual[core] = a_planificar;
+                        copia_actual.procesador_actual[core] = actual.restantes[j];
                         vector <Tarea>::iterator it = copia_actual.restantes.begin();
                         advance (it,j);
                         copia_actual.restantes.erase(it);
-                        copia_actual.historial.push_back(Asignacion(core,a_planificar, copia_actual.t_ejecucion));
+                        copia_actual.historial.push_back(Asignacion(core,actual.restantes[j], copia_actual.t_ejecucion));
                         posibles.push(copia_actual);
                     }
                 }
@@ -177,33 +183,42 @@ Planificacion planifica(vector<Tarea> tareas) {
                 if (sin_planificar)
                     posibles.push(actual);
             }
-            
+
         }
     }
     return solucion;
 }
 
-int main (int argc, char const *argv[]) {
-    vector<Tarea> tareas;
-    cin >> num_cores;
+ostream& operator<<(ostream& out, const Planificador::Tarea& t) {
+    out << "Insertado: " << t.ejecucion << "; ";
 
+    for (auto& d : t.dependencias)
+        out << d << " ";
+
+    return out;
+}
+
+int main (int argc, char const *argv[]) {
+    vector<Planificador::Tarea> tareas;
     //Tarea t;
     tiempo ej;
     int dep;
 
     while (cin.good()) {
-        vector<Tarea*> dependencias;
+        vector<int> dependencias;
         cin >> ej;
         cin >> dep;
 
         while (dep > -1) {
-            dependencias.push_back(&tareas[dep]);
+            dependencias.push_back(dep);
             cin >> dep;
         }
 
-        tareas.push_back(Tarea(ej, dependencias));
+        tareas.push_back(Planificador::Tarea(ej, dependencias));
     }
-    Planificacion solucion = planifica(tareas);
+    Planificador instancia(tareas);
+
+    Planificador::Planificacion solucion = instancia.planifica();
 
     for (auto& asig : solucion.historial)
         cout << asig.core << ": tarea " << &asig.tarea << " (" << asig.t_inicio << ")" << endl;

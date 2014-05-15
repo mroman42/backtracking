@@ -59,7 +59,7 @@ struct Planificador::Asignacion{
 struct Planificador::Planificacion{
     // Asignaciones de tareas a cores en orden
     vector <Asignacion> historial;
-    // Estado del procesador en un momento determinado, estará 
+    // Estado del procesador en un momento determinado, estará
     // lleno de Tareas vacías cuando se haya terminado la planificación
     vector <Tarea> procesador_actual;
     // Tareas que faltan por planificar
@@ -77,10 +77,10 @@ struct Planificador::Planificacion{
 };
 
 
-// Decimos que la tarea 'otra' depende de 'una' si desciende directamente 
+// Decimos que la tarea 'otra' depende de 'una' si desciende directamente
 // de ella, o aguna de sus dependencias depende de 'una'
 bool Planificador::depende(int una, int otra) {
-    if (find(problema[otra].dependencias.begin(), problema[otra].dependencias.end(), una) 
+    if (find(problema[otra].dependencias.begin(), problema[otra].dependencias.end(), una)
         != problema[otra].dependencias.end()){
         return true;
     }
@@ -119,7 +119,7 @@ Planificador::Planificacion Planificador::planifica() {
 
     posibles.push(Planificacion(problema));
 
-   
+
     while (!posibles.empty()) {
         Planificacion actual = posibles.front();
         posibles.pop();
@@ -135,14 +135,14 @@ Planificador::Planificacion Planificador::planifica() {
             /*
              Si hay core libre, intentamos planificar algún proceso en dicho core
              */
-            
-            
+
+
             if (core){
                 core--;
                 for (uint j=0; j<actual.restantes.size(); ++j){
                     dependencia = false;
                     for (uint i=0; i<num_cores && !dependencia; ++i){
-                        
+
                         if (!actual.procesador_actual[i].empty()){
                             dependencia = depende(actual.procesador_actual[i].index, actual.restantes[j].index);
                         }
@@ -153,19 +153,19 @@ Planificador::Planificacion Planificador::planifica() {
                                 dependencia = depende(actual.restantes[k].index, actual.restantes[j].index);
                         }
                     }
-                    
+
                     if (!dependencia){
                         Planificacion copia_actual = actual;
                         copia_actual.procesador_actual[core] = actual.restantes[j];
                         vector <Tarea>::iterator it = copia_actual.restantes.begin();
                         advance (it,j);
-                        copia_actual.restantes.erase(it);                        
+                        copia_actual.restantes.erase(it);
                         copia_actual.historial.push_back
                             (Asignacion(core, actual.restantes[j], copia_actual.t_ejecucion));
                         posibles.push(copia_actual);
                     }
                 }
-            }            
+            }
             // Si el procesador no estaba vacío
             if (!empty(actual.procesador_actual)){
                 tiempo minimo = numeric_limits<tiempo>::infinity();
@@ -195,10 +195,12 @@ Planificador::Planificacion Planificador::planifica() {
 }
 
 ostream& operator<<(ostream& out, const Planificador::Tarea& t) {
-    out << "Insertado: " << t.ejecucion << "; ";
+    out << t.index << " [tiempo " << t.ejecucion << "; dependencias ";
 
     for (auto& d : t.dependencias)
         out << d << " ";
+
+    out << "]";
 
     return out;
 }
@@ -209,7 +211,7 @@ int main (int argc, char const *argv[]) {
     tiempo ej;
     int dep;
     int index=0;
-    
+
     while (cin.good()) {
         vector<int> dependencias;
         cin >> ej;
@@ -226,7 +228,7 @@ int main (int argc, char const *argv[]) {
     Planificador instancia(tareas);
 
     Planificador::Planificacion solucion = instancia.planifica();
-    
+
     for (auto& asig : solucion.historial)
-        cout << asig.core << ": tarea " << asig.tarea << " (" << asig.t_inicio << ")" << endl;
+        cout << "Core " << asig.core << ": tarea " << asig.tarea << " (comenzando en " << asig.t_inicio << ")" << endl;
 }

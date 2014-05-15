@@ -42,10 +42,6 @@ struct Planificador::Tarea {
     bool empty(){
         return ejecucion == 0;
     }
-
-    /*bool operator==(const Tarea& otra) {
-        return *this == (Tarea&)otra;
-    }*/
 };
 
 struct Planificador::Asignacion{
@@ -80,7 +76,6 @@ struct Planificador::Planificacion{
 
 // Decimos que la tarea 'otra' depende de 'una' si desciende directamente de ella, o aguna de sus dependencias depende de 'una'
 bool Planificador::depende(int una, int otra) {
-    cerr << (find(problema[otra].dependencias.begin(), problema[otra].dependencias.end(), una) == problema[otra].dependencias.end()) << endl;
     if (find(problema[otra].dependencias.begin(), problema[otra].dependencias.end(), una) == problema[otra].dependencias.end())
         return true;
     else
@@ -182,15 +177,6 @@ Planificador::Planificacion Planificador::planifica() {
     return solucion;
 }
 
-ostream& operator<<(ostream& out, const Planificador::Tarea& t) {
-    out << "Insertado: " << t.ejecucion << "; ";
-
-    for (auto& d : t.dependencias)
-        out << d << " ";
-
-    return out;
-}
-
 int main (int argc, char const *argv[]) {
     vector<Planificador::Tarea> tareas;
     //Tarea t;
@@ -210,13 +196,10 @@ int main (int argc, char const *argv[]) {
         tareas.push_back(Planificador::Tarea(ej, dependencias));
     }
 
-    for (auto& p : tareas)
-        cout << p << endl;
-
     Planificador instancia(tareas);
 
     Planificador::Planificacion solucion = instancia.planifica();
 
-    //for (auto& asig : solucion.historial)
-    //    cout << asig.core << ": tarea " << &asig.tarea << " (" << asig.t_inicio << ")" << endl;
+    for (auto& asig : solucion.historial)
+        cout << asig.core << ": tarea " << &asig.tarea << " (" << asig.t_inicio << ")" << endl;
 }

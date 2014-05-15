@@ -214,16 +214,15 @@ int main (int argc, char const *argv[]) {
 
     while (cin.good()) {
         vector<int> dependencias;
-        cin >> ej;
-        cin >> dep;
+        
+        if (cin >> ej) {
+            while ((cin >> dep) && dep > -1) {
+                dependencias.push_back(dep);
+            }
 
-        while (dep > -1) {
-            dependencias.push_back(dep);
-            cin >> dep;
+            tareas.push_back(Planificador::Tarea(index, ej, dependencias));
+            index++;
         }
-
-        tareas.push_back(Planificador::Tarea(index,ej, dependencias));
-        index++;
     }
     Planificador instancia(tareas);
 

@@ -24,6 +24,7 @@ public:
 private:
     bool depende(int una, int otra);
     bool empty(const vector<Tarea> &procesador);
+    uint gap(vector<Tarea> &procesador);
 public:
     Planificacion planifica();
     Planificador(vector<Tarea> tareas) :problema(tareas) {}
@@ -76,16 +77,16 @@ struct Planificador::Planificacion{
 
 // Decimos que la tarea 'otra' depende de 'una' si desciende directamente de ella, o aguna de sus dependencias depende de 'una'
 bool Planificador::depende(int una, int otra) {
-    cerr << (find(problema[otra].dependencias.begin(), problema[otra].dependencias.end(), una) == problema[otra].dependencias.end()) << endl;
-    if (find(problema[otra].dependencias.begin(), problema[otra].dependencias.end(), una) == problema[otra].dependencias.end());
+    if (find(problema[otra].dependencias.begin(), problema[otra].dependencias.end(), una) != problema[otra].dependencias.end()){
         return true;
     }
-    else
+    else{
         // Subimos un nivel
-        for (auto super : problema[otra].dependencias)
+        for (auto super : problema[otra].dependencias){
             if (depende(una, super))
                 return true;
-
+        }
+    }
     return false;
 }
 
@@ -98,7 +99,7 @@ bool Planificador::empty(const vector<Tarea> &procesador){
     return true;
 }
 
-uint gap(vector<Tarea> &procesador){
+uint Planificador::gap(vector<Tarea> &procesador){
     for (uint i=0; i<num_cores; ++i){
         if (procesador[i].empty()){
             return i+1;
@@ -110,36 +111,42 @@ uint gap(vector<Tarea> &procesador){
 Planificador::Planificacion Planificador::planifica() {
     queue<Planificacion> posibles;
     Planificacion solucion;
+    solucion.t_ejecucion = numeric_limits<tiempo>::infinity();
 
     posibles.push(Planificacion(problema));
 
+   
     while (!posibles.empty()) {
         Planificacion actual = posibles.front();
         posibles.pop();
-
+        cerr << "Actual tiene tamaño: " << actual.t_ejecucion << endl;
         if (actual.historial.size() == problema.size() && empty(actual.procesador_actual)) {
+            cerr << "quiero una puta solución" << endl;
             if (actual.t_ejecucion < solucion.t_ejecucion) {
                 solucion = actual;
             }
         }
         else {
             bool dependencia;
-            uint core;
-
+            uint core = gap(actual.procesador_actual);
             /*
              Si hay core libre, intentamos planificar algún proceso en dicho core
              */
-            if (core = gap(actual.procesador_actual)){
+            if (core){
                 core--;
                 for (uint j=0; j<actual.restantes.size(); ++j){
+                    cerr << "Quedan restantes: " << actual.restantes.size() << endl;
                     dependencia = false;
                     for (uint i=0; i<num_cores && !dependencia; ++i){
-                        if (!planificada.empty())
+                        
+                        if (actual.procesador_actual[i].empty()){
                             dependencia = depende(i,j);
+                        }
                     }
+                    
                     for (uint k=0; k<actual.restantes.size() && !dependencia; ++k){
                         if (k!=j){
-                            if (!r.empty())
+                            if (!actual.restantes[j].empty())
                                 dependencia = depende(k,j);
                         }
                     }
@@ -164,6 +171,7 @@ Planificador::Planificacion Planificador::planifica() {
                     }
                 }
             }
+            
             // Si el procesador no estaba vacío
             if (!empty(actual.procesador_actual)){
                 bool sin_planificar = false;
@@ -183,7 +191,6 @@ Planificador::Planificacion Planificador::planifica() {
                 if (sin_planificar)
                     posibles.push(actual);
             }
-
         }
     }
     return solucion;
@@ -219,7 +226,7 @@ int main (int argc, char const *argv[]) {
     Planificador instancia(tareas);
 
     Planificador::Planificacion solucion = instancia.planifica();
-
+    
     for (auto& asig : solucion.historial)
         cout << asig.core << ": tarea " << &asig.tarea << " (" << asig.t_inicio << ")" << endl;
 }

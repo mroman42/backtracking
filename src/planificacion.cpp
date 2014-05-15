@@ -228,4 +228,6 @@ int main (int argc, char const *argv[]) {
 
     for (auto& asig : solucion.historial)
         cout << "Core " << asig.core << ": tarea " << asig.tarea << " (comenzando en " << asig.t_inicio << ")" << endl;
+
+    cout << "Tiempo total: " << solucion.t_ejecucion << endl;
 }

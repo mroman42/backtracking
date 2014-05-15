@@ -155,8 +155,10 @@ Planificador::Planificacion Planificador::planifica() {
                     }
                 }
             }
-            tiempo minimo = numeric_limits<tiempo>::infinity();
+
+            
             // Buscamos la tarea en el procesador de menor tiempo de ejecución restante
+	    tiempo minimo = numeric_limits<tiempo>::infinity();
             for (auto &tarea : actual.procesador_actual){
                 if (!tarea.empty()){
                     if (tarea.ejecucion < minimo){
@@ -164,9 +166,11 @@ Planificador::Planificacion Planificador::planifica() {
                     }
                 }
             }
+
             // Si el procesador no estaba vacío
             if (!empty(actual.procesador_actual)){
                 bool sin_planificar = false;
+
                 // Actualizamos tiempos de ejecución del procesador
                 for (auto &tarea : actual.procesador_actual){
                     tarea.ejecucion -= minimo;
@@ -186,6 +190,7 @@ Planificador::Planificacion Planificador::planifica() {
 
         }
     }
+
     return solucion;
 }
 
@@ -199,13 +204,13 @@ ostream& operator<<(ostream& out, const Planificador::Tarea& t) {
 }
 
 int main (int argc, char const *argv[]) {
+    // Bloque de entrada
     vector<Planificador::Tarea> tareas;
-    //Tarea t;
-    tiempo ej;
-    int dep;
-
+    
     while (cin.good()) {
         vector<int> dependencias;
+	tiempo ej;
+	int dep;
         cin >> ej;
         cin >> dep;
 
@@ -216,10 +221,14 @@ int main (int argc, char const *argv[]) {
 
         tareas.push_back(Planificador::Tarea(ej, dependencias));
     }
-    Planificador instancia(tareas);
 
+    // Bloque de cómputos
+    // Calcula la planificación óptima
+    Planificador instancia(tareas);
     Planificador::Planificacion solucion = instancia.planifica();
 
+    // Bloque de salida
+    // Muestra el resultado por pantalla
     for (auto& asig : solucion.historial)
         cout << asig.core << ": tarea " << &asig.tarea << " (" << asig.t_inicio << ")" << endl;
 }

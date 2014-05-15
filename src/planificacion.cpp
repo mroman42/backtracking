@@ -59,7 +59,8 @@ struct Planificador::Asignacion{
 struct Planificador::Planificacion{
     // Asignaciones de tareas a cores en orden
     vector <Asignacion> historial;
-    //Estado del procesador en un momento determinado, estará lleno de Tareas vacías cuando se haya terminado la planificación
+    // Estado del procesador en un momento determinado, estará 
+    // lleno de Tareas vacías cuando se haya terminado la planificación
     vector <Tarea> procesador_actual;
     // Tareas que faltan por planificar
     vector <Tarea> restantes;
@@ -76,9 +77,11 @@ struct Planificador::Planificacion{
 };
 
 
-// Decimos que la tarea 'otra' depende de 'una' si desciende directamente de ella, o aguna de sus dependencias depende de 'una'
+// Decimos que la tarea 'otra' depende de 'una' si desciende directamente 
+// de ella, o aguna de sus dependencias depende de 'una'
 bool Planificador::depende(int una, int otra) {
-    if (find(problema[otra].dependencias.begin(), problema[otra].dependencias.end(), una) != problema[otra].dependencias.end()){
+    if (find(problema[otra].dependencias.begin(), problema[otra].dependencias.end(), una) 
+        != problema[otra].dependencias.end()){
         return true;
     }
     else{
@@ -157,23 +160,23 @@ Planificador::Planificacion Planificador::planifica() {
                         vector <Tarea>::iterator it = copia_actual.restantes.begin();
                         advance (it,j);
                         copia_actual.restantes.erase(it);                        
-                        copia_actual.historial.push_back(Asignacion(core, actual.restantes[j], copia_actual.t_ejecucion));
+                        copia_actual.historial.push_back
+                            (Asignacion(core, actual.restantes[j], copia_actual.t_ejecucion));
                         posibles.push(copia_actual);
                     }
                 }
-            }
-            tiempo minimo = numeric_limits<tiempo>::infinity();
-            // Buscamos la tarea en el procesador de menor tiempo de ejecución restante
-            for (auto &tarea : actual.procesador_actual){
-                if (!tarea.empty()){
-                    if (tarea.ejecucion < minimo){
-                        minimo = tarea.ejecucion;
-                    }
-                }
-            }
-            
+            }            
             // Si el procesador no estaba vacío
             if (!empty(actual.procesador_actual)){
+                tiempo minimo = numeric_limits<tiempo>::infinity();
+                // Buscamos la tarea en el procesador de menor tiempo de ejecución restante
+                for (auto &tarea : actual.procesador_actual){
+                    if (!tarea.empty()){
+                        if (tarea.ejecucion < minimo){
+                            minimo = tarea.ejecucion;
+                        }
+                    }
+                }
                 // Actualizamos tiempos de ejecución del procesador
                 for (Tarea &tarea : actual.procesador_actual){
                     tarea.ejecucion -= minimo;

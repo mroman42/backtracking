@@ -20,12 +20,10 @@ struct Tarea {
     // Dependencias de otras tareas
     vector<Tarea*> dependencias;
 
-    Tarea(tiempo t)
-        :ejecucion(t)
-    {}
-    Tarea()
-        :ejecucion(0)
-    {}
+    Tarea(tiempo t, vector<Tarea*> deps)
+        :ejecucion(t), dependencias(deps) {}
+    Tarea(tiempo t) :ejecucion(t) {}
+    Tarea() :ejecucion(0) {}
 
     bool empty(){
         return ejecucion == 0;
@@ -87,7 +85,7 @@ bool empty(const vector<Tarea> &procesador){
     return true;
 }
 
-Planificacion planifica(vector<Tarea> tareas, int num_cores) {
+Planificacion planifica(vector<Tarea> tareas) {
     queue<Planificacion> posibles;
     Planificacion solucion;
 
@@ -168,10 +166,27 @@ Planificacion planifica(vector<Tarea> tareas, int num_cores) {
 
 int main (int argc, char const *argv[]) {
     vector<Tarea> tareas;
-    double t;
     cin >> num_cores;
 
-    while (cin >> t){
-        tareas.push_back(Tarea(t));
+    //Tarea t;
+    tiempo ej;
+    int dep;
+
+    while (cin.good()) {
+        vector<Tarea*> dependencias;
+        cin >> ej;
+        cin >> dep;
+
+        while (dep > -1) {
+            dependencias.push_back(&tareas.at(dep));
+            cin >> dep;
+        }
+
+        tareas.push_back(Tarea(ej, dependencias));
     }
+
+    Planificacion solucion = planifica(tareas);
+
+    //for (auto& asig : solucion.historial)
+    //    cout << asig.core << ": tarea " << &asig.tarea << " (" << asig.t_inicio << ")" << endl;
 }

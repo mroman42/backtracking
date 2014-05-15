@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /**
  * Planificacion.cpp
  * Problema de planificación en multiprocesadores.

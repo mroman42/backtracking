@@ -186,8 +186,11 @@ Planificador::Planificacion Planificador::planifica() {
                 }
 
                 actual.t_ejecucion += minimo;
-
-                posibles.push(actual);
+                
+                #ifdef BBOUND
+                if (actual.t_ejecucion < solucion.t_ejecucion)
+                #endif
+                    posibles.push(actual);
             }
         }
     }

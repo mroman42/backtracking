@@ -53,17 +53,6 @@ bool cruce (int u, int v, int w, int z) {
 }
 #endif
 
-// Función de depuración
-/* 
-Coste total (Ruta &ruta){
-    Coste result(0);
-    for (uint i = 1; i <= ruta.size(); ++i){
-        result += distancia (i-1,i%ruta.size());
-    }
-    return result;
-}
-
-*/
 void permutaciones(Ruta& ruta, Coste coste_actual, uint indice){
     // Caso de la ruta finalizada
     // Comprueba si se mejora el óptimo.    

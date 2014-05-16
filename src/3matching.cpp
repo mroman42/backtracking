@@ -7,8 +7,6 @@
 #include <iostream>
 #include <vector>
 #include <queue>
-// No estamos usando tuple
-#include <tuple>
 #include <chrono>
 #include <utility>
 using namespace std;
@@ -20,7 +18,7 @@ struct Arista {
     int a;
     int b;
     int c;
-    
+
     Arista (int x, int y, int z)
     :a(x), b(y), c(z)
     {}
@@ -53,17 +51,17 @@ struct Matching {
     vector<bool> nodosb;
     vector<bool> nodosc;
     int valor;
-    
-    Matching ()	
+
+    Matching ()
     : valor(0),
-    nodosa(sizea, false), 
+    nodosa(sizea, false),
     nodosb(sizeb, false),
     nodosc(sizec, false)
     {}
 };
 
 struct cmp{
-    bool operator() (const Matching& una, 
+    bool operator() (const Matching& una,
                      const Matching& otra){
         return una.valor < otra.valor;
                      }
@@ -79,7 +77,7 @@ Matching resolver(vector<Arista> aristas, vector<int> preferencias) {
     #endif
     Matching solucion;
     uint tamanio = aristas.size();
-    
+
     // Prueba cada posible asignación, empezando por la vacía.
     posibles_particiones.push(Matching());
     while (!posibles_particiones.empty()) {
@@ -90,13 +88,13 @@ Matching resolver(vector<Arista> aristas, vector<int> preferencias) {
         #endif
         posibles_particiones.pop();
         uint indice = actual.aristas.size();
-        
+
         // Caso de matching completo
         if (indice == tamanio) {
             if (actual.valor > solucion.valor)
                 solucion = actual;
         }
-        
+
         // Caso de matching por completar.
         // Añade el caso de que se obtenga la arista o no.
         else {
@@ -104,31 +102,31 @@ Matching resolver(vector<Arista> aristas, vector<int> preferencias) {
             Matching sin_nueva = actual;
             con_nueva.aristas.push_back(true);
             sin_nueva.aristas.push_back(false);
-            
+
             Arista nueva_arista = aristas[indice];
-            
+
             #ifdef BBOUND
             int sum_pref(0);
-            
+
             // Condición de poda: poder mejorar la satisfacción de la solución actual
             for (uint i=indice+1; i<tamanio; ++i)
-                if ((not actual.nodosa.at(nueva_arista.a)) and 
+                if ((not actual.nodosa.at(nueva_arista.a)) and
                     (not actual.nodosb.at(nueva_arista.b)) and
-                    (not actual.nodosc.at(nueva_arista.c))) 
+                    (not actual.nodosc.at(nueva_arista.c)))
                     sum_pref += preferencias[i];
-                
+
             if (sin_nueva.valor + sum_pref > solucion.valor)
                 posibles_particiones.push(sin_nueva);
-            
+
             #else
             // Siempre puede continuarse sin añadir nada.
             posibles_particiones.push(sin_nueva);
             #endif
-            
-            // Comprobamos si se puede añadir la arista.            
-            if ((not actual.nodosa.at(nueva_arista.a)) and 
+
+            // Comprobamos si se puede añadir la arista.
+            if ((not actual.nodosa.at(nueva_arista.a)) and
                 (not actual.nodosb.at(nueva_arista.b)) and
-                (not actual.nodosc.at(nueva_arista.c))) 
+                (not actual.nodosc.at(nueva_arista.c)))
             {
                 con_nueva.nodosa[nueva_arista.a] = true;
                 con_nueva.nodosb[nueva_arista.b] = true;
@@ -151,7 +149,7 @@ int main () {
     vector<int> preferencias;
     int preferencia;
     int a,b,c;
-    
+
     #ifdef BBOUND
     while (cin >> a >> b >> c >> preferencia){
         aristas.push_back(Arista(a,b,c));
@@ -161,7 +159,7 @@ int main () {
     while (cin >> a >> b >> c)
         aristas.push_back(Arista(a,b,c));
     #endif
-    
+
     // Bloque de cómputos
     // El tamaño de cada tabla de nodos usados será la mayor de sus componentes.
     for (auto arista : aristas) {
@@ -172,9 +170,9 @@ int main () {
         if (sizec < arista.c+1)
             sizec = arista.c+1;
     }
-    
+
     Matching solucion = resolver(aristas, preferencias);
-    
+
     // Bloque de salidas
     // Escribe la solución.
     cout << "Solución:\n";

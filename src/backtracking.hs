@@ -7,12 +7,11 @@
    Las soluciones sin pseudosoluciones hijas se consideran soluciones finales.
  -}
 backtracking :: (a -> [a]) -> (a -> Bool) -> a -> [a]
-backtracking nodes pred x 
+backtracking nodes pred x
     | (pred x && (length (nodes x) == 0)) = [x]
     | pred x = concat $ map (backtracking nodes pred) (nodes x)
     | otherwise = []
-                  
-                  
+    
 {- Mochila -}
 type Mochila = ([Int], Int)
 mochilaBT :: [Int] -> [Int] -> Int -> Mochila -> [Mochila]

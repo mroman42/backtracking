@@ -24,18 +24,20 @@ public:
 private:
     bool depende(int una, int otra);
     bool empty(const vector<Tarea> &procesador);
+    uint gap(vector<Tarea> &procesador);
 public:
     Planificacion planifica();
     Planificador(vector<Tarea> tareas) :problema(tareas) {}
 };
 
 struct Planificador::Tarea {
+    uint index;
     tiempo ejecucion;
     // Dependencias de otras tareas
     vector<int> dependencias;
 
-    Tarea(tiempo t, vector<int> deps)
-        :ejecucion(t), dependencias(deps) {}
+    Tarea(uint i, tiempo t, vector<int> deps)
+        :index(i), ejecucion(t), dependencias(deps) {}
     Tarea(tiempo t) :ejecucion(t) {}
     Tarea() :ejecucion(0) {}
 
@@ -49,7 +51,7 @@ struct Planificador::Asignacion{
     Tarea tarea;
     tiempo t_inicio;
 
-    Asignacion(uint i, Tarea &t, tiempo &init)
+    Asignacion(uint i, Tarea &t, tiempo init)
        :core(i), tarea(t), t_inicio(init)
     {}
 };
@@ -57,7 +59,8 @@ struct Planificador::Asignacion{
 struct Planificador::Planificacion{
     // Asignaciones de tareas a cores en orden
     vector <Asignacion> historial;
-    //Estado del procesador en un momento determinado, estará lleno de Tareas vacías cuando se haya terminado la planificación
+    // Estado del procesador en un momento determinado, estará
+    // lleno de Tareas vacías cuando se haya terminado la planificación
     vector <Tarea> procesador_actual;
     // Tareas que faltan por planificar
     vector <Tarea> restantes;
@@ -74,18 +77,20 @@ struct Planificador::Planificacion{
 };
 
 
-// Decimos que la tarea 'otra' depende de 'una' si desciende directamente de ella, o aguna de sus dependencias depende de 'una'
+// Decimos que la tarea 'otra' depende de 'una' si desciende directamente
+// de ella, o aguna de sus dependencias depende de 'una'
 bool Planificador::depende(int una, int otra) {
-    cerr << (find(problema[otra].dependencias.begin(), problema[otra].dependencias.end(), una) == problema[otra].dependencias.end()) << endl;
-    if (find(problema[otra].dependencias.begin(), problema[otra].dependencias.end(), una) == problema[otra].dependencias.end());
+    if (find(problema[otra].dependencias.begin(), problema[otra].dependencias.end(), una)
+        != problema[otra].dependencias.end()){
         return true;
     }
-    else
+    else{
         // Subimos un nivel
-        for (auto super : problema[otra].dependencias)
+        for (auto super : problema[otra].dependencias){
             if (depende(una, super))
                 return true;
-
+        }
+    }
     return false;
 }
 
@@ -98,7 +103,7 @@ bool Planificador::empty(const vector<Tarea> &procesador){
     return true;
 }
 
-uint gap(vector<Tarea> &procesador){
+uint Planificador::gap(vector<Tarea> &procesador){
     for (uint i=0; i<num_cores; ++i){
         if (procesador[i].empty()){
             return i+1;
@@ -110,8 +115,10 @@ uint gap(vector<Tarea> &procesador){
 Planificador::Planificacion Planificador::planifica() {
     queue<Planificacion> posibles;
     Planificacion solucion;
+    solucion.t_ejecucion = numeric_limits<tiempo>::infinity();
 
     posibles.push(Planificacion(problema));
+
 
     while (!posibles.empty()) {
         Planificacion actual = posibles.front();
@@ -124,111 +131,106 @@ Planificador::Planificacion Planificador::planifica() {
         }
         else {
             bool dependencia;
-            uint core;
-
+            uint core = gap(actual.procesador_actual);
             /*
              Si hay core libre, intentamos planificar algún proceso en dicho core
              */
-            if (core = gap(actual.procesador_actual)){
+
+
+            if (core){
                 core--;
                 for (uint j=0; j<actual.restantes.size(); ++j){
                     dependencia = false;
                     for (uint i=0; i<num_cores && !dependencia; ++i){
-                        if (!planificada.empty())
-                            dependencia = depende(i,j);
+
+                        if (!actual.procesador_actual[i].empty()){
+                            dependencia = depende(actual.procesador_actual[i].index, actual.restantes[j].index);
+                        }
                     }
                     for (uint k=0; k<actual.restantes.size() && !dependencia; ++k){
                         if (k!=j){
-                            if (!r.empty())
-                                dependencia = depende(k,j);
+                            if (!actual.restantes[j].empty())
+                                dependencia = depende(actual.restantes[k].index, actual.restantes[j].index);
                         }
                     }
-                    
+
                     if (!dependencia){
                         Planificacion copia_actual = actual;
                         copia_actual.procesador_actual[core] = actual.restantes[j];
                         vector <Tarea>::iterator it = copia_actual.restantes.begin();
                         advance (it,j);
                         copia_actual.restantes.erase(it);
-                        copia_actual.historial.push_back(Asignacion(core,actual.restantes[j], copia_actual.t_ejecucion));
+                        copia_actual.historial.push_back
+                            (Asignacion(core, actual.restantes[j], copia_actual.t_ejecucion));
                         posibles.push(copia_actual);
                     }
                 }
             }
-
-            
-            // Buscamos la tarea en el procesador de menor tiempo de ejecución restante
-	    tiempo minimo = numeric_limits<tiempo>::infinity();
-            for (auto &tarea : actual.procesador_actual){
-                if (!tarea.empty()){
-                    if (tarea.ejecucion < minimo){
-                        minimo = tarea.ejecucion;
-                    }
-                }
-            }
-
             // Si el procesador no estaba vacío
             if (!empty(actual.procesador_actual)){
-                bool sin_planificar = false;
-
-                // Actualizamos tiempos de ejecución del procesador
+                tiempo minimo = numeric_limits<tiempo>::infinity();
+                // Buscamos la tarea en el procesador de menor tiempo de ejecución restante
                 for (auto &tarea : actual.procesador_actual){
+                    if (!tarea.empty()){
+                        if (tarea.ejecucion < minimo){
+                            minimo = tarea.ejecucion;
+                        }
+                    }
+                }
+                // Actualizamos tiempos de ejecución del procesador
+                for (Tarea &tarea : actual.procesador_actual){
                     tarea.ejecucion -= minimo;
 
-                    if (tarea.ejecucion > 0)
-                        sin_planificar = true;
-                    else
+                    if (tarea.ejecucion < 0)
                         tarea.ejecucion = 0;
                 }
 
                 actual.t_ejecucion += minimo;
-
-                // Si puedo seguir sin planificar nada más, introduzco actual en cola
-                if (sin_planificar)
+                
+                #ifdef BBOUND
+                if (actual.t_ejecucion < solucion.t_ejecucion)
+                #endif
                     posibles.push(actual);
             }
-
         }
     }
-
     return solucion;
 }
 
 ostream& operator<<(ostream& out, const Planificador::Tarea& t) {
-    out << "Insertado: " << t.ejecucion << "; ";
+    out << t.index << " [tiempo " << t.ejecucion << "; dependencias ";
 
     for (auto& d : t.dependencias)
         out << d << " ";
+
+    out << "]";
 
     return out;
 }
 
 int main (int argc, char const *argv[]) {
-    // Bloque de entrada
     vector<Planificador::Tarea> tareas;
-    
-    while (cin.good()) {
-        vector<int> dependencias;
-	tiempo ej;
-	int dep;
-        cin >> ej;
-        cin >> dep;
+    //Tarea t;
+    tiempo ej;
+    int dep;
+    int index=0;
 
-        while (dep > -1) {
+    while (cin >> ej) {
+        vector<int> dependencias;
+
+        while ((cin >> dep) && dep > -1) {
             dependencias.push_back(dep);
-            cin >> dep;
         }
 
-        tareas.push_back(Planificador::Tarea(ej, dependencias));
+        tareas.push_back(Planificador::Tarea(index, ej, dependencias));
+        index++;
     }
-
-    // Bloque de cómputos
-    // Calcula la planificación óptima
     Planificador instancia(tareas);
+
     Planificador::Planificacion solucion = instancia.planifica();
 
-    // Bloque de salida
-    // Muestra el resultado por pantalla
     for (auto& asig : solucion.historial)
-        cout << asig.core << ": tarea " << &asig.tarea << " (" << asig.t_inicio << ")" << endl;
+        cout << "Core " << asig.core << ": tarea " << asig.tarea << " (comenzando en " << asig.t_inicio << ")" << endl;
+
+    cout << "Tiempo total: " << solucion.t_ejecucion << endl;
 }

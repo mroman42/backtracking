@@ -57,11 +57,12 @@ void permutaciones(Ruta& ruta, Coste coste_actual, uint indice){
     // Caso de la ruta finalizada
     // Comprueba si se mejora el óptimo.    
     if (indice == dimension) {
-	Coste coste_total = coste_actual + distancia(ruta[indice-1], ruta[0]);
-	if (coste_total < mejor_coste) {
-	    mejor_ruta = ruta;
-	    mejor_coste = coste_total;
-	}
+	    Coste coste_total = coste_actual + distancia(ruta[indice-1], ruta[0]);
+
+	    if (coste_total < mejor_coste) {
+	        mejor_ruta = ruta;
+	        mejor_coste = coste_total;
+	    }
     }
     
     #ifdef BBOUND
@@ -77,14 +78,14 @@ void permutaciones(Ruta& ruta, Coste coste_actual, uint indice){
     else {
         for (uint i = indice; i < dimension; ++i) {
     	    #ifdef OPTBOUND
-	    // Caso en el que la permutación introduciría un cruce de caminos.
-	    // Por optimización OPT-2, no puede ser el óptimo.
-	    bool opt2 = false;
-	    for (uint j = 1; j < indice and !opt2; j++)
-		opt2 = cruce(ruta[i],ruta[indice-1], ruta[j],ruta[j-1]);
+	        // Caso en el que la permutación introduciría un cruce de caminos.
+	        // Por optimización OPT-2, no puede ser el óptimo.
+	        bool opt2 = false;
+	        for (uint j = 1; j < indice and !opt2; j++)
+		        opt2 = cruce(ruta[i],ruta[indice-1], ruta[j],ruta[j-1]);
 
-	    if (opt2)
-		continue;
+	        if (opt2)
+		        continue;
             #endif
 
 

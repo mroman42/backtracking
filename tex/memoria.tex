@@ -157,16 +157,14 @@ Nuestro algoritmo es de tipo iterativo, por lo que usa una cola en la que almace
         	$\omega$, vector de pesos de objetos\\
         	$B$, vector de beneficios de objetos\\\
      	\STATE{\texttt{$n$ = \#pesos}}
-	\STATE{\texttt{solución = []}}
-	\STATE{\texttt{max\_beneficio = 0}}\\\
+	\STATE{\texttt{solución = [false,\dots,false]}}\\\
      	\STATE{Creamos una cola \texttt{posibles\_mochilas}}
      	\STATE{\texttt{posibles\_mochilas.push([])}}
      	
      	\WHILE{\texttt{posibles\_mochilas}$\neq \emptyset$}
 	  \STATE{\texttt{actual = posibles\_mochilas.pop()}}
 	  \IF{\texttt{\#actual == $n$}}
-	    \IF{beneficio(\texttt{actual}) >\ \texttt{max\_beneficio}}
-	      \STATE{\texttt{max\_beneficio} = beneficio(\texttt{actual})}
+	    \IF{beneficio(\texttt{actual}) >\ beneficio(\texttt{solución})}
 	      \STATE{\texttt{solución = actual}}
 	    \ENDIF
 	  \ELSE
@@ -187,7 +185,7 @@ Nuestro algoritmo es de tipo iterativo, por lo que usa una cola en la que almace
     \label{Back-Mochila}
 \end{algorithm}
 
-En el algoritmo, \textit{beneficio} es una función que calcula la suma de beneficios de un vector de booleanos $\delta$, $\sum_{i=1}^{n}b_i\delta_i$; y \textit{peso} halla la suma de pesos del vector $\delta$, $\sum_{i=1}^{n}\omega_i\delta_i$.
+En el algoritmo, \textit{beneficio} representa el valor de la suma de beneficios de un vector de booleanos $\delta$, $\sum_{i=1}^{n}b_i\delta_i$; y \textit{peso} representa la suma de pesos del vector $\delta$, $\sum_{i=1}^{n}\omega_i\delta_i$.
 
 
 

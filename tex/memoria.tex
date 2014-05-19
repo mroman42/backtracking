@@ -148,63 +148,53 @@ La función de poda toma un vector $\delta = (\delta_1, \dots, \delta_n)$ y devu
 
 
 	\subsubsection{Algoritmo}
+Nuestro algoritmo es de tipo iterativo, por lo que usa una cola en la que almacenamos las mochilas que vamos procesando. La poda se produce cuando al añadir un objeto, la mochila resultante supera el peso límite, en cuyo caso esta no es añadida a la cola de candidatas. Cuando encontremos una mochila completa, se compara con la solución actual, y se sustituye en caso de mejorarla. 
 
-Definimos una mochila como un par \texttt{(vector<bool>, beneficios)} donde el vector representa si un determinado objeto de una lista está o no en la solución.
-
-Una mochila vacía será un par \texttt{([],0)}.
-
-% Considero que actual[0] y actual[1] es una notación bastante liosa, aunque tampoco se me ocurre cómo mejorarla. Lo mismo ocurre con con_nuevo y sin_nuevo.
-% Óscar
 \begin{algorithm}[H]
 	\begin{algorithmic}[1]
 		\REQUIRE \ \\
-        	\texttt{limite}, de peso de la mochila \\
-        	\texttt{pesos}, vector de pesos de objetos\\
-        	\texttt{beneficios}, vector de beneficios de objetos\\\
-     	\STATE{\texttt{tamanio = \# pesos}}
-	\STATE{\texttt{solucion = empty Mochila}}
-	\STATE{\texttt{max\_valor = 0}}
+        	$M$, límite de peso de la mochila \\
+        	$\omega$, vector de pesos de objetos\\
+        	$B$, vector de beneficios de objetos\\\
+     	\STATE{\texttt{$n$ = \#pesos}}
+	\STATE{\texttt{solución = []}}
+	\STATE{\texttt{max\_beneficio = 0}}\\\
      	\STATE{Creamos una cola \texttt{posibles\_mochilas}}
-     	\STATE{\texttt{posibles\_mochilas.push(empty Mochila)}}
+     	\STATE{\texttt{posibles\_mochilas.push([])}}
      	
      	\WHILE{\texttt{posibles\_mochilas}$\neq \emptyset$}
 	  \STATE{\texttt{actual = posibles\_mochilas.pop()}}
-	  \IF{\texttt{\#actual[0] = tamanio}}
-	    \IF{\texttt{\#actual[1] > max\_valor}}
-	      \STATE{\texttt{max\_valor = actual[1]}}
-	      \STATE{\texttt{solucion = actual}}
+	  \IF{\texttt{\#actual == $n$}}
+	    \IF{beneficio(\texttt{actual}) >\ \texttt{max\_beneficio}}
+	      \STATE{\texttt{max\_beneficio} = beneficio(\texttt{actual})}
+	      \STATE{\texttt{solución = actual}}
 	    \ENDIF
 	  \ELSE
-	    \STATE{\texttt{con\_nuevo = sin\_nuevo = actual \\
-	    con\_nuevo[1] += beneficios[\#actual[0]] \\
-	    % ¿No sería con\_nuevo[0].push\_back(true)?
-	    con\_nuevo.push\_back(true)\\
-	    % Lo mismo
-	    sin\_nuevo.push\_back(false)}}
-	    \STATE{\texttt{nuevo\_peso = 'peso de' \texttt{con\_nuevo}}}
-	    \IF{\texttt{nuevo\_peso <= limite}}
+	    \STATE{\texttt{con\_nuevo = sin\_nuevo = actual}
+	    \STATE{\texttt{con\_nuevo.push\_back(true)}}
+	    \STATE{\texttt{sin\_nuevo.push\_back(false)}}}
+	    \STATE{\texttt{nuevo\_peso = }peso(\texttt{con\_nuevo})}
+	    \IF{\texttt{nuevo\_peso} $\leq M$}
+	    \STATE{(\textit{Acotación: no analizamos el caso si \texttt{nuevo\_peso} > $M$})}
 	      \STATE{\texttt{posibles\_mochilas.push(con\_nuevo)}}
 	    \ENDIF
 	    \STATE{\texttt{posibles\_mochilas.push(sin\_nuevo)}}
 	  \ENDIF
      	\ENDWHILE
-     	
+     \RETURN{\texttt{solución}}
 	\end{algorithmic}
     \caption{Algoritmo backtracking para el problema de la mochila}
     \label{Back-Mochila}
 \end{algorithm}
+
+En el algoritmo, \textit{beneficio} es una función que calcula la suma de beneficios de un vector de booleanos $\delta$, $\sum_{i=1}^{n}b_i\delta_i$; y \textit{peso} halla la suma de pesos del vector $\delta$, $\sum_{i=1}^{n}\omega_i\delta_i$.
 
 
 
   \subsection{Branch \& Bound}
 	\subsubsection{Algoritmo}
 
-Definimos una mochila como un par \texttt{(vector<bool>, beneficios)} donde el vector representa si un determinado objeto de una lista está o no en la solución.
 
-Una mochila vacía será un par \texttt{([],0)}.
-
-% Considero que actual[0] y actual[1] es una notación bastante liosa, aunque tampoco se me ocurre cómo mejorarla. Lo mismo ocurre con con_nuevo y sin_nuevo.
-% Óscar
 \begin{algorithm}[H]
 	\begin{algorithmic}[1]
 		\REQUIRE \ \\

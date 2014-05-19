@@ -133,14 +133,20 @@ Backtracking y Branch \& Bound} % Subtitle
 
 \section{El problema de la mochila}
 
+\subsection{Enunciado}
 El problema de la mochila es un problema de maximización, en el que tenemos un contenedor con un tamaño 
-fijo, y un conjunto de elementos que queremos almacenar en nuestro contenedor. Dichos elementos tendrán un peso 
-determinado, y obtendremos un cierto beneficio por cada objeto almacenado. Nuestro objetivo es maximizar dicho 
-beneficio, con la restricción de que la mochila solo puede llevar un peso máximo, determinado por su tamaño. 
+fijo $M$ y un conjunto de $n$ elementos que queremos almacenar en nuestro contenedor. Dichos elementos tendrán un peso $\omega_i$
+determinado, y obtendremos un cierto beneficio $b_i$ por cada objeto almacenado.
+
+Nuestro objetivo es maximizar la suma de beneficios, $\sum_{i=1}^{n} b_i\delta_i$, (siendo $\delta_i = 1$ si el i-ésimo objeto está en la mochila, 0 en caso contrario) con la restricción de que la mochila solo puede llevar un peso máximo, determinado por su tamaño: $\sum_{i=1}^{n} \omega_i\delta_i \leq M$.
 
   
     \subsection{Backtracking}
-    
+Representamos una mochila como un vector de datos booleanos, $\delta$, de tamaño $n$. Esto implica que nuestro espacio de soluciones tendrá un tamaño de $2^n$.
+
+La función de poda toma un vector $\delta = (\delta_1, \dots, \delta_n)$ y devuelve falso en caso de que $\sum_{i=1}^{n} \omega_i\delta_i > M$, asegurando así que solo se van considerando en el proceso candidatas a solución.
+
+
 	\subsubsection{Algoritmo}
 
 Definimos una mochila como un par \texttt{(vector<bool>, beneficios)} donde el vector representa si un determinado objeto de una lista está o no en la solución.

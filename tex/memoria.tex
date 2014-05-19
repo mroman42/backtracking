@@ -133,8 +133,13 @@ Backtracking y Branch \& Bound} % Subtitle
 
 \section{El problema de la mochila}
 
-  \subsection{Backtracking}
-	\subsubsection{Algoritmo}
+El problema de la mochila es un problema de maximización, en el que tenemos un contenedor con un tamaño 
+fijo, y un conjunto de elementos que queremos almacenar en nuestro contenedor. Dichos elementos tendrán un peso 
+determinado, y obtendremos un cierto beneficio por cada objeto almacenado. Nuestro objetivo es maximizar dicho 
+beneficio, con la restricción de que la mochila solo puede llevar un peso máximo, determinado por su tamaño. 
+
+  
+    \subsection{Backtracking}
 
 Definimos una mochila como un par \texttt{(vector<bool>,beneficios)} donde el vector
 representa si un determinado objeto de una lista está o no en la solución.
@@ -175,6 +180,8 @@ Una mochila vacía será un par \texttt{([],0)}
     \caption{Algoritmo backtracking para el problema de la mochila}
     \label{monedas}
 \end{algorithm}  
+
+
 
   \subsection{Branch \& Bound}
 

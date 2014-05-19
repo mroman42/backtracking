@@ -251,7 +251,7 @@ Una mochila vacía será un par \texttt{([],0)}.
 
 \section{Traveling Salesman Problem}
   \subsection{Enunciado}
-    Dada una lista $S$ de $n$ ciudades como puntos en el plano:
+    Dada una lista $S$ de $n$ ciudades, representadas como puntos en el plano:
     \begin{equation}
       S = [(x_0,y_0), (x_1,y_1), \dots (x_{n-1},y_{n-1})] \subset \mathbb{R}^2
     \end{equation}
@@ -259,7 +259,7 @@ Una mochila vacía será un par \texttt{([],0)}.
     \begin{equation}
      long(S) = \sum_{i \in \mathbb{Z}_n} dist((x_i,y_i), (x_{i+1}, y_{i+1})) = \sum_{i \in \mathbb{Z}_n} \sqrt{(x_i-x_{i+1})^2 + (y_i-y_{i+1})^2}
     \end{equation}
-    Encontrar la permutación de la lista $\sigma : \mathbb{Z}_n \leftrightarrow \mathbb{Z}_n$, tal que su longitud sea mínima:
+    El objetivo es encontrar la permutación de la lista $\sigma : \mathbb{Z}_n \leftrightarrow \mathbb{Z}_n$, verificando que su longitud sea mínima:
     \begin{equation}
      long(\sigma(S)) = long([(x_{\sigma(1)},y_{\sigma(1)}), (x_{\sigma(2)},y_{\sigma(2)}), \dots, (x_{\sigma(n)},y_{\sigma(n)})])
     \end{equation}
@@ -269,6 +269,11 @@ Una mochila vacía será un par \texttt{([],0)}.
     
 
 \section{Planificación en multiprocesadores}
+  \subsection{Enunciado}
+  Tenemos un conjunto de $n$ tareas con un tiempo de ejecución $t_i$ asociado a cada una, existiendo una relación de precedencia
+  entre algunas tareas, que hace que tengan que ejecutarse unas antes que otras. Nuestro objetivo es obtener la asignación de tareas que, manteniendo las relaciones de dependencia, resulte en un tiempo de ejecución mínimo. 
+  
+  
   \subsection{Backtracking}
   \subsection{Branch \& Bound}
 
@@ -277,6 +282,9 @@ Una mochila vacía será un par \texttt{([],0)}.
   \subsection{Branch \& Bound}
 
 \section{El problema de la asignación cuadrática (QAP)}
+  \subsection{Enunciado}
+   Dado un conjunto de $n$ instalaciones con un flujo de transporte y un coste asociado entre ellas, y dadas $n$ posibles localizaciones, el problema consiste en buscar la localización más adecuada para cada instalación, de forma que el coste total del transporte entre instalaciones sea el mínimo posible. 
+
   \subsection{Backtracking}
   \subsection{Branch \& Bound}
 

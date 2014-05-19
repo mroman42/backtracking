@@ -249,8 +249,39 @@ Una mochila vacía será un par \texttt{([],0)}.
     \end{equation}
     
   \subsection{Backtracking}
+  \begin{algorithm}[H]
+  	\begin{algorithmic}[1]
+  		\REQUIRE \ \\
+          \texttt{ciudades}, lista con todas las ciudades \\
+          \texttt{ruta}, ruta con algunas ciudades \\
+          \texttt{coste\_actual}, coste de la ruta pasada \\
+
+		\STATE{\texttt{mejor\_coste = $\infty$ \\
+		mejor\_ruta = empty Ruta}}
+        \IF{\texttt{\#ruta == \#ciudades}}
+          \STATE{\texttt{coste\_actual += distancia(ruta.ultima\_ciudad, ruta.primera\_ciudad)}}
+
+	      \IF{\texttt{coste\_actual < mejor\_coste}}
+	        \STATE{\texttt{mejor\_coste = coste\_actual\\
+	        mejor\_ruta = ruta}}
+	      \ENDIF
+	    \ELSE
+	      \FORALL{\texttt{i} = indice hasta \texttt{\#ciudades}:}
+	        \STATE{Crea componente conexa \texttt{set(v)}}
+	      \ENDFOR
+	    \ENDIF
+  	\end{algorithmic}
+      \caption{Algoritmo Backtracking para el TSP}
+      \label{Back-TSP}
+  \end{algorithm}
   \subsection{Branch \& Bound}
-    
+    \begin{algorithm}[H]
+    	\begin{algorithmic}[1]
+
+    	\end{algorithmic}
+        \caption{Algoritmo Branch \& Bound para el TSP}
+        \label{BBound-TSP}
+    \end{algorithm}
 
 \section{Planificación en multiprocesadores}
   \subsection{Backtracking}

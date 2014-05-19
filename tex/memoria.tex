@@ -132,14 +132,15 @@ Backtracking y Branch \& Bound} % Subtitle
 
 
 \section{El problema de la mochila}
-
   \subsection{Backtracking}
 	\subsubsection{Algoritmo}
 
-Definimos una mochila como un par \texttt{(vector<bool>,beneficios)} donde el vector
-representa si un determinado objeto de una lista está o no en la solución.
+Definimos una mochila como un par \texttt{(vector<bool>, beneficios)} donde el vector representa si un determinado objeto de una lista está o no en la solución.
 
-Una mochila vacía será un par \texttt{([],0)}
+Una mochila vacía será un par \texttt{([],0)}.
+
+% Considero que actual[0] y actual[1] es una notación bastante liosa, aunque tampoco se me ocurre cómo mejorarla. Lo mismo ocurre con con_nuevo y sin_nuevo.
+% Óscar
 \begin{algorithm}[H]
 	\begin{algorithmic}[1]
 		\REQUIRE \ \\
@@ -148,7 +149,7 @@ Una mochila vacía será un par \texttt{([],0)}
         	\texttt{beneficios}, vector de beneficios de objetos\\\
      	\STATE{\texttt{tamanio = \# pesos}}
 	\STATE{\texttt{solucion = empty Mochila}}
-	\STATE{\texttt{max\_valor=0}}
+	\STATE{\texttt{max\_valor = 0}}
      	\STATE{Creamos una cola \texttt{posibles\_mochilas}}
      	\STATE{\texttt{posibles\_mochilas.push(empty Mochila)}}
      	
@@ -160,23 +161,76 @@ Una mochila vacía será un par \texttt{([],0)}
 	      \STATE{\texttt{solucion = actual}}
 	    \ENDIF
 	  \ELSE
-	    \STATE{\texttt{con\_nuevo = sin\_nuevo = actual}}
-	    \STATE{\texttt{con\_nuevo[1] += beneficios[\#actual[0]]}}
-	    \STATE{\texttt{con\_nuevo.push\_back(true)}}
+	    \STATE{\texttt{con\_nuevo = sin\_nuevo = actual \\
+	    con\_nuevo[1] += beneficios[\#actual[0]] \\
+	    % ¿No sería con\_nuevo[0].push\_back(true)?
+	    con\_nuevo.push\_back(true)\\
+	    % Lo mismo
+	    sin\_nuevo.push\_back(false)}}
 	    \STATE{\texttt{nuevo\_peso = 'peso de' \texttt{con\_nuevo}}}
 	    \IF{\texttt{nuevo\_peso <= limite}}
 	      \STATE{\texttt{posibles\_mochilas.push(con\_nuevo)}}
 	    \ENDIF
-	    \STATE{\texttt{posibles\_mochilas.push(sin\_nuevo}}
+	    \STATE{\texttt{posibles\_mochilas.push(sin\_nuevo)}}
 	  \ENDIF
      	\ENDWHILE
      	
 	\end{algorithmic}
     \caption{Algoritmo backtracking para el problema de la mochila}
-    \label{monedas}
-\end{algorithm}  
+    \label{Back-Mochila}
+\end{algorithm}
 
   \subsection{Branch \& Bound}
+	\subsubsection{Algoritmo}
+
+Definimos una mochila como un par \texttt{(vector<bool>, beneficios)} donde el vector representa si un determinado objeto de una lista está o no en la solución.
+
+Una mochila vacía será un par \texttt{([],0)}.
+
+% Considero que actual[0] y actual[1] es una notación bastante liosa, aunque tampoco se me ocurre cómo mejorarla. Lo mismo ocurre con con_nuevo y sin_nuevo.
+% Óscar
+\begin{algorithm}[H]
+	\begin{algorithmic}[1]
+		\REQUIRE \ \\
+        	\texttt{limite}, de peso de la mochila \\
+        	\texttt{pesos}, vector de pesos de objetos\\
+        	\texttt{beneficios}, vector de beneficios de objetos\\\
+     	\STATE{\texttt{tamanio = \# pesos}}
+	\STATE{\texttt{solucion = empty Mochila}}
+	\STATE{\texttt{max\_valor = 0}}
+     	\STATE{Creamos una cola con prioridad \texttt{posibles\_mochilas}}
+     	\STATE{\texttt{posibles\_mochilas.push(empty Mochila)}}
+     	
+     	\WHILE{\texttt{posibles\_mochilas}$\neq \emptyset$}
+	  \STATE{\texttt{actual = posibles\_mochilas.pop()}}
+	  \IF{\texttt{\#actual[0] = tamanio}}
+	    \IF{\texttt{\#actual[1] > max\_valor}}
+	      \STATE{\texttt{max\_valor = actual[1]}}
+	      \STATE{\texttt{solucion = actual}}
+	    \ENDIF
+	  \ELSE
+	    \STATE{\texttt{con\_nuevo = sin\_nuevo = actual \\
+	    con\_nuevo[1] += beneficios[\#actual[0]] \\
+	    % ¿No sería con\_nuevo[0].push\_back(true)?
+	    con\_nuevo.push\_back(true)\\
+	    % Lo mismo
+	    sin\_nuevo.push\_back(false)}}
+	    \STATE{\texttt{nuevo\_peso = 'peso de' \texttt{con\_nuevo}}}
+	    \IF{\texttt{nuevo\_peso <= limite}}
+	      \STATE{\texttt{posibles\_mochilas.push(con\_nuevo)}}
+	    \ENDIF
+	    % No sé expresarlo mejor sin "parafrasear" código
+	    \STATE{Calculamos el máximo beneficio a partir de los elementos que ya tenemos en la mochila}
+	    \IF{\texttt{max\_valor < 'peso de' sin\_nuevo + máximo beneficio}}
+	      \STATE{\texttt{posibles\_mochilas.push(sin\_nuevo)}}
+	    \ENDIF
+	  \ENDIF
+     	\ENDWHILE
+     	
+	\end{algorithmic}
+    \caption{Algoritmo Branch \& Bound para el problema de la mochila}
+    \label{BBound-Mochila}
+\end{algorithm}
 
 
 \section{Traveling Salesman Problem}

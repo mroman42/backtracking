@@ -134,7 +134,7 @@ Mochila resolver(int limite, vector<int> pesos, vector<int> beneficios) {
 
             #ifdef BBOUND
 	        // Calculamos una cota superior para el llenado de la parte de la mochila que falta
-	        vector<pair<double,int>> w;
+	        vector<pair<double,int> > w;
 	        int n = sin_nuevo.first.size();
 	        int restante = limite - nuevo_peso + pesos[n-1];
 	        int max_beneficio(0);
@@ -185,7 +185,7 @@ int main () {
     auto time1 = chrono::high_resolution_clock::now();
     Mochila resultado = resolver(limite, pesos, beneficios);
     auto time2 = chrono::high_resolution_clock::now();
-    chrono::duration<double> time_span = chrono::duration_cast<chrono::duration<double>>(time2 - time1);
+    chrono::duration<double> time_span = chrono::duration_cast<chrono::duration<double> >(time2 - time1);
     double time = time_span.count();
     // Muestra la solución.
 

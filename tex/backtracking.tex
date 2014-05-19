@@ -1,0 +1,27 @@
+% Generator: GNU source-highlight, by Lorenzo Bettini, http://www.gnu.org/software/src-highlite
+\noindent
+\mbox{}\textit{\textcolor{Brown}{-\/-\ Función\ de\ Backtracking}} \\
+\mbox{}\textit{\textcolor{Brown}{\{-\ Genera\ todas\ las\ posibles\ soluciones\ a\ un\ problema\ de\ backtracking.}} \\
+\mbox{}\textit{\textcolor{Brown}{\ \ \ Pide\ una\ función\ que\ devuelve\ los\ nodos\ hijos\ de\ una\ pseudosolución}} \\
+\mbox{}\textit{\textcolor{Brown}{\ \ \ y\ una\ función\ de\ poda\ que\ devuelva\ verdadero\ o\ falso\ sobre\ cada}} \\
+\mbox{}\textit{\textcolor{Brown}{\ \ \ pseudosolución.}} \\
+\mbox{} \\
+\mbox{}\textit{\textcolor{Brown}{\ \ \ Las\ soluciones\ sin\ pseudosoluciones\ hijas\ se\ consideran\ soluciones\ finales.}} \\
+\mbox{}\textit{\textcolor{Brown}{\ -\}}} \\
+\mbox{}backtracking\ \textcolor{BrickRed}{::}\ \textcolor{BrickRed}{(}a\ \textcolor{BrickRed}{-\textgreater{}}\ \textcolor{BrickRed}{[}a\textcolor{BrickRed}{])}\ \textcolor{BrickRed}{-\textgreater{}}\ \textcolor{BrickRed}{(}a\ \textcolor{BrickRed}{-\textgreater{}}\ \textcolor{ForestGreen}{Bool}\textcolor{BrickRed}{)}\ \textcolor{BrickRed}{-\textgreater{}}\ a\ \textcolor{BrickRed}{-\textgreater{}}\ \textcolor{BrickRed}{[}a\textcolor{BrickRed}{]} \\
+\mbox{}backtracking\ nodes\ pred\ x \\
+\mbox{}\ \ \ \ \textcolor{BrickRed}{$|$}\ \textcolor{BrickRed}{(}pred\ x\ \textcolor{BrickRed}{\&\&}\ \textcolor{BrickRed}{(}length\ \textcolor{BrickRed}{(}nodes\ x\textcolor{BrickRed}{)}\ \textcolor{BrickRed}{==}\ \textcolor{Purple}{0}\textcolor{BrickRed}{))}\ \textcolor{BrickRed}{=}\ \textcolor{BrickRed}{[}x\textcolor{BrickRed}{]} \\
+\mbox{}\ \ \ \ \textcolor{BrickRed}{$|$}\ pred\ x\ \textcolor{BrickRed}{=}\ concat\ \textcolor{BrickRed}{\$}\ map\ \textcolor{BrickRed}{(}backtracking\ nodes\ pred\textcolor{BrickRed}{)}\ \textcolor{BrickRed}{(}nodes\ x\textcolor{BrickRed}{)} \\
+\mbox{}\ \ \ \ \textcolor{BrickRed}{$|$}\ otherwise\ \textcolor{BrickRed}{=}\ \textcolor{BrickRed}{[]} \\
+\mbox{}\ \ \ \  \\
+\mbox{}\textit{\textcolor{Brown}{\{-\ Mochila\ -\}}} \\
+\mbox{}\textbf{\textcolor{Blue}{type}}\ \textcolor{ForestGreen}{Mochila}\ \textcolor{BrickRed}{=}\ \textcolor{BrickRed}{([}\textcolor{ForestGreen}{Int}\textcolor{BrickRed}{],}\ \textcolor{ForestGreen}{Int}\textcolor{BrickRed}{)} \\
+\mbox{}mochilaBT\ \textcolor{BrickRed}{::}\ \textcolor{BrickRed}{[}\textcolor{ForestGreen}{Int}\textcolor{BrickRed}{]}\ \textcolor{BrickRed}{-\textgreater{}}\ \textcolor{BrickRed}{[}\textcolor{ForestGreen}{Int}\textcolor{BrickRed}{]}\ \textcolor{BrickRed}{-\textgreater{}}\ \textcolor{ForestGreen}{Int}\ \textcolor{BrickRed}{-\textgreater{}}\ \textcolor{ForestGreen}{Mochila}\ \textcolor{BrickRed}{-\textgreater{}}\ \textcolor{BrickRed}{[}\textcolor{ForestGreen}{Mochila}\textcolor{BrickRed}{]} \\
+\mbox{}mochilaBT\ weights\ benefits\ limit\ x\ \textcolor{BrickRed}{=}\ backtracking\ push\ isFull\ x \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{where}} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ totalWeight\ x\ \textcolor{BrickRed}{=}\ foldr\ \textcolor{BrickRed}{(+)}\ \textcolor{Purple}{0}\ \textcolor{BrickRed}{(}map\ \textcolor{BrickRed}{(}weights\ \textcolor{BrickRed}{!!)}\ x\textcolor{BrickRed}{)} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ isFull\ \textcolor{BrickRed}{(}xs\textcolor{BrickRed}{,}k\textcolor{BrickRed}{)}\ \textcolor{BrickRed}{=}\ \textcolor{BrickRed}{((}totalWeight\ xs\textcolor{BrickRed}{)}\ \textcolor{BrickRed}{\textgreater{}}\ limit\textcolor{BrickRed}{)} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ push\ \textcolor{BrickRed}{(}xs\textcolor{BrickRed}{,}k\textcolor{BrickRed}{)} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{BrickRed}{$|$}\ k\ \textcolor{BrickRed}{\textless{}}\ \textcolor{BrickRed}{(}length\ benefits\textcolor{BrickRed}{)}\ \textcolor{BrickRed}{=}\ \textcolor{BrickRed}{[((}xs\textcolor{BrickRed}{:}k\textcolor{BrickRed}{),}k\textcolor{BrickRed}{+}\textcolor{Purple}{1}\textcolor{BrickRed}{),}\ \textcolor{BrickRed}{(}xs\textcolor{BrickRed}{,}k\textcolor{BrickRed}{+}\textcolor{Purple}{1}\textcolor{BrickRed}{)]} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{BrickRed}{$|$}\ otherwise\ \textcolor{BrickRed}{=}\ \textcolor{BrickRed}{[]} \\
+\mbox{}

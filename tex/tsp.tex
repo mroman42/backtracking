@@ -1,0 +1,144 @@
+% Generator: GNU source-highlight, by Lorenzo Bettini, http://www.gnu.org/software/src-highlite
+\noindent
+\mbox{}\textit{\textcolor{Brown}{/**}} \\
+\mbox{}\textit{\textcolor{Brown}{\ *\ tsp.cpp}} \\
+\mbox{}\textit{\textcolor{Brown}{\ *\ Traveling\ Salesman\ Problem.}} \\
+\mbox{}\textit{\textcolor{Brown}{\ *\ Implementación\ de\ un\ algoritmo\ de\ backtracking\ en\ C++.}} \\
+\mbox{}\textit{\textcolor{Brown}{\ */}} \\
+\mbox{} \\
+\mbox{}\textbf{\textcolor{RoyalBlue}{\#include}}\ \texttt{\textcolor{Red}{\textless{}iostream\textgreater{}}} \\
+\mbox{}\textbf{\textcolor{RoyalBlue}{\#include}}\ \texttt{\textcolor{Red}{\textless{}vector\textgreater{}}} \\
+\mbox{}\textbf{\textcolor{RoyalBlue}{\#include}}\ \texttt{\textcolor{Red}{\textless{}cmath\textgreater{}}} \\
+\mbox{}\textbf{\textcolor{RoyalBlue}{\#include}}\ \texttt{\textcolor{Red}{\textless{}limits\textgreater{}}} \\
+\mbox{}\textbf{\textcolor{RoyalBlue}{\#include}}\ \texttt{\textcolor{Red}{\textless{}numeric\textgreater{}}} \\
+\mbox{}\textbf{\textcolor{RoyalBlue}{\#include}}\ \texttt{\textcolor{Red}{\textless{}chrono\textgreater{}}} \\
+\mbox{}\textbf{\textcolor{Blue}{using}}\ \textbf{\textcolor{Blue}{namespace}}\ std\textcolor{BrickRed}{;} \\
+\mbox{} \\
+\mbox{}\textbf{\textcolor{Blue}{typedef}}\ \textcolor{ForestGreen}{unsigned}\ \textcolor{ForestGreen}{int}\ uint\textcolor{BrickRed}{;} \\
+\mbox{}\textbf{\textcolor{Blue}{typedef}}\ \textcolor{TealBlue}{pair\textless{}double,double\textgreater{}}\ Point\textcolor{BrickRed}{;} \\
+\mbox{}\textbf{\textcolor{Blue}{typedef}}\ \textcolor{TealBlue}{vector\textless{}int\textgreater{}}\ Ruta\textcolor{BrickRed}{;} \\
+\mbox{}\textbf{\textcolor{Blue}{typedef}}\ \textcolor{ForestGreen}{float}\ Coste\textcolor{BrickRed}{;} \\
+\mbox{} \\
+\mbox{} \\
+\mbox{}\textit{\textcolor{Brown}{//\ Función\ de\ impresión\ de\ vectores}} \\
+\mbox{}\textbf{\textcolor{Blue}{template}}\textcolor{BrickRed}{\textless{}}\textbf{\textcolor{Blue}{class}}\ \textcolor{TealBlue}{T}\textcolor{BrickRed}{\textgreater{}} \\
+\mbox{}ostream\textcolor{BrickRed}{\&}\ \textbf{\textcolor{Blue}{operator}}\textcolor{BrickRed}{\textless{}\textless{}}\ \textcolor{BrickRed}{(}ostream\textcolor{BrickRed}{\&}\ output\textcolor{BrickRed}{,}\ vector\textcolor{BrickRed}{\textless{}}T\textcolor{BrickRed}{\textgreater{}\&}\ v\textcolor{BrickRed}{)}\textcolor{Red}{\{} \\
+\mbox{}\ \ \ \ \textbf{\textcolor{Blue}{for}}\ \textcolor{BrickRed}{(}\textbf{\textcolor{Blue}{auto}}\ i\ \textcolor{BrickRed}{:}\ v\textcolor{BrickRed}{)} \\
+\mbox{}\ \ \ \ \ \ \ \ output\ \textcolor{BrickRed}{\textless{}\textless{}}\ i\ \textcolor{BrickRed}{\textless{}\textless{}}\ \texttt{\textcolor{Red}{'\ '}}\textcolor{BrickRed}{;} \\
+\mbox{}\ \ \ \  \\
+\mbox{}\ \ \ \ output\ \textcolor{BrickRed}{\textless{}\textless{}}\ endl\textcolor{BrickRed}{;} \\
+\mbox{}\ \ \ \ \textbf{\textcolor{Blue}{return}}\ output\textcolor{BrickRed}{;} \\
+\mbox{}\textcolor{Red}{\}} \\
+\mbox{} \\
+\mbox{} \\
+\mbox{}\textcolor{TealBlue}{vector\textless{}Point\textgreater{}}\ ciudades\textcolor{BrickRed}{;} \\
+\mbox{}\textcolor{TealBlue}{uint}\ dimension\textcolor{BrickRed}{;} \\
+\mbox{}\textcolor{TealBlue}{Ruta}\ mejor$\_$ruta\textcolor{BrickRed}{;} \\
+\mbox{}\textcolor{TealBlue}{Coste}\ mejor$\_$coste\textcolor{BrickRed}{;} \\
+\mbox{} \\
+\mbox{} \\
+\mbox{}\textcolor{TealBlue}{Coste}\ \textbf{\textcolor{Black}{distancia}}\ \textcolor{BrickRed}{(}\textcolor{ForestGreen}{int}\ i\textcolor{BrickRed}{,}\ \textcolor{ForestGreen}{int}\ j\textcolor{BrickRed}{)}\ \textcolor{Red}{\{} \\
+\mbox{}\ \ \ \ \textit{\textcolor{Brown}{//\ Calcula\ la\ distancia\ entre\ dos\ puntos.}} \\
+\mbox{}\ \ \ \ \textcolor{TealBlue}{Point}\ a\ \textcolor{BrickRed}{=}\ ciudades\textcolor{BrickRed}{[}i\textcolor{BrickRed}{];} \\
+\mbox{}\ \ \ \ \textcolor{TealBlue}{Point}\ b\ \textcolor{BrickRed}{=}\ ciudades\textcolor{BrickRed}{[}j\textcolor{BrickRed}{];} \\
+\mbox{}\ \ \ \  \\
+\mbox{}\ \ \ \ \textcolor{TealBlue}{Coste}\ x\ \textcolor{BrickRed}{=}\ a\textcolor{BrickRed}{.}first\ \textcolor{BrickRed}{-}\ b\textcolor{BrickRed}{.}first\textcolor{BrickRed}{;} \\
+\mbox{}\ \ \ \ \textcolor{TealBlue}{Coste}\ y\ \textcolor{BrickRed}{=}\ a\textcolor{BrickRed}{.}second\ \textcolor{BrickRed}{-}\ b\textcolor{BrickRed}{.}second\textcolor{BrickRed}{;} \\
+\mbox{}\ \ \ \  \\
+\mbox{}\ \ \ \ \textbf{\textcolor{Blue}{return}}\ \textbf{\textcolor{Black}{sqrt}}\textcolor{BrickRed}{(}x\textcolor{BrickRed}{*}x\ \textcolor{BrickRed}{+}\ y\textcolor{BrickRed}{*}y\textcolor{BrickRed}{);} \\
+\mbox{}\textcolor{Red}{\}} \\
+\mbox{} \\
+\mbox{}\textbf{\textcolor{RoyalBlue}{\#ifdef}}\ OPTBOUND \\
+\mbox{}\textcolor{ForestGreen}{bool}\ \textbf{\textcolor{Black}{cruce}}\ \textcolor{BrickRed}{(}\textcolor{ForestGreen}{int}\ u\textcolor{BrickRed}{,}\ \textcolor{ForestGreen}{int}\ v\textcolor{BrickRed}{,}\ \textcolor{ForestGreen}{int}\ w\textcolor{BrickRed}{,}\ \textcolor{ForestGreen}{int}\ z\textcolor{BrickRed}{)}\ \textcolor{Red}{\{} \\
+\mbox{}\ \ \ \ \textit{\textcolor{Brown}{//\ Calcula\ si\ se\ cruzan\ los\ segmentos\ uv,\ wz.}} \\
+\mbox{}\ \ \ \ \textbf{\textcolor{Blue}{return}}\ \textbf{\textcolor{Black}{distancia}}\textcolor{BrickRed}{(}u\textcolor{BrickRed}{,}v\textcolor{BrickRed}{)}\ \textcolor{BrickRed}{+}\ \textbf{\textcolor{Black}{distancia}}\textcolor{BrickRed}{(}w\textcolor{BrickRed}{,}z\textcolor{BrickRed}{)}\ \textcolor{BrickRed}{\textgreater{}}\ \textbf{\textcolor{Black}{distancia}}\textcolor{BrickRed}{(}u\textcolor{BrickRed}{,}w\textcolor{BrickRed}{)}\ \textcolor{BrickRed}{+}\ \textbf{\textcolor{Black}{distancia}}\textcolor{BrickRed}{(}v\textcolor{BrickRed}{,}z\textcolor{BrickRed}{);} \\
+\mbox{}\textcolor{Red}{\}} \\
+\mbox{}\textbf{\textcolor{RoyalBlue}{\#endif}} \\
+\mbox{} \\
+\mbox{}\textcolor{ForestGreen}{void}\ \textbf{\textcolor{Black}{permutaciones}}\textcolor{BrickRed}{(}Ruta\textcolor{BrickRed}{\&}\ ruta\textcolor{BrickRed}{,}\ \textcolor{TealBlue}{Coste}\ coste$\_$actual\textcolor{BrickRed}{,}\ \textcolor{TealBlue}{uint}\ indice\textcolor{BrickRed}{)}\textcolor{Red}{\{} \\
+\mbox{}\ \ \ \ \textit{\textcolor{Brown}{//\ Caso\ de\ la\ ruta\ finalizada}} \\
+\mbox{}\ \ \ \ \textit{\textcolor{Brown}{//\ Comprueba\ si\ se\ mejora\ el\ óptimo.\ \ \ \ }} \\
+\mbox{}\ \ \ \ \textbf{\textcolor{Blue}{if}}\ \textcolor{BrickRed}{(}indice\ \textcolor{BrickRed}{==}\ dimension\textcolor{BrickRed}{)}\ \textcolor{Red}{\{} \\
+\mbox{}\ \ \ \ \ \ \ \ \textcolor{TealBlue}{Coste}\ coste$\_$total\ \textcolor{BrickRed}{=}\ coste$\_$actual\ \textcolor{BrickRed}{+}\ \textbf{\textcolor{Black}{distancia}}\textcolor{BrickRed}{(}ruta\textcolor{BrickRed}{[}indice\textcolor{BrickRed}{-}\textcolor{Purple}{1}\textcolor{BrickRed}{],}\ ruta\textcolor{BrickRed}{[}\textcolor{Purple}{0}\textcolor{BrickRed}{]);} \\
+\mbox{}\ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{if}}\ \textcolor{BrickRed}{(}coste$\_$total\ \textcolor{BrickRed}{\textless{}}\ mejor$\_$coste\textcolor{BrickRed}{)}\ \textcolor{Red}{\{} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ mejor$\_$ruta\ \textcolor{BrickRed}{=}\ ruta\textcolor{BrickRed}{;} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ mejor$\_$coste\ \textcolor{BrickRed}{=}\ coste$\_$total\textcolor{BrickRed}{;} \\
+\mbox{}\ \ \ \ \ \ \ \ \textcolor{Red}{\}} \\
+\mbox{}\ \ \ \ \textcolor{Red}{\}} \\
+\mbox{}\ \ \ \  \\
+\mbox{}\textbf{\textcolor{RoyalBlue}{\ \ \ \ \#ifdef}}\ BBOUND \\
+\mbox{}\ \ \ \ \textit{\textcolor{Brown}{//\ Caso\ de\ superar\ el\ coste\ óptimo.}} \\
+\mbox{}\ \ \ \ \textit{\textcolor{Brown}{//\ No\ es\ necesario\ seguir\ estudiando\ este\ caso.}} \\
+\mbox{}\ \ \ \ \textbf{\textcolor{Blue}{else}}\ \textbf{\textcolor{Blue}{if}}\ \textcolor{BrickRed}{(}coste$\_$actual\ \textcolor{BrickRed}{\textgreater{}}\ mejor$\_$coste\textcolor{BrickRed}{)} \\
+\mbox{}\ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{return}}\textcolor{BrickRed}{;} \\
+\mbox{}\textbf{\textcolor{RoyalBlue}{\ \ \ \ \#endif}} \\
+\mbox{}\ \ \ \  \\
+\mbox{} \\
+\mbox{}\ \ \ \ \textit{\textcolor{Brown}{//\ Caso\ de\ recorrido\ intermedio}} \\
+\mbox{}\ \ \ \ \textit{\textcolor{Brown}{//\ Prueba\ posibles\ permutaciones\ para\ los\ restantes\ elementos.}} \\
+\mbox{}\ \ \ \ \textbf{\textcolor{Blue}{else}}\ \textcolor{Red}{\{} \\
+\mbox{}\ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{for}}\ \textcolor{BrickRed}{(}\textcolor{TealBlue}{uint}\ i\ \textcolor{BrickRed}{=}\ indice\textcolor{BrickRed}{;}\ i\ \textcolor{BrickRed}{\textless{}}\ dimension\textcolor{BrickRed}{;}\ \textcolor{BrickRed}{++}i\textcolor{BrickRed}{)}\ \textcolor{Red}{\{} \\
+\mbox{}\textbf{\textcolor{RoyalBlue}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \#ifdef}}\ OPTBOUND \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \textit{\textcolor{Brown}{//\ Caso\ en\ el\ que\ la\ permutación\ introduciría\ un\ cruce\ de\ caminos.}} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \textit{\textcolor{Brown}{//\ Por\ optimización\ OPT-2,\ no\ puede\ ser\ el\ óptimo.}} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{ForestGreen}{bool}\ opt2\ \textcolor{BrickRed}{=}\ \textbf{\textcolor{Blue}{false}}\textcolor{BrickRed}{;} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{for}}\ \textcolor{BrickRed}{(}\textcolor{TealBlue}{uint}\ j\ \textcolor{BrickRed}{=}\ \textcolor{Purple}{1}\textcolor{BrickRed}{;}\ j\ \textcolor{BrickRed}{\textless{}}\ \textcolor{TealBlue}{indice}\ and\ \textcolor{BrickRed}{!}opt2\textcolor{BrickRed}{;}\ j\textcolor{BrickRed}{++)} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ opt2\ \textcolor{BrickRed}{=}\ \textbf{\textcolor{Black}{cruce}}\textcolor{BrickRed}{(}ruta\textcolor{BrickRed}{[}i\textcolor{BrickRed}{],}ruta\textcolor{BrickRed}{[}indice\textcolor{BrickRed}{-}\textcolor{Purple}{1}\textcolor{BrickRed}{],}\ ruta\textcolor{BrickRed}{[}j\textcolor{BrickRed}{],}ruta\textcolor{BrickRed}{[}j\textcolor{BrickRed}{-}\textcolor{Purple}{1}\textcolor{BrickRed}{]);} \\
+\mbox{} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{if}}\ \textcolor{BrickRed}{(}opt2\textcolor{BrickRed}{)} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{continue}}\textcolor{BrickRed}{;} \\
+\mbox{}\textbf{\textcolor{RoyalBlue}{\ \ \ \ \ \ \ \ \ \ \ \ \#endif}} \\
+\mbox{} \\
+\mbox{} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \textit{\textcolor{Brown}{//\ Produce\ una\ permutación\ en\ la\ ruta.}} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{TealBlue}{uint}\ temp\ \textcolor{BrickRed}{=}\ ruta\textcolor{BrickRed}{[}i\textcolor{BrickRed}{];} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ ruta\textcolor{BrickRed}{[}i\textcolor{BrickRed}{]}\ \textcolor{BrickRed}{=}\ ruta\textcolor{BrickRed}{[}indice\textcolor{BrickRed}{];} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ ruta\textcolor{BrickRed}{[}indice\textcolor{BrickRed}{]}\ \textcolor{BrickRed}{=}\ temp\textcolor{BrickRed}{;} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \  \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ coste$\_$actual\ \textcolor{BrickRed}{+=}\ \textbf{\textcolor{Black}{distancia}}\textcolor{BrickRed}{(}ruta\textcolor{BrickRed}{[}indice\ \textcolor{BrickRed}{-}\ \textcolor{Purple}{1}\textcolor{BrickRed}{],}\ ruta\textcolor{BrickRed}{[}indice\textcolor{BrickRed}{]);} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \  \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \textit{\textcolor{Brown}{//\ Estudia\ permutaciones\ con\ ese\ cambio.}} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Black}{permutaciones}}\ \textcolor{BrickRed}{(}ruta\textcolor{BrickRed}{,}\ coste$\_$actual\textcolor{BrickRed}{,}\ indice\ \textcolor{BrickRed}{+}\ \textcolor{Purple}{1}\textcolor{BrickRed}{);} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \  \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \textit{\textcolor{Brown}{//\ Deshace\ la\ permutación.}} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ coste$\_$actual\ \textcolor{BrickRed}{-=}\ \textbf{\textcolor{Black}{distancia}}\textcolor{BrickRed}{(}ruta\textcolor{BrickRed}{[}indice\ \textcolor{BrickRed}{-}\ \textcolor{Purple}{1}\textcolor{BrickRed}{],}\ ruta\textcolor{BrickRed}{[}indice\textcolor{BrickRed}{]);} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ ruta\textcolor{BrickRed}{[}indice\textcolor{BrickRed}{]}\ \textcolor{BrickRed}{=}\ ruta\textcolor{BrickRed}{[}i\textcolor{BrickRed}{];} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ ruta\textcolor{BrickRed}{[}i\textcolor{BrickRed}{]}\ \textcolor{BrickRed}{=}\ temp\textcolor{BrickRed}{;} \\
+\mbox{}\ \ \ \ \ \ \ \ \textcolor{Red}{\}} \\
+\mbox{}\ \ \ \ \textcolor{Red}{\}} \\
+\mbox{}\textcolor{Red}{\}} \\
+\mbox{} \\
+\mbox{} \\
+\mbox{}\textcolor{ForestGreen}{int}\ \textbf{\textcolor{Black}{main}}\textcolor{BrickRed}{()}\ \textcolor{Red}{\{} \\
+\mbox{}\ \ \ \ \textcolor{TealBlue}{Coste}\ \textbf{\textcolor{Black}{coste$\_$actual}}\textcolor{BrickRed}{(}\textcolor{Purple}{0}\textcolor{BrickRed}{);} \\
+\mbox{}\ \ \ \ mejor$\_$coste\ \textcolor{BrickRed}{=}\ numeric$\_$limits\textcolor{BrickRed}{\textless{}}Coste\textcolor{BrickRed}{\textgreater{}::}\textbf{\textcolor{Black}{infinity}}\textcolor{BrickRed}{();} \\
+\mbox{}\ \ \ \  \\
+\mbox{}\ \ \ \ \textit{\textcolor{Brown}{//\ Lectura\ del\ problema}} \\
+\mbox{}\ \ \ \ cin\ \textcolor{BrickRed}{\textgreater{}\textgreater{}}\ dimension\textcolor{BrickRed}{;} \\
+\mbox{}\ \ \ \ ciudades\textcolor{BrickRed}{.}\textbf{\textcolor{Black}{resize}}\textcolor{BrickRed}{(}dimension\textcolor{BrickRed}{);} \\
+\mbox{}\ \ \ \  \\
+\mbox{}\ \ \ \ \textbf{\textcolor{Blue}{for}}\ \textcolor{BrickRed}{(}\textbf{\textcolor{Blue}{auto}}\textcolor{BrickRed}{\&}\ p\ \textcolor{BrickRed}{:}\ ciudades\textcolor{BrickRed}{)} \\
+\mbox{}\ \ \ \ \ \ \ \ cin\ \textcolor{BrickRed}{\textgreater{}\textgreater{}}\ p\textcolor{BrickRed}{.}first\ \textcolor{BrickRed}{\textgreater{}\textgreater{}}\ p\textcolor{BrickRed}{.}second\textcolor{BrickRed}{;} \\
+\mbox{}\ \ \ \  \\
+\mbox{}\ \ \ \ \textit{\textcolor{Brown}{//\ Resolución\ del\ problema}} \\
+\mbox{}\ \ \ \ \textit{\textcolor{Brown}{//\ Recorre\ las\ posibles\ permutaciones\ dejando\ fija\ la\ primera\ ciudad.}} \\
+\mbox{}\ \ \ \ \textit{\textcolor{Brown}{//\ Crea\ una\ primera\ ruta\ con\ la\ permutación\ identidad.}} \\
+\mbox{}\ \ \ \ \textcolor{TealBlue}{Ruta}\ \textbf{\textcolor{Black}{ruta}}\textcolor{BrickRed}{(}dimension\textcolor{BrickRed}{);} \\
+\mbox{}\ \ \ \ \textbf{\textcolor{Black}{iota}}\textcolor{BrickRed}{(}ruta\textcolor{BrickRed}{.}\textbf{\textcolor{Black}{begin}}\textcolor{BrickRed}{(),}ruta\textcolor{BrickRed}{.}\textbf{\textcolor{Black}{end}}\textcolor{BrickRed}{(),}\textcolor{Purple}{0}\textcolor{BrickRed}{);} \\
+\mbox{} \\
+\mbox{}\ \ \ \ \textbf{\textcolor{Blue}{auto}}\ time1\ \textcolor{BrickRed}{=}\ chrono\textcolor{BrickRed}{::}high$\_$resolution$\_$clock\textcolor{BrickRed}{::}\textbf{\textcolor{Black}{now}}\textcolor{BrickRed}{();} \\
+\mbox{}\ \ \ \ \textbf{\textcolor{Black}{permutaciones}}\textcolor{BrickRed}{(}ruta\textcolor{BrickRed}{,}\ coste$\_$actual\textcolor{BrickRed}{,}\ \textcolor{Purple}{1}\textcolor{BrickRed}{);} \\
+\mbox{}\ \ \ \ \textbf{\textcolor{Blue}{auto}}\ time2\ \textcolor{BrickRed}{=}\ chrono\textcolor{BrickRed}{::}high$\_$resolution$\_$clock\textcolor{BrickRed}{::}\textbf{\textcolor{Black}{now}}\textcolor{BrickRed}{();} \\
+\mbox{}\ \ \ \ chrono\textcolor{BrickRed}{::}\textcolor{TealBlue}{duration\textless{}double\textgreater{}}\ time$\_$span\ \textcolor{BrickRed}{=}\ chrono\textcolor{BrickRed}{::}duration$\_$cast\textcolor{BrickRed}{\textless{}}chrono\textcolor{BrickRed}{::}duration\textcolor{BrickRed}{\textless{}}\textcolor{ForestGreen}{double}\textcolor{BrickRed}{\textgreater{}\textgreater{}(}time2\ \textcolor{BrickRed}{-}\ time1\textcolor{BrickRed}{);} \\
+\mbox{}\ \ \ \ \textcolor{ForestGreen}{double}\ time\ \textcolor{BrickRed}{=}\ time$\_$span\textcolor{BrickRed}{.}\textbf{\textcolor{Black}{count}}\textcolor{BrickRed}{();} \\
+\mbox{} \\
+\mbox{}\ \ \ \ \textit{\textcolor{Brown}{//\ Muestra\ la\ solución}} \\
+\mbox{}\ \ \ \ cout\ \textcolor{BrickRed}{\textless{}\textless{}}\ \texttt{\textcolor{Red}{"{}Mejor\ coste\ obtenido:\ "{}}}\ \textcolor{BrickRed}{\textless{}\textless{}}\ mejor$\_$coste\ \textcolor{BrickRed}{\textless{}\textless{}}\ endl \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{BrickRed}{\textless{}\textless{}}\ \texttt{\textcolor{Red}{"{}Mejor\ ruta:\ "{}}}\ \textcolor{BrickRed}{\textless{}\textless{}}\ endl\ \textcolor{BrickRed}{\textless{}\textless{}}\ mejor$\_$ruta \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{BrickRed}{\textless{}\textless{}}\ \texttt{\textcolor{Red}{"{}Tiempo\ de\ cómputo:\ "{}}}\ \textcolor{BrickRed}{\textless{}\textless{}}\ time\ \textcolor{BrickRed}{\textless{}\textless{}}\ endl\textcolor{BrickRed}{;} \\
+\mbox{}\ \ \ \  \\
+\mbox{}\ \ \ \  \\
+\mbox{}\ \ \ \ \textit{\textcolor{Brown}{//\ Depuración}} \\
+\mbox{}\ \ \ \ \textit{\textcolor{Brown}{//cout\ \textless{}\textless{}\ "{}Recalculado:\ "{}\ \textless{}\textless{}\ total(mejor$\_$ruta);}} \\
+\mbox{}\textcolor{Red}{\}} \\
+\mbox{}

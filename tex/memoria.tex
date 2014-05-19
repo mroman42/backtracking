@@ -271,19 +271,27 @@ Una mochila vacía será un par \texttt{([],0)}.
           \texttt{ciudades}, lista con todas las ciudades \\
           \texttt{ruta}, ruta con algunas ciudades \\
           \texttt{coste\_actual}, coste de la ruta pasada \\
+          \texttt{indice}, \\
 
-		\STATE{\texttt{mejor\_coste = $\infty$ \\
-		mejor\_ruta = empty Ruta}}
-        \IF{\texttt{\#ruta == \#ciudades}}
-          \STATE{\texttt{coste\_actual += distancia(ruta.ultima\_ciudad, ruta.primera\_ciudad)}}
+		\STATE{\texttt{mejor\_coste = $\infty$}}
+
+        \IF{\texttt{indice == \#ciudades}}
+          \STATE{\texttt{coste\_actual += distancia(ruta[$n$-1], ruta[0])}}
 
 	      \IF{\texttt{coste\_actual < mejor\_coste}}
 	        \STATE{\texttt{mejor\_coste = coste\_actual\\
 	        mejor\_ruta = ruta}}
 	      \ENDIF
 	    \ELSE
-	      \FORALL{\texttt{i} = indice hasta \texttt{\#ciudades}:}
-	        \STATE{Crea componente conexa \texttt{set(v)}}
+	      \FOR{\texttt{i} = indice hasta \texttt{\#ciudades}:}
+	        \STATE{\texttt{Producimos una permutación:\\
+	        intercambiar(ruta[i], ruta[indice])\\
+	        coste\_actual += distancia(ruta[indice-1], ruta[indice])}}
+	        \STATE{\texttt{Llamamos recursivamente a la función con parámetros: ciudades, ruta, coste\_actual e indice+1}}
+	        \STATE{\texttt{Deshacemos el cambio:\\ coste\_actual --= distancia(ruta[indice - 1], ruta[indice])\\
+	        intercambiar(ruta[indice], ruta[i])}}
+	        
+	        
 	      \ENDFOR
 	    \ENDIF
   	\end{algorithmic}
@@ -293,7 +301,7 @@ Una mochila vacía será un par \texttt{([],0)}.
   \subsection{Branch \& Bound}
     \begin{algorithm}[H]
     	\begin{algorithmic}[1]
-
+        \STATE{}
     	\end{algorithmic}
         \caption{Algoritmo Branch \& Bound para el TSP}
         \label{BBound-TSP}

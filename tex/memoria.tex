@@ -148,13 +148,8 @@ La función de poda toma un vector $\delta = (\delta_1, \dots, \delta_n)$ y devu
 
 
 	\subsubsection{Algoritmo}
+Nuestro algoritmo es de tipo iterativo, por lo que usa una cola en la que almacenamos las mochilas que vamos procesando. La poda se produce cuando al añadir un objeto, la mochila resultante supera el peso límite, en cuyo caso esta no es añadida a la cola de candidatas. Cuando encontremos una mochila completa, se compara con la solución actual, y se sustituye en caso de mejorarla. 
 
-%Definimos una mochila como un par \texttt{(vector<bool>, beneficios)} donde el vector representa si un determinado objeto de una lista está o no en la solución.
-
-%Una mochila vacía será un par \texttt{([],0)}.
-
-% Considero que actual[0] y actual[1] es una notación bastante liosa, aunque tampoco se me ocurre cómo mejorarla. Lo mismo ocurre con con_nuevo y sin_nuevo.
-% Óscar
 \begin{algorithm}[H]
 	\begin{algorithmic}[1]
 		\REQUIRE \ \\
@@ -162,10 +157,10 @@ La función de poda toma un vector $\delta = (\delta_1, \dots, \delta_n)$ y devu
         	$\omega$, vector de pesos de objetos\\
         	$B$, vector de beneficios de objetos\\\
      	\STATE{\texttt{$n$ = \#pesos}}
-	\STATE{\texttt{solución = [false,\dots,false]}}
+	\STATE{\texttt{solución = []}}
 	\STATE{\texttt{max\_beneficio = 0}}\\\
      	\STATE{Creamos una cola \texttt{posibles\_mochilas}}
-     	\STATE{\texttt{posibles\_mochilas.push([false,\dots,false])}}
+     	\STATE{\texttt{posibles\_mochilas.push([])}}
      	
      	\WHILE{\texttt{posibles\_mochilas}$\neq \emptyset$}
 	  \STATE{\texttt{actual = posibles\_mochilas.pop()}}
@@ -176,10 +171,7 @@ La función de poda toma un vector $\delta = (\delta_1, \dots, \delta_n)$ y devu
 	    \ENDIF
 	  \ELSE
 	    \STATE{\texttt{con\_nuevo = sin\_nuevo = actual}
-	    %\STATE{con\_nuevo[1] += beneficios[\#actual[0]]}
-	    % ¿No sería con\_nuevo[0].push\_back(true)?
 	    \STATE{\texttt{con\_nuevo.push\_back(true)}}
-	    % Lo mismo
 	    \STATE{\texttt{sin\_nuevo.push\_back(false)}}}
 	    \STATE{\texttt{nuevo\_peso = }peso(\texttt{con\_nuevo})}
 	    \IF{\texttt{nuevo\_peso} $\leq M$}

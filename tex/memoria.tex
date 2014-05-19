@@ -158,20 +158,20 @@ Una mochila vacía será un par \texttt{([],0)}.
 \begin{algorithm}[H]
 	\begin{algorithmic}[1]
 		\REQUIRE \ \\
-        	\texttt{limite}, de peso de la mochila \\
-        	\texttt{pesos}, vector de pesos de objetos\\
-        	\texttt{beneficios}, vector de beneficios de objetos\\\
-     	\STATE{\texttt{tamanio = \# pesos}}
-	\STATE{\texttt{solucion = empty Mochila}}
-	\STATE{\texttt{max\_valor = 0}}
+        	$M$ límite de peso de la mochila \\
+        	$\omega$ vector de pesos de objetos\\
+        	$B$ vector de beneficios de objetos\\\
+     	\STATE{\texttt{$n$ = \# pesos}}
+	\STATE{\texttt{solucion = [false,\dots,false]}}
+	\STATE{\texttt{max\_beneficio = 0}}
      	\STATE{Creamos una cola \texttt{posibles\_mochilas}}
-     	\STATE{\texttt{posibles\_mochilas.push(empty Mochila)}}
+     	\STATE{\texttt{posibles\_mochilas.push([false,\dots,false])}}
      	
      	\WHILE{\texttt{posibles\_mochilas}$\neq \emptyset$}
 	  \STATE{\texttt{actual = posibles\_mochilas.pop()}}
-	  \IF{\texttt{\#actual[0] = tamanio}}
-	    \IF{\texttt{\#actual[1] > max\_valor}}
-	      \STATE{\texttt{max\_valor = actual[1]}}
+	  \IF{\texttt{\#actual = $n$}}
+	    \IF{\texttt{beneficio(actual) >\ max\_beneficio}}
+	      \STATE{\texttt{max\_beneficio = beneficio(actual)}}
 	      \STATE{\texttt{solucion = actual}}
 	    \ENDIF
 	  \ELSE

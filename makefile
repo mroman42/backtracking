@@ -3,6 +3,7 @@
 
 BIN=./bin
 SRC=./src
+TEX=./tex
 FLAGS=-std=c++11 -Wall -g
 
 
@@ -21,6 +22,13 @@ $(BIN)/tsp_bbound: $(SRC)/tsp.cpp
 
 $(BIN)/tsp_optbound: $(SRC)/tsp.cpp
 	g++ $< -o $@ $(FLAGS) -DOPTBOUND
+
+# Archivos .tex
+.PHONY: tex
+
+tex:
+	./gentex.sh
+
 
 # Limpieza de los ejecutables
 clean:

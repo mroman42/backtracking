@@ -170,43 +170,6 @@ Nuestro algoritmo es de tipo iterativo, por lo que usa una cola en la que almace
 	\subsubsection{Algoritmo}
 
 
-\begin{algorithm}[H]
-	\begin{algorithmic}[1]
-		\REQUIRE \ \\
-        	$M$, límite de peso de la mochila \\
-         	$\omega$, vector de pesos de objetos\\
-          	$B$, vector de beneficios de objetos\\\
-     	\STATE{\texttt{$n$ = \#pesos}}
-     		\STATE{\texttt{solución = [false,\dots,false]}}\\\
-     	     	\STATE{Creamos una cola \texttt{posibles\_mochilas}}
-     	     	\STATE{\texttt{posibles\_mochilas.push([])}}
-     	     	
-     	     	\WHILE{\texttt{posibles\_mochilas}$\neq \emptyset$}
-     		  \STATE{\texttt{actual = posibles\_mochilas.pop()}}
-     		  \IF{\texttt{\#actual == $n$}}
-     		    \IF{beneficio(\texttt{actual}) >\ beneficio(\texttt{solución})}
-     		      \STATE{\texttt{solución = actual}}
-     		    \ENDIF
-     		  \ELSE
-     		    \STATE{\texttt{con\_nuevo = sin\_nuevo = actual}
-     		    \STATE{\texttt{con\_nuevo.push\_back(true)}}
-     		    \STATE{\texttt{sin\_nuevo.push\_back(false)}}}
-     		    \STATE{\texttt{nuevo\_peso = }peso(\texttt{con\_nuevo})}
-     		    \IF{\texttt{nuevo\_peso} $\leq M$}
-     		    \STATE{(\textit{Acotación: no analizamos el caso si \texttt{nuevo\_peso} > $M$})}
-     		      \STATE{\texttt{posibles\_mochilas.push(con\_nuevo)}}
-	    \ENDIF
-	    \IF{beneficio(\texttt{solución}) <\ beneficio(\texttt{sin\_nuevo}) + calculaCota(\texttt{sin\_nuevo})}
-	      \STATE{\texttt{posibles\_mochilas.push(sin\_nuevo)}}
-	    \ENDIF
-	  \ENDIF
-     	\ENDWHILE
-     	\RETURN{\texttt{solución}}
-     	
-	\end{algorithmic}
-    \caption{Algoritmo Branch \& Bound para el problema de la mochila}
-    \label{BBound-Mochila}
-\end{algorithm}
 
 
 \section{Traveling Salesman Problem}
@@ -299,39 +262,10 @@ Una condición para podar una rama, cuando se está realizando la exploración d
   soluciones es de $2^n$, siendo $n$ el número de aristas.
   
   \subsubsection{Algoritmo}
-        \begin{algorithm}[H]
-        	\begin{algorithmic}[1]
-    		\REQUIRE \ \\
-          	\texttt{aristas} \\
-       	\STATE{\texttt{$n$ = \#aristas}}
-       	\STATE{\texttt{solución = [[false,\dots,false],[false,\dots,false],[false,\dots,false]]}}\\\
-       	\STATE{Creamos una cola \texttt{posibles\_particiones}}
-       	\STATE{\texttt{posibles\_particiones.push([])}}
-       	
-       	\WHILE{\texttt{posibles\_particiones}$\neq \emptyset$}
-  		  \STATE{\texttt{actual = posibles\_particiones.pop()}}
-  		  \STATE{\texttt{indice = \#actual.aristas}}
-  		  \IF{\texttt{indice == $n$}}
-  		    \IF{valor(\texttt{actual}) >\ valor(\texttt{solución})}
-  		      \STATE{\texttt{solución = actual}}
-  		    \ENDIF
-  		  \ELSE
-  	        \STATE{\texttt{con\_nueva = sin\_nueva = actual}
-  	        \STATE{\texttt{con\_nueva.push\_back(true)}}
-  	        \STATE{\texttt{sin\_nueva.push\_back(false)}}}
-  	        
-  	        \STATE{\texttt{posibles\_mochilas.push(sin\_nueva)}}
-  	        \IF{Se puede añadir}
-  	        \STATE{\texttt{posibles\_mochilas.push(con\_nueva)}}
-  	        \ENDIF
-  	      \ENDIF
-   		\ENDWHILE
-       \RETURN{\texttt{solución}}
-        	\end{algorithmic}
-            \caption{Algoritmo Backtracking para el 3D Matching}
-            \label{Back-3DMatch}
-        \end{algorithm}
-  
+
+        \small
+  	\texttt{\input{pseudo_3dmatching_final.tex}}
+        \normalsize
   
   \subsection{Branch \& Bound}
   
@@ -339,21 +273,13 @@ Una condición para podar una rama, cuando se está realizando la exploración d
     
     Como función de poda sobre una solución parcial, consideraremos la satisfacción que obtendríamos con todas las aristas restantes como cota máxima de la satisfacción posible a obtener. Si la satisfacción máxima de la parte restante sumada con la satisfacción de la solución parcial es menor que la satisfacción de la mejor solución hasta el momento, podemos descartar la solución parcial y obviar todas las ramas derivadas. 
     
-  \subsubsection{Algoritmo}
-    \begin{algorithm}[H]
-    	\begin{algorithmic}[1]
-		\REQUIRE 
-    	\end{algorithmic}
-        \caption{Algoritmo Branch \& Bound para el 3D Matching}
-        \label{BBound-3DMatch}
-    \end{algorithm}
   
 
 \section{El problema de la asignación cuadrática (QAP)}
   \subsection{Enunciado}
     Dado un conjunto de $n$ instalaciones con un flujo de transporte y un coste asociado entre ellas, y dadas $n$ posibles 
     localizaciones, el problema consiste en buscar la localización más adecuada para cada instalación, de forma que el 
-    coste total del transporte entre	 instalaciones sea el mínimo posible. 
+    coste total del transporte entre instalaciones sea el mínimo posible. 
 
   \subsection{Backtracking}
   \subsection{Branch \& Bound}

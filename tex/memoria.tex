@@ -248,7 +248,7 @@ En el algoritmo, \textit{beneficio} representa el valor de la suma de beneficios
     
   \subsection{Backtracking}
   \subsubsection{Algoritmo}
-  Para aplicar backtracking al problema del TSP, utilizamos un algoritmo recursivo, 
+  Para aplicar backtracking al problema del TSP, utilizamos un algoritmo recursivo, el cual recibe la lista de ciudades del problema, la ruta con las ciudades que llevamos hasta el momento, su coste, y el índice de la última ciudad añadida. Calcularemos todas las ramificaciones posibles de la ruta actual, y tomaremos la mejor de estas, comparando el coste de cada rama con el coste de la mejor solución hasta el momento. Además, utilizaremos una técnica 2-OPT para desechar permutaciones: Si la ruta contiene algún cruce de caminos, es mejorable por 2-OPT y por tanto no es óptima. 
   
   \begin{algorithm}[H]
   	\begin{algorithmic}[1]
@@ -272,7 +272,7 @@ En el algoritmo, \textit{beneficio} representa el valor de la suma de beneficios
 	        \STATE{\texttt{Producimos una permutación:\\
 	        intercambiar(ruta[i], ruta[indice])\\
 	        coste\_actual += distancia(ruta[indice-1], ruta[indice])}}
-	        \STATE{\texttt{Llamamos recursivamente a la función con parámetros: ciudades, ruta, coste\_actual e indice+1}}
+	        \STATE{\texttt{TSP(ciudades, ruta, coste\_actual, indice+1)}}
 	        \STATE{\texttt{Deshacemos el cambio:\\ coste\_actual --= distancia(ruta[indice - 1], ruta[indice])\\
 	        intercambiar(ruta[indice], ruta[i])}}
 	        
@@ -280,7 +280,7 @@ En el algoritmo, \textit{beneficio} representa el valor de la suma de beneficios
 	      \ENDFOR
 	    \ENDIF
   	\end{algorithmic}
-      \caption{Algoritmo Backtracking para el TSP}
+      \caption{Algoritmo Branch \& Bound para el TSP}
       \label{Back-TSP}
   \end{algorithm}
   \subsection{Branch \& Bound}
@@ -309,7 +309,7 @@ En el algoritmo, \textit{beneficio} representa el valor de la suma de beneficios
 	        \STATE{\texttt{Producimos una permutación:\\
 	        intercambiar(ruta[i], ruta[indice])\\
 	        coste\_actual += distancia(ruta[indice-1], ruta[indice])}}
-	        \STATE{\texttt{Llamamos recursivamente a la función con parámetros: ciudades, ruta, coste\_actual e indice+1}}
+	        \STATE{\texttt{TSP(ciudades, ruta, coste\_actual, indice+1)}}
 	        \STATE{\texttt{Deshacemos el cambio:\\ coste\_actual --= distancia(ruta[indice - 1], ruta[indice])\\
 	        intercambiar(ruta[indice], ruta[i])}}
 	        

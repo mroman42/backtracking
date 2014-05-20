@@ -136,27 +136,30 @@
 \mbox{} \\
 \mbox{}\textbf{\textcolor{RoyalBlue}{\ \ \ \ \ \ \ \ \ \ \ \ \#ifdef}}\ BBOUND \\
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textit{\textcolor{Brown}{//\ Calculamos\ una\ cota\ superior\ para\ el\ llenado\ de\ la\ parte\ de\ la\ mochila\ que\ falta}} \\
-\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{TealBlue}{vector\textless{}pair\textless{}double,int\textgreater{}\ \textgreater{}}\ w\textcolor{BrickRed}{;} \\
-\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{ForestGreen}{int}\ n\ \textcolor{BrickRed}{=}\ sin$\_$nuevo\textcolor{BrickRed}{.}first\textcolor{BrickRed}{.}\textbf{\textcolor{Black}{size}}\textcolor{BrickRed}{();} \\
-\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{ForestGreen}{int}\ restante\ \textcolor{BrickRed}{=}\ limite\ \textcolor{BrickRed}{-}\ nuevo$\_$peso\ \textcolor{BrickRed}{+}\ pesos\textcolor{BrickRed}{[}n\textcolor{BrickRed}{-}\textcolor{Purple}{1}\textcolor{BrickRed}{];} \\
-\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{ForestGreen}{int}\ \textbf{\textcolor{Black}{max$\_$beneficio}}\textcolor{BrickRed}{(}\textcolor{Purple}{0}\textcolor{BrickRed}{);} \\
-\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{ForestGreen}{double}\ coef\textcolor{BrickRed}{;} \\
 \mbox{} \\
-\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{for}}\ \textcolor{BrickRed}{(}\textcolor{TealBlue}{uint}\ i\textcolor{BrickRed}{=}\textcolor{Purple}{0}\textcolor{BrickRed}{;}\ i\ \textcolor{BrickRed}{\textless{}}\ tamanio\ \textcolor{BrickRed}{-}\ n\textcolor{BrickRed}{;}\ \textcolor{BrickRed}{++}i\textcolor{BrickRed}{)} \\
-\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ w\textcolor{BrickRed}{.}\textbf{\textcolor{Black}{push$\_$back}}\textcolor{BrickRed}{(}\textbf{\textcolor{Black}{make$\_$pair}}\ \textcolor{BrickRed}{(}beneficios\textcolor{BrickRed}{[}i\textcolor{BrickRed}{+}n\textcolor{BrickRed}{]/}pesos\textcolor{BrickRed}{[}i\textcolor{BrickRed}{+}n\textcolor{BrickRed}{],}\ i\textcolor{BrickRed}{+}n\textcolor{BrickRed}{));} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \textit{\textcolor{Brown}{//\ pair\textless{}double,\ int\textgreater{}\ representará\ un\ ratio\ de\ beneficio\ por\ peso\ asociado}} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \textit{\textcolor{Brown}{//\ al\ índice\ del\ objeto\ que\ le\ corresponde}} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{TealBlue}{vector\textless{}pair\textless{}double,int\textgreater{}\ \textgreater{}}\ w\textcolor{BrickRed}{;} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{ForestGreen}{int}\ k\ \textcolor{BrickRed}{=}\ sin$\_$nuevo\textcolor{BrickRed}{.}first\textcolor{BrickRed}{.}\textbf{\textcolor{Black}{size}}\textcolor{BrickRed}{();} \\
+\mbox{} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \textit{\textcolor{Brown}{//\ Peso\ que\ queda\ por\ llenar}} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{ForestGreen}{int}\ restante\ \textcolor{BrickRed}{=}\ limite\ \textcolor{BrickRed}{-}\ nuevo$\_$peso\ \textcolor{BrickRed}{+}\ pesos\textcolor{BrickRed}{[}k\textcolor{BrickRed}{-}\textcolor{Purple}{1}\textcolor{BrickRed}{];} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{ForestGreen}{int}\ nuevo$\_$beneficio\ \textcolor{BrickRed}{=}\ sin$\_$nuevo\textcolor{BrickRed}{.}second\textcolor{BrickRed}{;} \\
+\mbox{} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{for}}\ \textcolor{BrickRed}{(}\textcolor{TealBlue}{uint}\ i\textcolor{BrickRed}{=}\textcolor{Purple}{0}\textcolor{BrickRed}{;}\ i\ \textcolor{BrickRed}{\textless{}}\ tamanio\ \textcolor{BrickRed}{-}\ k\textcolor{BrickRed}{;}\ \textcolor{BrickRed}{++}i\textcolor{BrickRed}{)} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ w\textcolor{BrickRed}{.}\textbf{\textcolor{Black}{push$\_$back}}\textcolor{BrickRed}{(}\textbf{\textcolor{Black}{make$\_$pair}}\ \textcolor{BrickRed}{(}beneficios\textcolor{BrickRed}{[}i\textcolor{BrickRed}{+}k\textcolor{BrickRed}{]/}pesos\textcolor{BrickRed}{[}i\textcolor{BrickRed}{+}k\textcolor{BrickRed}{],}\ i\textcolor{BrickRed}{+}k\textcolor{BrickRed}{));} \\
 \mbox{} \\
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Black}{sort}}\textcolor{BrickRed}{(}w\textcolor{BrickRed}{.}\textbf{\textcolor{Black}{begin}}\textcolor{BrickRed}{(),}\ w\textcolor{BrickRed}{.}\textbf{\textcolor{Black}{end}}\textcolor{BrickRed}{(),}\ srt\textcolor{BrickRed}{);} \\
 \mbox{} \\
-\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{while}}\ \textcolor{BrickRed}{(}restante\ \textcolor{BrickRed}{!=}\ \textcolor{Purple}{0}\ \textcolor{BrickRed}{\&\&}\ \textcolor{BrickRed}{!}w\textcolor{BrickRed}{.}\textbf{\textcolor{Black}{empty}}\textcolor{BrickRed}{())}\textcolor{Red}{\{} \\
-\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ coef\ \textcolor{BrickRed}{=}\ \textbf{\textcolor{Black}{min}}\textcolor{BrickRed}{(}\textcolor{Purple}{1.0}\textcolor{BrickRed}{,}restante\textcolor{BrickRed}{*}\textcolor{Purple}{1.0}\textcolor{BrickRed}{/}pesos\textcolor{BrickRed}{[}w\textcolor{BrickRed}{.}\textbf{\textcolor{Black}{back}}\textcolor{BrickRed}{().}second\textcolor{BrickRed}{]);} \\
-\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ restante\ \textcolor{BrickRed}{-=}\ pesos\textcolor{BrickRed}{[}w\textcolor{BrickRed}{.}\textbf{\textcolor{Black}{back}}\textcolor{BrickRed}{().}second\textcolor{BrickRed}{]}\ \textcolor{BrickRed}{*}\ coef\textcolor{BrickRed}{;} \\
-\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ max$\_$beneficio\ \textcolor{BrickRed}{+=}\ beneficios\textcolor{BrickRed}{[}w\textcolor{BrickRed}{.}\textbf{\textcolor{Black}{back}}\textcolor{BrickRed}{().}second\textcolor{BrickRed}{];} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{while}}\ \textcolor{BrickRed}{(}restante\ \textcolor{BrickRed}{\textgreater{}}\ \textcolor{Purple}{0}\ \textcolor{BrickRed}{\&\&}\ \textcolor{BrickRed}{!}w\textcolor{BrickRed}{.}\textbf{\textcolor{Black}{empty}}\textcolor{BrickRed}{())}\textcolor{Red}{\{} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ restante\ \textcolor{BrickRed}{-=}\ pesos\textcolor{BrickRed}{[}w\textcolor{BrickRed}{.}\textbf{\textcolor{Black}{back}}\textcolor{BrickRed}{().}second\textcolor{BrickRed}{];} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ nuevo$\_$beneficio\ \textcolor{BrickRed}{+=}\ beneficios\textcolor{BrickRed}{[}w\textcolor{BrickRed}{.}\textbf{\textcolor{Black}{back}}\textcolor{BrickRed}{().}second\textcolor{BrickRed}{];} \\
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ w\textcolor{BrickRed}{.}\textbf{\textcolor{Black}{pop$\_$back}}\textcolor{BrickRed}{();} \\
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{Red}{\}} \\
 \mbox{} \\
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textit{\textcolor{Brown}{//\ Si\ dicha\ cota\ superior\ supera\ al\ mejor\ valor\ hasta\ el\ momento,}} \\
-\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textit{\textcolor{Brown}{//\ introducimos\ la\ nueva\ mochila,\ en\ caso\ opuesto\ no}} \\
-\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{if}}\ \textcolor{BrickRed}{(}max$\_$valor\ \textcolor{BrickRed}{\textless{}}\ sin$\_$nuevo\textcolor{BrickRed}{.}second\ \textcolor{BrickRed}{+}\ max$\_$beneficio\textcolor{BrickRed}{)} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textit{\textcolor{Brown}{//\ introducimos\ la\ nueva\ mochila}} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{if}}\ \textcolor{BrickRed}{(}max$\_$valor\ \textcolor{BrickRed}{\textless{}}\ nuevo$\_$beneficio\textcolor{BrickRed}{)} \\
 \mbox{}\textbf{\textcolor{RoyalBlue}{\ \ \ \ \ \ \ \ \ \ \ \ \#endif}} \\
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ posibles$\_$mochilas\textcolor{BrickRed}{.}\textbf{\textcolor{Black}{push}}\textcolor{BrickRed}{(}sin$\_$nuevo\textcolor{BrickRed}{);} \\
 \mbox{}\ \ \ \ \ \ \ \ \textcolor{Red}{\}} \\

@@ -1,24 +1,23 @@
-def tsp(ciudades):
-    # Parte recursiva
-    def recorrer(indice):
-        if (indice == \ciudades)
+def tsp(ciudades)
+    def recorrer(indice)
+        if (indice == LATEXciudades)
             if (coste(ruta) < mejor_coste)
                 mejor_coste = coste(ruta)
                 mejor_ruta  = ruta
         else
-            for i in [indice..ciudades]
+            for i in [indice..LATEXciudades]
                 swap(ruta[i], ruta[indice])
                 recorrer(indice+1)
                 swap(ruta[indice], ruta[i])
+    end
 
     mejor_coste = LATEX
-    ruta = [1..ciudades]
+    ruta = [1..LATEXciudades]
     recorrer(1)
 
     return mejor_coste
+end
 
-def coste(ruta):
+def coste(ruta)
     return LATEX
-
-
-#\sum_{i \in \mathbb{Z}_n} dist(ciudades_{ruta[i]}, ciudades_{ruta[i+1]})
+end

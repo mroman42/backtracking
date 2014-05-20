@@ -2,25 +2,25 @@
 \noindent
 \mbox{}\textbf{\textcolor{Blue}{def}}\ tsp\textcolor{BrickRed}{(}ciudades\textcolor{BrickRed}{)} \\
 \mbox{}\ \ \ \ \textbf{\textcolor{Blue}{def}}\ recorrer\textcolor{BrickRed}{(}indice\textcolor{BrickRed}{)} \\
-\mbox{}\ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{if}}\ \textcolor{BrickRed}{(}indice\ \textcolor{BrickRed}{==}\ $\#$ciudades\textcolor{BrickRed}{)} \\
+\mbox{}\ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{if}}\ \textcolor{BrickRed}{(}indice\ \textcolor{BrickRed}{==}\ LATEXciudades\textcolor{BrickRed}{)} \\
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{if}}\ \textcolor{BrickRed}{(}coste\textcolor{BrickRed}{(}ruta\textcolor{BrickRed}{)}\ \textcolor{BrickRed}{\textless{}}\ mejor$\_$coste\textcolor{BrickRed}{)} \\
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ mejor$\_$coste\ \textcolor{BrickRed}{=}\ coste\textcolor{BrickRed}{(}ruta\textcolor{BrickRed}{)} \\
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ mejor$\_$ruta\ \ \textcolor{BrickRed}{=}\ ruta \\
 \mbox{}\ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{else}} \\
-\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{for}}\ i\ \textbf{\textcolor{Blue}{in}}\ \textcolor{BrickRed}{[}indice\textcolor{BrickRed}{..}$\#$ciudades\textcolor{BrickRed}{]} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{for}}\ i\ \textbf{\textcolor{Blue}{in}}\ \textcolor{BrickRed}{[}indice\textcolor{BrickRed}{..}LATEXciudades\textcolor{BrickRed}{]} \\
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ swap\textcolor{BrickRed}{(}ruta\textcolor{BrickRed}{[}i\textcolor{BrickRed}{],}\ ruta\textcolor{BrickRed}{[}indice\textcolor{BrickRed}{])} \\
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ recorrer\textcolor{BrickRed}{(}indice\textcolor{BrickRed}{+}\textcolor{Purple}{1}\textcolor{BrickRed}{)} \\
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ swap\textcolor{BrickRed}{(}ruta\textcolor{BrickRed}{[}indice\textcolor{BrickRed}{],}\ ruta\textcolor{BrickRed}{[}i\textcolor{BrickRed}{])} \\
 \mbox{}\ \ \ \ \textbf{\textcolor{Blue}{end}} \\
 \mbox{} \\
-\mbox{}\ \ \ \ mejor$\_$coste\ \textcolor{BrickRed}{=}\ $\infty$ \\
-\mbox{}\ \ \ \ ruta\ \textcolor{BrickRed}{=}\ \textcolor{BrickRed}{[}\textcolor{Purple}{1}\textcolor{BrickRed}{..}$\#$ciudades\textcolor{BrickRed}{]} \\
+\mbox{}\ \ \ \ mejor$\_$coste\ \textcolor{BrickRed}{=}\ LATEX \\
+\mbox{}\ \ \ \ ruta\ \textcolor{BrickRed}{=}\ \textcolor{BrickRed}{[}\textcolor{Purple}{1}\textcolor{BrickRed}{..}LATEXciudades\textcolor{BrickRed}{]} \\
 \mbox{}\ \ \ \ recorrer\textcolor{BrickRed}{(}\textcolor{Purple}{1}\textcolor{BrickRed}{)} \\
 \mbox{} \\
 \mbox{}\ \ \ \ \textbf{\textcolor{Blue}{return}}\ mejor$\_$coste \\
 \mbox{}\textbf{\textcolor{Blue}{end}} \\
 \mbox{} \\
 \mbox{}\textbf{\textcolor{Blue}{def}}\ coste\textcolor{BrickRed}{(}ruta\textcolor{BrickRed}{)} \\
-\mbox{}\ \ \ \ \textbf{\textcolor{Blue}{return}}\ $\mathtt{\sum_{i \in \mathbb{Z}_n} dist(ciudades[ruta[i]], ciudades[ruta[i+1]])}$ \\
+\mbox{}\ \ \ \ \textbf{\textcolor{Blue}{return}}\ LATEX \\
 \mbox{}\textbf{\textcolor{Blue}{end}} \\
 \mbox{}

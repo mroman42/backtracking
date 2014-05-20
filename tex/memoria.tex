@@ -298,7 +298,7 @@ En el algoritmo, \textit{beneficio} representa el valor de la suma de beneficios
   \subsection{Branch \& Bound}
   \subsubsection{Algoritmo}
   
-  Para la ramificación y poda de este problema, utilizaremos una técnica basada en 2-OPT para desechar permutaciones: Si al añadir una nueva ciudad, la ruta resultante contiene algún cruce de caminos, es mejorable por 2-OPT y por tanto no es óptima, luego podemos pasar al siguiente candidato. 
+  Para la ramificación y poda de este problema, utilizaremos una técnica basada en 2-OPT para desechar permutaciones: Si al añadir una nueva ciudad, la ruta resultante contiene algún cruce de caminos, es mejorable por 2-OPT y por tanto no es óptima, luego podemos pasar al siguiente candidato sin tener en cuenta las soluciones derivadas de la que hemos calculado.  
   
     \begin{algorithm}[H]
     	\begin{algorithmic}[1]
@@ -358,6 +358,8 @@ En el algoritmo, \textit{beneficio} representa el valor de la suma de beneficios
     Buscamos la asignación válida de mayor cardinal, es decir la $M$ asignación válida maximizando $|M|$.
     
   \subsection{Backtracking}
+  En este algoritmo consideraremos todas las asignaciones posibles y nos quedaremos con la asignación que tenga mayor cardinal. Para ello, tomaremos cada asignación posible y consideraremos todos los casos derivados. Cuando no quede ninguna asignación, compararemos los tamaños de la solución obtenida y la mejor solución hasta el momento, actualizando la mejor solución si la actual la mejorase. 
+  
   \subsection{Branch \& Bound}
 
 \section{El problema de la asignación cuadrática (QAP)}

@@ -1,21 +1,20 @@
 % Generator: GNU source-highlight, by Lorenzo Bettini, http://www.gnu.org/software/src-highlite
 \noindent
 \mbox{}\textbf{\textcolor{Blue}{def}}\ mochila\textcolor{BrickRed}{(}capacidad\textcolor{BrickRed}{,}\ pesos\textcolor{BrickRed}{,}\ beneficios\textcolor{BrickRed}{)} \\
-\mbox{}\ \ \ \ solucion\ \textcolor{BrickRed}{=}\ \textcolor{BrickRed}{[}\textbf{\textcolor{Blue}{false}}\textcolor{BrickRed}{,}\dots\textcolor{BrickRed}{,}\textbf{\textcolor{Blue}{false}}\textcolor{BrickRed}{]} \\
+\mbox{}\ \ \ \ n\ \textcolor{BrickRed}{=}\ \#pesos \\
+\mbox{}\ \ \ \ solucion\ \textcolor{BrickRed}{=}\ \textcolor{BrickRed}{[}\textbf{\textcolor{Blue}{false}}\textcolor{BrickRed}{,}$\dots$\textcolor{BrickRed}{,}\textbf{\textcolor{Blue}{false}}\textcolor{BrickRed}{]} \\
 \mbox{}\ \ \ \ posibles$\_$mochilas\textcolor{BrickRed}{.}push\textcolor{BrickRed}{([])} \\
+\mbox{}\ \ \ \  \\
 \mbox{}\ \ \ \ \textbf{\textcolor{Blue}{while}}\ \textcolor{BrickRed}{(}\textbf{\textcolor{Blue}{not}}\ posibles$\_$mochilas\textcolor{BrickRed}{.}empty?\textcolor{BrickRed}{)} \\
 \mbox{}\ \ \ \ \ \ \ \ actual\ \textcolor{BrickRed}{=}\ posibles$\_$mochilas\textcolor{BrickRed}{.}pop \\
-\mbox{}\ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{if}}\ \textcolor{BrickRed}{(}\#actual\ \textcolor{BrickRed}{==}\ \#pesos\textcolor{BrickRed}{)} \\
+\mbox{}\ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{if}}\ \textcolor{BrickRed}{(}actual\ \textcolor{BrickRed}{==}\ n\textcolor{BrickRed}{)} \\
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{if}}\ \textcolor{BrickRed}{(}beneficio\textcolor{BrickRed}{(}actual\textcolor{BrickRed}{)}\ \textcolor{BrickRed}{\textgreater{}}\ beneficio\textcolor{BrickRed}{(}solucion\textcolor{BrickRed}{))} \\
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ solucion\ \textcolor{BrickRed}{=}\ actual \\
-\mbox{}\ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{else}}\  \\
-\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ con$\_$nuevo\ \textcolor{BrickRed}{=}\ sin$\_$nuevo\ \textcolor{BrickRed}{=}\ actual \\
-\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ con$\_$nuevo\textcolor{BrickRed}{.}push\textcolor{BrickRed}{(}\textbf{\textcolor{Blue}{true}}\textcolor{BrickRed}{)} \\
-\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ sin$\_$nuevo\textcolor{BrickRed}{.}push\textcolor{BrickRed}{(}\textbf{\textcolor{Blue}{false}}\textcolor{BrickRed}{)} \\
-\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{if}}\ \textcolor{BrickRed}{(}peso\textcolor{BrickRed}{(}con$\_$nuevo\textcolor{BrickRed}{)}\ \textcolor{BrickRed}{\textless{}=}\ capacidad\textcolor{BrickRed}{)} \\
-\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ posibles$\_$mochilas\textcolor{BrickRed}{.}push\textcolor{BrickRed}{(}con$\_$nuevo\textcolor{BrickRed}{)} \\
-\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ posibles$\_$mochilas\textcolor{BrickRed}{.}push\textcolor{BrickRed}{(}sin$\_$nuevo\textcolor{BrickRed}{)} \\
-\mbox{}\ \ \ \ \ \ \ \  \\
+\mbox{}\ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{else}} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{if}}\ \textcolor{BrickRed}{(}peso\textcolor{BrickRed}{(}actual\ \textcolor{BrickRed}{+}\ \textcolor{BrickRed}{[}\textbf{\textcolor{Blue}{true}}\textcolor{BrickRed}{])}\ \textcolor{BrickRed}{$\le$}\ capacidad\textcolor{BrickRed}{)} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ posibles$\_$mochilas\textcolor{BrickRed}{.}push\textcolor{BrickRed}{(}actual\ \textcolor{BrickRed}{+}\ \textcolor{BrickRed}{[}\textbf{\textcolor{Blue}{true}}\textcolor{BrickRed}{])} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ posibles$\_$mochilas\textcolor{BrickRed}{.}push\textcolor{BrickRed}{(}actual\ \textcolor{BrickRed}{+}\ \textcolor{BrickRed}{[}\textbf{\textcolor{Blue}{false}}\textcolor{BrickRed}{])} \\
+\mbox{} \\
 \mbox{}\ \ \ \ \textbf{\textcolor{Blue}{return}}\ solucion \\
 \mbox{}\textbf{\textcolor{Blue}{end}} \\
 \mbox{} \\

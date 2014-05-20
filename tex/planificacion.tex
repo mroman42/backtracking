@@ -48,6 +48,7 @@
 \mbox{}\ \ \ \ \textcolor{Red}{\}} \\
 \mbox{}\textcolor{Red}{\}}\textcolor{BrickRed}{;} \\
 \mbox{} \\
+\mbox{}\textit{\textcolor{Brown}{//\ Relaciona\ una\ tarea\ y\ un\ procesador}} \\
 \mbox{}\textbf{\textcolor{Blue}{struct}}\ \textcolor{TealBlue}{Planificador}\textcolor{BrickRed}{::}Asignacion\textcolor{Red}{\{} \\
 \mbox{}\ \ \ \ \textcolor{TealBlue}{uint}\ core\textcolor{BrickRed}{;} \\
 \mbox{}\ \ \ \ \textcolor{TealBlue}{Tarea}\ tarea\textcolor{BrickRed}{;} \\
@@ -96,6 +97,7 @@
 \mbox{}\ \ \ \ \textbf{\textcolor{Blue}{return}}\ \textbf{\textcolor{Blue}{false}}\textcolor{BrickRed}{;} \\
 \mbox{}\textcolor{Red}{\}} \\
 \mbox{} \\
+\mbox{}\textit{\textcolor{Brown}{//\ Comprueba\ si\ el\ planificador\ es\ vacío}} \\
 \mbox{}\textcolor{ForestGreen}{bool}\ Planificador\textcolor{BrickRed}{::}\textbf{\textcolor{Black}{empty}}\textcolor{BrickRed}{(}\textbf{\textcolor{Blue}{const}}\ \textcolor{TealBlue}{vector\textless{}Tarea\textgreater{}}\ \textcolor{BrickRed}{\&}procesador\textcolor{BrickRed}{)}\textcolor{Red}{\{} \\
 \mbox{}\ \ \ \ \textbf{\textcolor{Blue}{for}}\ \textcolor{BrickRed}{(}\textbf{\textcolor{Blue}{auto}}\ t\ \textcolor{BrickRed}{:}\ procesador\textcolor{BrickRed}{)}\textcolor{Red}{\{} \\
 \mbox{}\ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{if}}\ \textcolor{BrickRed}{(!}t\textcolor{BrickRed}{.}\textbf{\textcolor{Black}{empty}}\textcolor{BrickRed}{())}\textcolor{Red}{\{} \\
@@ -105,6 +107,7 @@
 \mbox{}\ \ \ \ \textbf{\textcolor{Blue}{return}}\ \textbf{\textcolor{Blue}{true}}\textcolor{BrickRed}{;} \\
 \mbox{}\textcolor{Red}{\}} \\
 \mbox{} \\
+\mbox{}\textit{\textcolor{Brown}{//\ Busca\ procesadores\ vacíos}} \\
 \mbox{}\textcolor{TealBlue}{uint}\ Planificador\textcolor{BrickRed}{::}\textbf{\textcolor{Black}{gap}}\textcolor{BrickRed}{(}\textcolor{TealBlue}{vector\textless{}Tarea\textgreater{}}\ \textcolor{BrickRed}{\&}procesador\textcolor{BrickRed}{)}\textcolor{Red}{\{} \\
 \mbox{}\ \ \ \ \textbf{\textcolor{Blue}{for}}\ \textcolor{BrickRed}{(}\textcolor{TealBlue}{uint}\ i\textcolor{BrickRed}{=}\textcolor{Purple}{0}\textcolor{BrickRed}{;}\ i\textcolor{BrickRed}{\textless{}}num$\_$cores\textcolor{BrickRed}{;}\ \textcolor{BrickRed}{++}i\textcolor{BrickRed}{)}\textcolor{Red}{\{} \\
 \mbox{}\ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{if}}\ \textcolor{BrickRed}{(}procesador\textcolor{BrickRed}{[}i\textcolor{BrickRed}{].}\textbf{\textcolor{Black}{empty}}\textcolor{BrickRed}{())}\textcolor{Red}{\{} \\
@@ -114,6 +117,7 @@
 \mbox{}\ \ \ \ \textbf{\textcolor{Blue}{return}}\ \textcolor{Purple}{0}\textcolor{BrickRed}{;} \\
 \mbox{}\textcolor{Red}{\}} \\
 \mbox{} \\
+\mbox{}\textit{\textcolor{Brown}{//\ Crea\ planificaciones}} \\
 \mbox{}Planificador\textcolor{BrickRed}{::}\textcolor{TealBlue}{Planificacion}\ Planificador\textcolor{BrickRed}{::}\textbf{\textcolor{Black}{planifica}}\textcolor{BrickRed}{()}\ \textcolor{Red}{\{} \\
 \mbox{}\ \ \ \ \textcolor{TealBlue}{queue\textless{}Planificacion\textgreater{}}\ posibles\textcolor{BrickRed}{;} \\
 \mbox{}\ \ \ \ \textcolor{TealBlue}{Planificacion}\ solucion\textcolor{BrickRed}{;} \\
@@ -126,6 +130,7 @@
 \mbox{}\ \ \ \ \ \ \ \ \textcolor{TealBlue}{Planificacion}\ actual\ \textcolor{BrickRed}{=}\ posibles\textcolor{BrickRed}{.}\textbf{\textcolor{Black}{front}}\textcolor{BrickRed}{();} \\
 \mbox{}\ \ \ \ \ \ \ \ posibles\textcolor{BrickRed}{.}\textbf{\textcolor{Black}{pop}}\textcolor{BrickRed}{();} \\
 \mbox{} \\
+\mbox{}\ \ \ \ \ \ \ \ \textit{\textcolor{Brown}{//\ Si\ es\ una\ planificación\ de\ todos\ las\ tareas,\ comprobamos\ si\ es\ mejor\ que\ la\ que\ ya\ tenemos}} \\
 \mbox{}\ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{if}}\ \textcolor{BrickRed}{(}actual\textcolor{BrickRed}{.}historial\textcolor{BrickRed}{.}\textbf{\textcolor{Black}{size}}\textcolor{BrickRed}{()}\ \textcolor{BrickRed}{==}\ problema\textcolor{BrickRed}{.}\textbf{\textcolor{Black}{size}}\textcolor{BrickRed}{()}\ \textcolor{BrickRed}{\&\&}\ \textbf{\textcolor{Black}{empty}}\textcolor{BrickRed}{(}actual\textcolor{BrickRed}{.}procesador$\_$actual\textcolor{BrickRed}{))}\ \textcolor{Red}{\{} \\
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{if}}\ \textcolor{BrickRed}{(}actual\textcolor{BrickRed}{.}t$\_$ejecucion\ \textcolor{BrickRed}{\textless{}}\ solucion\textcolor{BrickRed}{.}t$\_$ejecucion\textcolor{BrickRed}{)}\ \textcolor{Red}{\{} \\
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ solucion\ \textcolor{BrickRed}{=}\ actual\textcolor{BrickRed}{;} \\
@@ -141,14 +146,17 @@
 \mbox{} \\
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{if}}\ \textcolor{BrickRed}{(}core\textcolor{BrickRed}{)}\textcolor{Red}{\{} \\
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ core\textcolor{BrickRed}{-\/-;} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textit{\textcolor{Brown}{//\ Comprueba\ si\ tiene\ dependencia\ con...}} \\
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{for}}\ \textcolor{BrickRed}{(}\textcolor{TealBlue}{uint}\ j\textcolor{BrickRed}{=}\textcolor{Purple}{0}\textcolor{BrickRed}{;}\ j\textcolor{BrickRed}{\textless{}}actual\textcolor{BrickRed}{.}restantes\textcolor{BrickRed}{.}\textbf{\textcolor{Black}{size}}\textcolor{BrickRed}{();}\ \textcolor{BrickRed}{++}j\textcolor{BrickRed}{)}\textcolor{Red}{\{} \\
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ dependencia\ \textcolor{BrickRed}{=}\ \textbf{\textcolor{Blue}{false}}\textcolor{BrickRed}{;} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textit{\textcolor{Brown}{//\ ·Los\ que\ están\ ejecutándose}} \\
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{for}}\ \textcolor{BrickRed}{(}\textcolor{TealBlue}{uint}\ i\textcolor{BrickRed}{=}\textcolor{Purple}{0}\textcolor{BrickRed}{;}\ i\textcolor{BrickRed}{\textless{}}num$\_$cores\ \textcolor{BrickRed}{\&\&}\ \textcolor{BrickRed}{!}dependencia\textcolor{BrickRed}{;}\ \textcolor{BrickRed}{++}i\textcolor{BrickRed}{)}\textcolor{Red}{\{} \\
 \mbox{} \\
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{if}}\ \textcolor{BrickRed}{(!}actual\textcolor{BrickRed}{.}procesador$\_$actual\textcolor{BrickRed}{[}i\textcolor{BrickRed}{].}\textbf{\textcolor{Black}{empty}}\textcolor{BrickRed}{())}\textcolor{Red}{\{} \\
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ dependencia\ \textcolor{BrickRed}{=}\ \textbf{\textcolor{Black}{depende}}\textcolor{BrickRed}{(}actual\textcolor{BrickRed}{.}procesador$\_$actual\textcolor{BrickRed}{[}i\textcolor{BrickRed}{].}index\textcolor{BrickRed}{,}\ actual\textcolor{BrickRed}{.}restantes\textcolor{BrickRed}{[}j\textcolor{BrickRed}{].}index\textcolor{BrickRed}{);} \\
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{Red}{\}} \\
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{Red}{\}} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textit{\textcolor{Brown}{//\ ·Los\ que\ aún\ no\ se\ han\ ejecutado}} \\
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{for}}\ \textcolor{BrickRed}{(}\textcolor{TealBlue}{uint}\ k\textcolor{BrickRed}{=}\textcolor{Purple}{0}\textcolor{BrickRed}{;}\ k\textcolor{BrickRed}{\textless{}}actual\textcolor{BrickRed}{.}restantes\textcolor{BrickRed}{.}\textbf{\textcolor{Black}{size}}\textcolor{BrickRed}{()}\ \textcolor{BrickRed}{\&\&}\ \textcolor{BrickRed}{!}dependencia\textcolor{BrickRed}{;}\ \textcolor{BrickRed}{++}k\textcolor{BrickRed}{)}\textcolor{Red}{\{} \\
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{if}}\ \textcolor{BrickRed}{(}k\textcolor{BrickRed}{!=}j\textcolor{BrickRed}{)}\textcolor{Red}{\{} \\
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{if}}\ \textcolor{BrickRed}{(!}actual\textcolor{BrickRed}{.}restantes\textcolor{BrickRed}{[}j\textcolor{BrickRed}{].}\textbf{\textcolor{Black}{empty}}\textcolor{BrickRed}{())} \\
@@ -156,6 +164,7 @@
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{Red}{\}} \\
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{Red}{\}} \\
 \mbox{} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textit{\textcolor{Brown}{//\ Si\ no\ hay\ dependencia,\ lo\ ejecutamos\ en\ el\ núcleo\ libre}} \\
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{if}}\ \textcolor{BrickRed}{(!}dependencia\textcolor{BrickRed}{)}\textcolor{Red}{\{} \\
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{TealBlue}{Planificacion}\ copia$\_$actual\ \textcolor{BrickRed}{=}\ actual\textcolor{BrickRed}{;} \\
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ copia$\_$actual\textcolor{BrickRed}{.}procesador$\_$actual\textcolor{BrickRed}{[}core\textcolor{BrickRed}{]}\ \textcolor{BrickRed}{=}\ actual\textcolor{BrickRed}{.}restantes\textcolor{BrickRed}{[}j\textcolor{BrickRed}{];} \\
@@ -168,7 +177,7 @@
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{Red}{\}} \\
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{Red}{\}} \\
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{Red}{\}} \\
-\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \textit{\textcolor{Brown}{//\ Si\ el\ procesador\ no\ estaba\ vacío}} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \textit{\textcolor{Brown}{//\ Si\ el\ procesador\ no\ estaba\ vacío,...}} \\
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{if}}\ \textcolor{BrickRed}{(!}\textbf{\textcolor{Black}{empty}}\textcolor{BrickRed}{(}actual\textcolor{BrickRed}{.}procesador$\_$actual\textcolor{BrickRed}{))}\textcolor{Red}{\{} \\
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{TealBlue}{tiempo}\ minimo\ \textcolor{BrickRed}{=}\ numeric$\_$limits\textcolor{BrickRed}{\textless{}}tiempo\textcolor{BrickRed}{\textgreater{}::}\textbf{\textcolor{Black}{infinity}}\textcolor{BrickRed}{();} \\
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textit{\textcolor{Brown}{//\ Buscamos\ la\ tarea\ en\ el\ procesador\ de\ menor\ tiempo\ de\ ejecución\ restante}} \\
@@ -179,6 +188,7 @@
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{Red}{\}} \\
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{Red}{\}} \\
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{Red}{\}} \\
+\mbox{} \\
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textit{\textcolor{Brown}{//\ Actualizamos\ tiempos\ de\ ejecución\ del\ procesador}} \\
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{for}}\ \textcolor{BrickRed}{(}\textcolor{TealBlue}{Tarea}\ \textcolor{BrickRed}{\&}tarea\ \textcolor{BrickRed}{:}\ actual\textcolor{BrickRed}{.}procesador$\_$actual\textcolor{BrickRed}{)}\textcolor{Red}{\{} \\
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tarea\textcolor{BrickRed}{.}ejecucion\ \textcolor{BrickRed}{-=}\ minimo\textcolor{BrickRed}{;} \\
@@ -199,6 +209,7 @@
 \mbox{}\ \ \ \ \textbf{\textcolor{Blue}{return}}\ solucion\textcolor{BrickRed}{;} \\
 \mbox{}\textcolor{Red}{\}} \\
 \mbox{} \\
+\mbox{}\textit{\textcolor{Brown}{//\ Mostramos\ una\ planificación}} \\
 \mbox{}ostream\textcolor{BrickRed}{\&}\ \textbf{\textcolor{Blue}{operator}}\textcolor{BrickRed}{\textless{}\textless{}(}ostream\textcolor{BrickRed}{\&}\ out\textcolor{BrickRed}{,}\ \textbf{\textcolor{Blue}{const}}\ Planificador\textcolor{BrickRed}{::}Tarea\textcolor{BrickRed}{\&}\ t\textcolor{BrickRed}{)}\ \textcolor{Red}{\{} \\
 \mbox{}\ \ \ \ out\ \textcolor{BrickRed}{\textless{}\textless{}}\ t\textcolor{BrickRed}{.}index\ \textcolor{BrickRed}{\textless{}\textless{}}\ \texttt{\textcolor{Red}{"{}\ [tiempo\ "{}}}\ \textcolor{BrickRed}{\textless{}\textless{}}\ t\textcolor{BrickRed}{.}ejecucion\ \textcolor{BrickRed}{\textless{}\textless{}}\ \texttt{\textcolor{Red}{"{};\ dependencias\ "{}}}\textcolor{BrickRed}{;} \\
 \mbox{} \\
@@ -217,6 +228,7 @@
 \mbox{}\ \ \ \ \textcolor{ForestGreen}{int}\ dep\textcolor{BrickRed}{;} \\
 \mbox{}\ \ \ \ \textcolor{ForestGreen}{int}\ index\textcolor{BrickRed}{=}\textcolor{Purple}{0}\textcolor{BrickRed}{;} \\
 \mbox{} \\
+\mbox{}\ \ \ \ \textit{\textcolor{Brown}{//\ Leyendo\ datos}} \\
 \mbox{}\ \ \ \ \textbf{\textcolor{Blue}{while}}\ \textcolor{BrickRed}{(}cin\ \textcolor{BrickRed}{\textgreater{}\textgreater{}}\ ej\textcolor{BrickRed}{)}\ \textcolor{Red}{\{} \\
 \mbox{}\ \ \ \ \ \ \ \ \textcolor{TealBlue}{vector\textless{}int\textgreater{}}\ dependencias\textcolor{BrickRed}{;} \\
 \mbox{} \\

@@ -263,43 +263,6 @@ Nuestro algoritmo es de tipo iterativo, por lo que usa una cola en la que almace
     	\texttt{\input{pseudo_tsp_bb_final.tex}}
           \normalsize
   
-    \begin{algorithm}[H]
-    	\begin{algorithmic}[1]
-		\REQUIRE \ \\
-          \texttt{ciudades}, lista con todas las ciudades \\
-          \texttt{ruta}, ruta con algunas ciudades \\
-          \texttt{coste\_actual}, coste de la ruta pasada \\
-          \texttt{índice}, índice de la ciudad a partir de la cual tiene que permutar. \\\
-
-		\STATE{\texttt{mejor\_coste = $\infty$}}
-
-        \IF{\texttt{indice == \#ciudades}}
-          \STATE{\texttt{coste\_actual += distancia(ruta[$n$-1], ruta[0])}}
-
-	      \IF{\texttt{coste\_actual < mejor\_coste}}
-	        \STATE{\texttt{mejor\_coste = coste\_actual\\
-	        mejor\_ruta = ruta}}
-	      \ENDIF
-	    \ELSIF{\texttt{coste\_actual > mejor\_coste}}
-	      \RETURN $\emptyset$
-	    \ELSE
-	      \FOR{\texttt{i} = indice hasta \texttt{\#ciudades}:}
-	        \STATE{\texttt{Buscamos un cruce de caminos. En cuyo caso, lo desechamos porque no puede ser el óptimo.}}
-	        \STATE{\texttt{Producimos una permutación:\\
-	        intercambiar(ruta[i], ruta[indice])\\
-	        coste\_actual += distancia(ruta[indice-1], ruta[indice])}}
-	        \STATE{\texttt{TSP(ciudades, ruta, coste\_actual, indice+1)}}
-	        \STATE{\texttt{Deshacemos el cambio:\\ coste\_actual --= distancia(ruta[indice - 1], ruta[indice])\\
-	        intercambiar(ruta[indice], ruta[i])}}
-	        
-	        
-	      \ENDFOR
-	    \ENDIF
-	    \RETURN{\texttt{ruta}}
-    	\end{algorithmic}
-        \caption{Algoritmo Branch \& Bound para el TSP}
-        \label{BBound-TSP}
-    \end{algorithm}
 
 \section{Planificación en multiprocesadores}
   \subsection{Enunciado}

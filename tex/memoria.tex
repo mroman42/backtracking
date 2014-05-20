@@ -197,6 +197,8 @@ En el algoritmo, \textit{beneficio} representa el valor de la suma de beneficios
   
   Se realiza un cálculo del máximo beneficio a partir de un nodo intermedio $(\delta_1, \dots, \delta_k)$. Para hallar esta cota, tomamos el peso que queda por llenar y le añadimos el peso de los objetos que tengan la mejor proporción \textit{beneficio}/\textit{peso}, hasta completar la capacidad de la mochila, y comparamos el beneficio asociado a estos objetos con la mejor solución obtenida hasta ahora.
   
+  La estrategia de poda que se sigue es podar cada rama en la que se encuentre una beneficio máximo (cota superior) menor que el beneficio de la mejor solución encontrada hasta el momento. La estrategia de ramificación utilizada es Maximum-Benefit FIFO, ya que usamos una cola con prioridad ordenada por el mayor beneficio.
+  
 	\subsubsection{Algoritmo}
 
 

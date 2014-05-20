@@ -353,6 +353,7 @@ En el algoritmo, \textit{beneficio} representa el valor de la suma de beneficios
   
   
   \subsection{Backtracking}
+  
   \subsection{Branch \& Bound}
 
 \section{3-Dimensional Matching}
@@ -365,9 +366,52 @@ En el algoritmo, \textit{beneficio} representa el valor de la suma de beneficios
     Buscamos la asignación válida de mayor cardinal, es decir la $M$ asignación válida maximizando $|M|$.
     
   \subsection{Backtracking}
-  En este algoritmo consideraremos todas las asignaciones posibles y nos quedaremos con la asignación que tenga mayor cardinal. Para ello, tomaremos cada asignación posible y consideraremos todos los casos derivados. Cuando no quede ninguna asignación, compararemos los tamaños de la solución obtenida y la mejor solución hasta el momento, actualizando la mejor solución si la actual la mejorase. 
+  En este algoritmo consideraremos todas las asignaciones posibles y nos quedaremos con la asignación que tenga mayor cardinal. Para ello, consideraremos todas las aristas e iremos comprobando para cada una si es posible añadirla. De ser así, distinguiremos dos casos: La arista puede pertenecer o no a la solución. Sobre estos dos casos aplicaremos el mismo algoritmo. Cuando no quede ninguna arista que pueda ser añadida, compararemos los tamaños de la solución obtenida y la mejor solución hasta el momento, actualizando la mejor solución si la actual la mejorase. 
   
+  Como cada arista tiene la opción de estar o no estar en la solución, la dimensión del espacio de soluciones es de $2^n$.   
+	\subsubsection{Algoritmo}
+      \begin{algorithm}[H]
+      	\begin{algorithmic}[1]
+  		\REQUIRE \ \\
+        	\texttt{aristas} \\
+     	\STATE{\texttt{$n$ = \#aristas}}
+     	\STATE{\texttt{solución = [[false,\dots,false],[false,\dots,false],[false,\dots,false]]}}\\\
+     	\STATE{Creamos una cola \texttt{posibles\_particiones}}
+     	\STATE{\texttt{posibles\_particiones.push([])}}
+     	
+     	\WHILE{\texttt{posibles\_particiones}$\neq \emptyset$}
+		  \STATE{\texttt{actual = posibles\_particiones.pop()}}
+		  \STATE{\texttt{indice = \#actual.aristas}}
+		  \IF{\texttt{indice == $n$}}
+		    \IF{valor(\texttt{actual}) >\ valor(\texttt{solución})}
+		      \STATE{\texttt{solución = actual}}
+		    \ENDIF
+		  \ELSE
+	        \STATE{\texttt{con\_nueva = sin\_nueva = actual}
+	        \STATE{\texttt{con\_nueva.push\_back(true)}}
+	        \STATE{\texttt{sin\_nueva.push\_back(false)}}}
+	        
+	        \STATE{\texttt{posibles\_mochilas.push(sin\_nueva)}}
+	        \IF{Se puede añadir}
+	        \STATE{\texttt{posibles\_mochilas.push(con\_nueva)}}
+	        \ENDIF
+	      \ENDIF
+ 		\ENDWHILE
+     \RETURN{\texttt{solución}}
+      	\end{algorithmic}
+          \caption{Algoritmo Backtracking para el 3D Matching}
+          \label{Back-3DMatch}
+      \end{algorithm}
+
   \subsection{Branch \& Bound}
+    \begin{algorithm}[H]
+    	\begin{algorithmic}[1]
+		\REQUIRE 
+    	\end{algorithmic}
+        \caption{Algoritmo Branch \& Bound para el 3D Matching}
+        \label{BBound-3DMatch}
+    \end{algorithm}
+  
 
 \section{El problema de la asignación cuadrática (QAP)}
   \subsection{Enunciado}

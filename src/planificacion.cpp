@@ -46,6 +46,7 @@ struct Planificador::Tarea {
     }
 };
 
+// Relaciona una tarea y un procesador
 struct Planificador::Asignacion{
     uint core;
     Tarea tarea;
@@ -94,6 +95,7 @@ bool Planificador::depende(int una, int otra) {
     return false;
 }
 
+// Comprueba si el planificador es vacío
 bool Planificador::empty(const vector<Tarea> &procesador){
     for (auto t : procesador){
         if (!t.empty()){
@@ -103,6 +105,7 @@ bool Planificador::empty(const vector<Tarea> &procesador){
     return true;
 }
 
+// Busca procesadores vacíos
 uint Planificador::gap(vector<Tarea> &procesador){
     for (uint i=0; i<num_cores; ++i){
         if (procesador[i].empty()){
@@ -112,6 +115,7 @@ uint Planificador::gap(vector<Tarea> &procesador){
     return 0;
 }
 
+// Crea planificaciones
 Planificador::Planificacion Planificador::planifica() {
     queue<Planificacion> posibles;
     Planificacion solucion;
@@ -124,6 +128,7 @@ Planificador::Planificacion Planificador::planifica() {
         Planificacion actual = posibles.front();
         posibles.pop();
 
+        // Si es una planificación de todos las tareas, comprobamos si es mejor que la que ya tenemos
         if (actual.historial.size() == problema.size() && empty(actual.procesador_actual)) {
             if (actual.t_ejecucion < solucion.t_ejecucion) {
                 solucion = actual;
@@ -139,14 +144,17 @@ Planificador::Planificacion Planificador::planifica() {
 
             if (core){
                 core--;
+                // Comprueba si tiene dependencia con...
                 for (uint j=0; j<actual.restantes.size(); ++j){
                     dependencia = false;
+                    // ·Los que están ejecutándose
                     for (uint i=0; i<num_cores && !dependencia; ++i){
 
                         if (!actual.procesador_actual[i].empty()){
                             dependencia = depende(actual.procesador_actual[i].index, actual.restantes[j].index);
                         }
                     }
+                    // ·Los que aún no se han ejecutado
                     for (uint k=0; k<actual.restantes.size() && !dependencia; ++k){
                         if (k!=j){
                             if (!actual.restantes[j].empty())
@@ -154,6 +162,7 @@ Planificador::Planificacion Planificador::planifica() {
                         }
                     }
 
+                    // Si no hay dependencia, lo ejecutamos en el núcleo libre
                     if (!dependencia){
                         Planificacion copia_actual = actual;
                         copia_actual.procesador_actual[core] = actual.restantes[j];
@@ -166,7 +175,7 @@ Planificador::Planificacion Planificador::planifica() {
                     }
                 }
             }
-            // Si el procesador no estaba vacío
+            // Si el procesador no estaba vacío,...
             if (!empty(actual.procesador_actual)){
                 tiempo minimo = numeric_limits<tiempo>::infinity();
                 // Buscamos la tarea en el procesador de menor tiempo de ejecución restante
@@ -177,6 +186,7 @@ Planificador::Planificacion Planificador::planifica() {
                         }
                     }
                 }
+
                 // Actualizamos tiempos de ejecución del procesador
                 for (Tarea &tarea : actual.procesador_actual){
                     tarea.ejecucion -= minimo;
@@ -197,6 +207,7 @@ Planificador::Planificacion Planificador::planifica() {
     return solucion;
 }
 
+// Mostramos una planificación
 ostream& operator<<(ostream& out, const Planificador::Tarea& t) {
     out << t.index << " [tiempo " << t.ejecucion << "; dependencias ";
 
@@ -215,6 +226,7 @@ int main (int argc, char const *argv[]) {
     int dep;
     int index=0;
 
+    // Leyendo datos
     while (cin >> ej) {
         vector<int> dependencias;
 

@@ -248,8 +248,12 @@ En el algoritmo, \textit{beneficio} representa el valor de la suma de beneficios
     \end{equation}
     
   \subsection{Backtracking}
+  
+  Utilizaremos un vector de enteros para representar una solución, donde almacenaremos los índices de las ciudades que se van recorriendo en la ruta. Como únicamente podemos pasar una vez por cada ciudad, el espacio de soluciones tendrá un tamaño de $n!$
+  
+  
   \subsubsection{Algoritmo}
-  Para aplicar backtracking al problema del TSP, utilizamos un algoritmo recursivo, el cual recibe la lista de ciudades del problema, la ruta con las ciudades que llevamos hasta el momento, su coste, y el índice de la última ciudad añadida. Calcularemos todas las ramificaciones posibles de la ruta actual, y tomaremos la mejor de estas, comparando el coste de cada rama con el coste de la mejor solución hasta el momento. Además, utilizaremos una técnica 2-OPT para desechar permutaciones: Si la ruta contiene algún cruce de caminos, es mejorable por 2-OPT y por tanto no es óptima. 
+  Para aplicar backtracking al problema del TSP, utilizamos un algoritmo recursivo, el cual recibe la lista de ciudades del problema, la ruta con las ciudades que llevamos hasta el momento, su coste, y el índice de la última ciudad añadida. Calcularemos todas las ramificaciones posibles de la ruta actual, y tomaremos la mejor de estas, comparando el coste de cada rama con el coste de la mejor solución hasta el momento. 
   
   \begin{algorithm}[H]
   	\begin{algorithmic}[1]
@@ -278,8 +282,6 @@ En el algoritmo, \textit{beneficio} representa el valor de la suma de beneficios
 	        \STATE{Deshacemos el cambio:\\ 
 	        \texttt{coste\_actual --= distancia(ruta[indice - 1], ruta[indice])\\
 	        intercambiar(ruta[indice], ruta[i])}}
-	        
-	        
 	      \ENDFOR
 	    \ENDIF
 	    \RETURN{\texttt{ruta}}
@@ -287,7 +289,13 @@ En el algoritmo, \textit{beneficio} representa el valor de la suma de beneficios
       \caption{Algoritmo Branch \& Bound para el TSP}
       \label{Back-TSP}
   \end{algorithm}
+  
+ 
   \subsection{Branch \& Bound}
+  \subsubsection{Algoritmo}
+  
+  Para la ramificación y poda de este problema, utilizaremos una técnica basada en 2-OPT para desechar permutaciones: Si al añadir una nueva ciudad, la ruta resultante contiene algún cruce de caminos, es mejorable por 2-OPT y por tanto no es óptima, luego podemos pasar al siguiente candidato. 
+  
     \begin{algorithm}[H]
     	\begin{algorithmic}[1]
 		\REQUIRE \ \\

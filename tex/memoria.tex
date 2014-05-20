@@ -146,11 +146,12 @@ Representamos una mochila como un vector de datos booleanos, $\delta$, de tamañ
 
 La función de poda toma un vector $\delta = (\delta_1, \dots, \delta_n)$ y devuelve falso en caso de que $\sum_{i=1}^{n} \omega_i\delta_i > M$, asegurando así que solo se van considerando en el proceso candidatas a solución.
 
+	\newpage
 
 	\subsubsection{Algoritmo}
 Nuestro algoritmo es de tipo iterativo, por lo que usa una cola en la que almacenamos las mochilas que vamos procesando. La poda se produce cuando al añadir un objeto, la mochila resultante supera el peso límite, en cuyo caso esta no es añadida a la cola de candidatas. Cuando encontremos una mochila completa, se compara con la solución actual, y se sustituye en caso de mejorarla. 
 
-  	\newpage
+  	
           \small
     	\texttt{\input{pseudo_mochila_final_bt.tex}}
           \normalsize
@@ -231,13 +232,16 @@ Nuestro algoritmo es de tipo iterativo, por lo que usa una cola en la que almace
   La poda se realiza generando únicamente vectores que representen posibles soluciones, esto es, solo se consideran permutaciones del vector inicial $(1,\dots,n)$. De esta forma descartamos el resto de posibles combinaciones de los elementos. Diremos que, para un nodo $(i_0, \dots, i_k)$, la función de poda da falso si se repite alguno de los índices, es decir, $\exists p\ne q : i_p = i_q$.
   
   
+      \newpage
+      
     \subsubsection{Algoritmo}
+    
       Para aplicar backtracking al problema del TSP, utilizamos un algoritmo recursivo, el cual recibe la lista de 
       ciudades del problema, la ruta con las ciudades que llevamos hasta el momento, su coste, y el índice de la 
       última ciudad añadida. Calcularemos todas las ramificaciones posibles de la ruta actual, y tomaremos la mejor 
       de estas. 
   
-	\newpage
+	
         \small
   	\texttt{\input{pseudo_tsp_final.tex}}
         \normalsize
@@ -252,13 +256,13 @@ Nuestro algoritmo es de tipo iterativo, por lo que usa una cola en la que almace
   
   La estrategia de ramificación utilizada en este caso será Least-Cost FIFO, ya que buscamos explorar las soluciones ordenadas por el menor coste.
   
+    	\newpage
+  
   \subsubsection{Algoritmo}
   
-  
-  	\newpage
-          \small
-    	\texttt{\input{pseudo_tsp_bb_final.tex}}
-          \normalsize
+    \small
+  	\texttt{\input{pseudo_tsp_bb_final.tex}}
+     \normalsize
   
 
 \subsubsection{Variante: Branch \& Bound con 2-OPT}

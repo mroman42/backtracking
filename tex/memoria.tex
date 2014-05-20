@@ -150,44 +150,11 @@ La función de poda toma un vector $\delta = (\delta_1, \dots, \delta_n)$ y devu
 	\subsubsection{Algoritmo}
 Nuestro algoritmo es de tipo iterativo, por lo que usa una cola en la que almacenamos las mochilas que vamos procesando. La poda se produce cuando al añadir un objeto, la mochila resultante supera el peso límite, en cuyo caso esta no es añadida a la cola de candidatas. Cuando encontremos una mochila completa, se compara con la solución actual, y se sustituye en caso de mejorarla. 
 
-\begin{algorithm}[H]
-	\begin{algorithmic}[1]
-		\REQUIRE \ \\
-        	$M$, límite de peso de la mochila \\
-        	$\omega$, vector de pesos de objetos\\
-        	$B$, vector de beneficios de objetos\\\
-     	\STATE{\texttt{$n$ = \#pesos}}
-	\STATE{\texttt{solución = [false,\dots,false]}}\\\
-     	\STATE{Creamos una cola \texttt{posibles\_mochilas}}
-     	\STATE{\texttt{posibles\_mochilas.push([])}}
-     	
-     	\WHILE{\texttt{posibles\_mochilas}$\neq \emptyset$}
-	  \STATE{\texttt{actual = posibles\_mochilas.pop()}}
-	  \IF{\texttt{\#actual == $n$}}
-	    \IF{beneficio(\texttt{actual}) >\ beneficio(\texttt{solución})}
-	      \STATE{\texttt{solución = actual}}
-	    \ENDIF
-	  \ELSE
-	    \STATE{\texttt{con\_nuevo = sin\_nuevo = actual}
-	    \STATE{\texttt{con\_nuevo.push\_back(true)}}
-	    \STATE{\texttt{sin\_nuevo.push\_back(false)}}}
-	    \STATE{\texttt{nuevo\_peso = }peso(\texttt{con\_nuevo})}
-	    \IF{\texttt{nuevo\_peso} $\leq M$}
-	    \STATE{(\textit{Acotación: no analizamos el caso si \texttt{nuevo\_peso} > $M$})}
-	      \STATE{\texttt{posibles\_mochilas.push(con\_nuevo)}}
-	    \ENDIF
-	    \STATE{\texttt{posibles\_mochilas.push(sin\_nuevo)}}
-	  \ENDIF
-     	\ENDWHILE
-     \RETURN{\texttt{solución}}
-	\end{algorithmic}
-    \caption{Algoritmo backtracking para el problema de la mochila}
-    \label{Back-Mochila}
-\end{algorithm}
-
-En el algoritmo, \textit{beneficio} representa el valor de la suma de beneficios de un vector de booleanos $\delta$, $\sum_{i=1}^{n}b_i\delta_i$; y \textit{peso} representa la suma de pesos del vector $\delta$, $\sum_{i=1}^{n}\omega_i\delta_i$.
-
-
+  	\newpage
+          \small
+    	\texttt{\input{pseudo_mochila_final_bt.tex}}
+          \normalsize
+    
 
   \subsection{Branch \& Bound}
   
@@ -274,7 +241,6 @@ En el algoritmo, \textit{beneficio} representa el valor de la suma de beneficios
         \small
   	\texttt{\input{pseudo_tsp_final.tex}}
         \normalsize
-  
 
   \subsection{Branch \& Bound}
   \subsubsection{Algoritmo}

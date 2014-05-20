@@ -150,44 +150,11 @@ La función de poda toma un vector $\delta = (\delta_1, \dots, \delta_n)$ y devu
 	\subsubsection{Algoritmo}
 Nuestro algoritmo es de tipo iterativo, por lo que usa una cola en la que almacenamos las mochilas que vamos procesando. La poda se produce cuando al añadir un objeto, la mochila resultante supera el peso límite, en cuyo caso esta no es añadida a la cola de candidatas. Cuando encontremos una mochila completa, se compara con la solución actual, y se sustituye en caso de mejorarla. 
 
-\begin{algorithm}[H]
-	\begin{algorithmic}[1]
-		\REQUIRE \ \\
-        	$M$, límite de peso de la mochila \\
-        	$\omega$, vector de pesos de objetos\\
-        	$B$, vector de beneficios de objetos\\\
-     	\STATE{\texttt{$n$ = \#pesos}}
-	\STATE{\texttt{solución = [false,\dots,false]}}\\\
-     	\STATE{Creamos una cola \texttt{posibles\_mochilas}}
-     	\STATE{\texttt{posibles\_mochilas.push([])}}
-     	
-     	\WHILE{\texttt{posibles\_mochilas}$\neq \emptyset$}
-	  \STATE{\texttt{actual = posibles\_mochilas.pop()}}
-	  \IF{\texttt{\#actual == $n$}}
-	    \IF{beneficio(\texttt{actual}) >\ beneficio(\texttt{solución})}
-	      \STATE{\texttt{solución = actual}}
-	    \ENDIF
-	  \ELSE
-	    \STATE{\texttt{con\_nuevo = sin\_nuevo = actual}
-	    \STATE{\texttt{con\_nuevo.push\_back(true)}}
-	    \STATE{\texttt{sin\_nuevo.push\_back(false)}}}
-	    \STATE{\texttt{nuevo\_peso = }peso(\texttt{con\_nuevo})}
-	    \IF{\texttt{nuevo\_peso} $\leq M$}
-	    \STATE{(\textit{Acotación: no analizamos el caso si \texttt{nuevo\_peso} > $M$})}
-	      \STATE{\texttt{posibles\_mochilas.push(con\_nuevo)}}
-	    \ENDIF
-	    \STATE{\texttt{posibles\_mochilas.push(sin\_nuevo)}}
-	  \ENDIF
-     	\ENDWHILE
-     \RETURN{\texttt{solución}}
-	\end{algorithmic}
-    \caption{Algoritmo backtracking para el problema de la mochila}
-    \label{Back-Mochila}
-\end{algorithm}
-
-En el algoritmo, \textit{beneficio} representa el valor de la suma de beneficios de un vector de booleanos $\delta$, $\sum_{i=1}^{n}b_i\delta_i$; y \textit{peso} representa la suma de pesos del vector $\delta$, $\sum_{i=1}^{n}\omega_i\delta_i$.
-
-
+  	\newpage
+          \small
+    	\texttt{\input{pseudo_mochila_final_bt.tex}}
+          \normalsize
+    
 
   \subsection{Branch \& Bound}
   
@@ -259,9 +226,9 @@ En el algoritmo, \textit{beneficio} representa el valor de la suma de beneficios
   \subsection{Backtracking}
   
   
-  Utilizaremos un vector de enteros para representar una solución, donde almacenaremos los índices de las ciudades que se van recorriendo en la ruta. Como únicamente podemos pasar una vez por cada ciudad, el espacio de soluciones tendrá un tamaño de $(n-1)!$.
+  Utilizaremos un vector de enteros para representar una solución, donde almacenaremos los índices de las ciudades que se van recorriendo en la ruta. Como fijamos la primera ciudad y únicamente podemos pasar una vez por cada una, el espacio de soluciones tendrá un tamaño de $(n-1)!$.
   
-  La poda se realiza generando únicamente vectores que representen posibles soluciones, es decir, solo se consideran permutaciones del vector inicial $(1,\dots,n)$. De esta forma descartamos el resto de posibles combinaciones de los elementos.
+  La poda se realiza generando únicamente vectores que representen posibles soluciones, esto es, solo se consideran permutaciones del vector inicial $(1,\dots,n)$. De esta forma descartamos el resto de posibles combinaciones de los elementos. Diremos que, para un nodo $(i_0, \dots, i_k)$, la función de poda da falso si se repite alguno de los índices, es decir, $\exists p\ne q : i_p = i_q$.
   
   
     \subsubsection{Algoritmo}
@@ -276,9 +243,17 @@ En el algoritmo, \textit{beneficio} representa el valor de la suma de beneficios
         \small
   	\texttt{\input{pseudo_tsp_final.tex}}
         \normalsize
-  
 
   \subsection{Branch \& Bound}
+  De nuevo, representaremos una solución como un vector de enteros de tamaño $n$, obteniendo el mismo espacio de soluciones de tamaño $(n-1)!$.
+  
+  Dado un nodo intermedio $(i_0, \dots, i_k)$, los posibles hijos serán del tipo\\ $(i_0, \dots, i_k, i_{k+1})$ con $i_{k+1} \notin \{i_0, \dots, i_k\}$, ya que no aceptaremos repeticiones de ciudades (para evitar generar vectores que no sean permutaciones).
+  
+  La cota que se utiliza para la poda es el cálculo del coste (la suma de distancias entre ciudades) hasta el momento. Este coste resulta ser una cota mínima del coste de cualquier posible solución que se obtenga del nodo actual.
+  La poda se realiza en el momento en que la cota mínima supera al coste de la mejor solución hallada hasta el momento.
+  
+  La estrategia de ramificación utilizada en este caso será Least-Cost FIFO, ya que buscamos explorar las soluciones ordenadas por el menor coste.
+  
   \subsubsection{Algoritmo}
   
   Para la ramificación y poda de este problema, utilizaremos una técnica basada en 2-OPT para desechar permutaciones: Si al añadir una nueva ciudad, la ruta resultante contiene algún cruce de caminos, es mejorable por 2-OPT y por tanto no es óptima, luego podemos pasar al siguiente candidato sin tener en cuenta las soluciones derivadas de la que hemos calculado.  

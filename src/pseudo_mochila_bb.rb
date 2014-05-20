@@ -1,34 +1,46 @@
 def mochila(capacidad, pesos, beneficios)
-    n = LATEXpesos
-    solucion = [false,\dots,false]
-    posibles_mochilas.push([])
-    while (not posibles_mochilas.empty?)
-        actual = posibles_mochilas.pop
-        if (actual == n)
-            if (beneficio(actual) > beneficio(solucion))
-                solucion = actual
-        else 
-            con_nuevo = sin_nuevo = actual
-            con_nuevo.push(true)
-            sin_nuevo.push(false)
-            nuevo_peso = peso(con_nuevo)
-            if (nuevo_peso <= capacidad)
-                posibles_mochilas.push(con_nuevo)
-            if (beneficio(solucion) < beneficio(actual) + calculaCota())
-                posibles_mochilas.push(sin_nuevo)
-    return solucion
+    def generar()
+        posibles_mochilas = new Queue
+        posibles_mochilas.push([])
+
+        while (not posibles_mochilas.empty?)
+            actual = posibles_mochilas.pop
+            if (actual == n)
+                if (beneficio(actual) > beneficio(solucion))
+                    solucion = actual
+            else
+                if (peso(actual + [true]) <= capacidad)
+                    posibles_mochilas.push(actual + [true])
+                if (beneficio(solucion) < beneficio(actual) + calculaCota(actual + [false]))
+                    posibles_mochilas.push(actual + [false])
+
+        return solucion
+    end
+
+    def beneficio(nodo)
+        return LATEX
+    end
+
+    def peso(nodo)
+        return LATEX
+    end
+
+    def calculaCota(nodo)
+        w = {beneficios[i+AA nodo]/pesos[i+AA nodo] : i in [0..AA pesos]}
+        beneficio_extra = 0
+        restante = capacidad - peso(nodo)
+
+        while (restante > 0 and !w.empty())
+            restante -= pesos[w.max()]
+            beneficio_extra += beneficios[w.max()]
+            w.delete_max()
+
+        return beneficio_extra
+    end
+
+    n = AA pesos
+    solucion = [false, ..., false]
+
+    return generar()
+
 end
-
-
-def beneficio(mochila)
-    return LATEX
-end
-
-def peso(mochila)
-    return LATEX
-end
-
-def calculaCota
-    return LATEX
-end 
-            

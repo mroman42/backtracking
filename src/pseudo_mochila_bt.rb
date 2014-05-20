@@ -1,21 +1,18 @@
 def mochila(capacidad, pesos, beneficios)
-    n = LATEXpesos
+    n = AA pesos
     solucion = [false,\dots,false]
     posibles_mochilas.push([])
+    
     while (not posibles_mochilas.empty?)
         actual = posibles_mochilas.pop
         if (actual == n)
             if (beneficio(actual) > beneficio(solucion))
                 solucion = actual
-        else 
-            con_nuevo = sin_nuevo = actual
-            con_nuevo.push(true)
-            sin_nuevo.push(false)
-            nuevo_peso = peso(con_nuevo)
-            if (nuevo_peso <= capacidad)
-                posibles_mochilas.push(con_nuevo)
-            posibles_mochilas.push(sin_nuevo)
-        
+        else
+            if (peso(actual + [true]) <= capacidad)
+                posibles_mochilas.push(actual + [true])
+            posibles_mochilas.push(actual + [false])
+
     return solucion
 end
 
@@ -26,5 +23,3 @@ end
 def peso(mochila)
     return LATEX
 end
-
-            

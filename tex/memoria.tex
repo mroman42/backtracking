@@ -266,44 +266,16 @@ En el algoritmo, \textit{beneficio} representa el valor de la suma de beneficios
       Para aplicar backtracking al problema del TSP, utilizamos un algoritmo recursivo, el cual recibe la lista de 
       ciudades del problema, la ruta con las ciudades que llevamos hasta el momento, su coste, y el índice de la 
       última ciudad añadida. Calcularemos todas las ramificaciones posibles de la ruta actual, y tomaremos la mejor 
-      de estas, comparando el coste de cada rama con el coste de la mejor solución hasta el momento.
-      
-  \begin{algorithm}[H]
-  	\begin{algorithmic}[1]
-  		\REQUIRE \ \\
-          \texttt{ciudades}, lista con todas las ciudades \\
-          \texttt{ruta}, ruta con algunas ciudades \\
-          \texttt{coste\_actual}, coste de la ruta pasada \\
-          \texttt{índice}, índice de la ciudad a partir de la cual tiene que permutar. \\\
-
-		\STATE{\texttt{mejor\_coste = $\infty$}}
-
-        \IF{\texttt{indice == \#ciudades}}
-          \STATE{\texttt{coste\_actual += distancia(ruta[$n$-1], ruta[0])}}
-
-	      \IF{\texttt{coste\_actual <\ mejor\_coste}}
-	        \STATE{\texttt{mejor\_coste = coste\_actual\\
-	        mejor\_ruta = ruta}}
-	      \ENDIF
-	    \ELSE
-	      \FOR{\texttt{i} = índice hasta \texttt{\#ciudades}:}
-	        \STATE{Producimos una permutación:\\
-	        \texttt{intercambia(ruta[i], ruta[indice])\\
-	        coste\_actual += distancia(ruta[indice-1], ruta[indice])}}
-	        \STATE{Llamamos recursivamente a la función:\\
-	        \texttt{TSP(ciudades, ruta, coste\_actual, indice+1)}}
-	        \STATE{Deshacemos el cambio:\\ 
-	        \texttt{coste\_actual --= distancia(ruta[indice - 1], ruta[indice])\\
-	        intercambiar(ruta[indice], ruta[i])}}
-	      \ENDFOR
-	    \ENDIF
-	    \RETURN{\texttt{ruta}}
-  	\end{algorithmic}
-      \caption{Algoritmo Branch \& Bound para el TSP}
-      \label{Back-TSP}
-  \end{algorithm}
+      de estas, comparando el coste de cada rama con el coste de la mejor solución hasta el momento. Además, 
+      utilizaremos una técnica 2-OPT para desechar permutaciones: Si la ruta contiene algún cruce de caminos, es 
+      mejorable por 2-OPT y por tanto no es óptima. 
   
- 
+	\newpage
+        \small
+  	\texttt{\input{pseudo_tsp_final.tex}}
+        \normalsize
+  
+
   \subsection{Branch \& Bound}
   \subsubsection{Algoritmo}
   
@@ -350,8 +322,7 @@ En el algoritmo, \textit{beneficio} representa el valor de la suma de beneficios
 \section{Planificación en multiprocesadores}
   \subsection{Enunciado}
   Tenemos un conjunto de $n$ tareas con un tiempo de ejecución $t_i$ asociado a cada una, existiendo una relación de precedencia
-  entre algunas tareas, que hace que tengan que ejecutarse unas antes que otras. Nuestro objetivo es obtener la asignación de 
-  tareas que, manteniendo las relaciones de dependencia, resulte en un tiempo de ejecución mínimo. 
+  entre algunas tareas, que hace que tengan que ejecutarse unas antes que otras. Nuestro objetivo es obtener la asignación de tareas que, manteniendo las relaciones de dependencia, resulte en un tiempo de ejecución mínimo. 
   
   
   \subsection{Backtracking}
@@ -370,7 +341,14 @@ En el algoritmo, \textit{beneficio} representa el valor de la suma de beneficios
   \subsection{Backtracking}
   En este algoritmo consideraremos todas las asignaciones posibles y nos quedaremos con la asignación que tenga mayor cardinal. Para ello, consideraremos todas las aristas e iremos comprobando para cada una si es posible añadirla. De ser así, distinguiremos dos casos: La arista puede pertenecer o no a la solución. Sobre estos dos casos aplicaremos el mismo algoritmo. Cuando no quede ninguna arista que pueda ser añadida, compararemos los tamaños de la solución obtenida y la mejor solución hasta el momento, actualizando la mejor solución si la actual la mejorase. 
   
-  Como cada arista tiene la opción de estar o no estar en la solución, la dimensión del espacio de soluciones es de $2^n$.   
+  Representaremos la solución como un vector de booleanos, que nos indican si la arista asociada al índice se encuentra o no en la solución. Como cada arista tiene la opción de estar o no estar en la solución, la dimensión del espacio de soluciones es de $2^n$, siendo $n$ el número de aristas. 
+  
+  \subsection{Branch \& Bound}
+  
+    Para la versión Branch \& Bound del algoritmo, usaremos la misma representación para la solución, un vector de booleanos, por lo que tendremos el mismo espacio de soluciones.
+    
+    Como función de poda sobre una solución parcial, consideraremos la satisfacción que obtendríamos con todas las aristas restantes como cota máxima de la satisfacción posible a obtener. Si la satisfacción máxima de la parte restante sumada con la satisfacción de la solución parcial es menor que la satisfacción de la mejor solución hasta el momento, podemos descartar la solución parcial y obviar todas las ramas derivadas. 
+    
 	\subsubsection{Algoritmo}
       \begin{algorithm}[H]
       	\begin{algorithmic}[1]

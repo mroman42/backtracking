@@ -256,7 +256,7 @@ En el algoritmo, \textit{beneficio} representa el valor de la suma de beneficios
           \texttt{ciudades}, lista con todas las ciudades \\
           \texttt{ruta}, ruta con algunas ciudades \\
           \texttt{coste\_actual}, coste de la ruta pasada \\
-          \texttt{indice}, índice de la última ciudad añadida. \\\
+          \texttt{indice}, índice de la ciudad a partir de la cual tiene que permutar. \\\
 
 		\STATE{\texttt{mejor\_coste = $\infty$}}
 
@@ -269,11 +269,13 @@ En el algoritmo, \textit{beneficio} representa el valor de la suma de beneficios
 	      \ENDIF
 	    \ELSE
 	      \FOR{\texttt{i} = indice hasta \texttt{\#ciudades}:}
-	        \STATE{\texttt{Producimos una permutación:\\
-	        intercambiar(ruta[i], ruta[indice])\\
+	        \STATE{Producimos una permutación:\\
+	        \texttt{intercambia(ruta[i], ruta[indice])\\
 	        coste\_actual += distancia(ruta[indice-1], ruta[indice])}}
-	        \STATE{\texttt{TSP(ciudades, ruta, coste\_actual, indice+1)}}
-	        \STATE{\texttt{Deshacemos el cambio:\\ coste\_actual --= distancia(ruta[indice - 1], ruta[indice])\\
+	        \STATE{Llamamos recursivamente a la función:\\
+	        \texttt{TSP(ciudades, ruta, coste\_actual, indice+1)}}
+	        \STATE{Deshacemos el cambio:\\ 
+	        \texttt{coste\_actual --= distancia(ruta[indice - 1], ruta[indice])\\
 	        intercambiar(ruta[indice], ruta[i])}}
 	        
 	        

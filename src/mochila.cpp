@@ -141,7 +141,7 @@ Mochila resolver(int limite, vector<int> pesos, vector<int> beneficios) {
 	        int k = sin_nuevo.first.size();
 
             // Peso que queda por llenar
-	        int restante = limite - nuevo_peso + pesos[k-1];
+	        int restante = limite - (nuevo_peso - pesos[k-1]);
 	        int nuevo_beneficio = sin_nuevo.second;
 
 	        for (uint i=0; i < tamanio - k; ++i)

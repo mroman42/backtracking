@@ -281,6 +281,11 @@ En el algoritmo, \textit{beneficio} representa el valor de la suma de beneficios
   
   Para la ramificación y poda de este problema, utilizaremos una técnica basada en 2-OPT para desechar permutaciones: Si al añadir una nueva ciudad, la ruta resultante contiene algún cruce de caminos, es mejorable por 2-OPT y por tanto no es óptima, luego podemos pasar al siguiente candidato sin tener en cuenta las soluciones derivadas de la que hemos calculado.  
   
+  	\newpage
+          \small
+    	\texttt{\input{pseudo_tsp_bb_final.tex}}
+          \normalsize
+  
     \begin{algorithm}[H]
     	\begin{algorithmic}[1]
 		\REQUIRE \ \\

@@ -325,11 +325,52 @@ En el algoritmo, \textit{beneficio} representa el valor de la suma de beneficios
   
   
   \subsection{Backtracking}
+  
   \subsection{Branch \& Bound}
 
 \section{3-Dimensional Matching}
   \subsection{Backtracking}
+      \begin{algorithm}[H]
+      	\begin{algorithmic}[1]
+  		\REQUIRE \ \\
+        	\texttt{aristas} \\
+     	\STATE{\texttt{$n$ = \#aristas}}
+     	\STATE{\texttt{solución = [[false,\dots,false],[false,\dots,false],[false,\dots,false]]}}\\\
+     	\STATE{Creamos una cola \texttt{posibles\_particiones}}
+     	\STATE{\texttt{posibles\_particiones.push([])}}
+     	
+     	\WHILE{\texttt{posibles\_particiones}$\neq \emptyset$}
+		  \STATE{\texttt{actual = posibles\_particiones.pop()}}
+		  \STATE{\texttt{indice = \#actual.aristas}}
+		  \IF{\texttt{indice == $n$}}
+		    \IF{valor(\texttt{actual}) >\ valor(\texttt{solución})}
+		      \STATE{\texttt{solución = actual}}
+		    \ENDIF
+		  \ELSE
+	        \STATE{\texttt{con\_nueva = sin\_nueva = actual}
+	        \STATE{\texttt{con\_nueva.push\_back(true)}}
+	        \STATE{\texttt{sin\_nueva.push\_back(false)}}}
+	        
+	        \STATE{\texttt{posibles\_mochilas.push(sin\_nueva)}}
+	        \IF{Se puede añadir}
+	        \STATE{\texttt{posibles\_mochilas.push(con\_nueva)}}
+	        \ENDIF
+	      \ENDIF
+ 		\ENDWHILE
+     \RETURN{\texttt{solución}}
+      	\end{algorithmic}
+          \caption{Algoritmo Backtracking para el 3D Matching}
+          \label{Back-3DMatch}
+      \end{algorithm}
+  
   \subsection{Branch \& Bound}
+    \begin{algorithm}[H]
+    	\begin{algorithmic}[1]
+		\REQUIRE 
+    	\end{algorithmic}
+        \caption{Algoritmo Branch \& Bound para el 3D Matching}
+        \label{BBound-3DMatch}
+    \end{algorithm}
 
 \section{El problema de la asignación cuadrática (QAP)}
   \subsection{Enunciado}

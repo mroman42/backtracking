@@ -190,6 +190,11 @@ En el algoritmo, \textit{beneficio} representa el valor de la suma de beneficios
 
 
   \subsection{Branch \& Bound}
+  
+  Para la versión Branch \& Bound del algoritmo, usamos la misma representación para la solución, un vector de booleanos, y por tanto tenemos el mismo espacio de soluciones.
+  
+  En este caso, un nodo intermedio será del tipo $(\delta_1, \dots, \delta_k)$, y sus hijos serán $(\delta_1, \dots, \delta_k, 1)$ y $(\delta_1, \dots, \delta_k, 0)$.
+  
 	\subsubsection{Algoritmo}
 
 

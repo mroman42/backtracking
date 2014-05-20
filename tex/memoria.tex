@@ -253,14 +253,17 @@ En el algoritmo, \textit{beneficio} representa el valor de la suma de beneficios
     \end{equation}
     
   \subsection{Backtracking}
+  
+  
+  Utilizaremos un vector de enteros para representar una solución, donde almacenaremos los índices de las ciudades que se van recorriendo en la ruta. Como únicamente podemos pasar una vez por cada ciudad, el espacio de soluciones tendrá un tamaño de $n!$
+  
+  
     \subsubsection{Algoritmo}
       Para aplicar backtracking al problema del TSP, utilizamos un algoritmo recursivo, el cual recibe la lista de 
       ciudades del problema, la ruta con las ciudades que llevamos hasta el momento, su coste, y el índice de la 
       última ciudad añadida. Calcularemos todas las ramificaciones posibles de la ruta actual, y tomaremos la mejor 
-      de estas, comparando el coste de cada rama con el coste de la mejor solución hasta el momento. Además, 
-      utilizaremos una técnica 2-OPT para desechar permutaciones: Si la ruta contiene algún cruce de caminos, es 
-      mejorable por 2-OPT y por tanto no es óptima. 
-  
+      de estas, comparando el coste de cada rama con el coste de la mejor solución hasta el momento.
+      
   \begin{algorithm}[H]
   	\begin{algorithmic}[1]
   		\REQUIRE \ \\
@@ -288,8 +291,6 @@ En el algoritmo, \textit{beneficio} representa el valor de la suma de beneficios
 	        \STATE{Deshacemos el cambio:\\ 
 	        \texttt{coste\_actual --= distancia(ruta[indice - 1], ruta[indice])\\
 	        intercambiar(ruta[indice], ruta[i])}}
-	        
-	        
 	      \ENDFOR
 	    \ENDIF
 	    \RETURN{\texttt{ruta}}
@@ -297,7 +298,13 @@ En el algoritmo, \textit{beneficio} representa el valor de la suma de beneficios
       \caption{Algoritmo Branch \& Bound para el TSP}
       \label{Back-TSP}
   \end{algorithm}
+  
+ 
   \subsection{Branch \& Bound}
+  \subsubsection{Algoritmo}
+  
+  Para la ramificación y poda de este problema, utilizaremos una técnica basada en 2-OPT para desechar permutaciones: Si al añadir una nueva ciudad, la ruta resultante contiene algún cruce de caminos, es mejorable por 2-OPT y por tanto no es óptima, luego podemos pasar al siguiente candidato sin tener en cuenta las soluciones derivadas de la que hemos calculado.  
+  
     \begin{algorithm}[H]
     	\begin{algorithmic}[1]
 		\REQUIRE \ \\
@@ -356,6 +363,8 @@ En el algoritmo, \textit{beneficio} representa el valor de la suma de beneficios
     Buscamos la asignación válida de mayor cardinal, es decir la $M$ asignación válida maximizando $|M|$.
     
   \subsection{Backtracking}
+  En este algoritmo consideraremos todas las asignaciones posibles y nos quedaremos con la asignación que tenga mayor cardinal. Para ello, tomaremos cada asignación posible y consideraremos todos los casos derivados. Cuando no quede ninguna asignación, compararemos los tamaños de la solución obtenida y la mejor solución hasta el momento, actualizando la mejor solución si la actual la mejorase. 
+  
   \subsection{Branch \& Bound}
 
 \section{El problema de la asignación cuadrática (QAP)}

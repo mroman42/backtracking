@@ -366,11 +366,14 @@ En el algoritmo, \textit{beneficio} representa el valor de la suma de beneficios
   
   En este algoritmo consideraremos todas las asignaciones posibles y nos quedaremos con la asignación que tenga mayor cardinal. Para ello, consideraremos todas las aristas e iremos comprobando para cada una si es posible añadirla. De ser así, distinguiremos dos casos: La arista puede pertenecer o no a la solución. Sobre estos dos casos aplicaremos el mismo algoritmo. Cuando no quede ninguna arista que pueda ser añadida, compararemos los tamaños de la solución obtenida y la mejor solución hasta el momento, actualizando la mejor solución si la actual la mejorase. 
   
-  Como cada arista tiene la opción de estar o no estar en la solución, la dimensión del espacio de soluciones es de $2^n$. 
+  Representaremos la solución como un vector de booleanos, que nos indican si la arista asociada al índice se encuentra o no en la solución. Como cada arista tiene la opción de estar o no estar en la solución, la dimensión del espacio de soluciones es de $2^n$, siendo $n$ el número de aristas. 
   
   \subsection{Branch \& Bound}
   
-  
+    Para la versión Branch \& Bound del algoritmo, usaremos la misma representación para la solución, un vector de booleanos, por lo que tendremos el mismo espacio de soluciones.
+    
+    Como función de poda sobre una solución parcial, consideraremos la satisfacción que obtendríamos con todas las aristas restantes como cota máxima de la satisfacción posible a obtener. Si la satisfacción máxima de la parte restante sumada con la satisfacción de la solución parcial es menor que la satisfacción de la mejor solución hasta el momento, podemos descartar la solución parcial y obviar todas las ramas derivadas. 
+    
 
 \section{El problema de la asignación cuadrática (QAP)}
   \subsection{Enunciado}

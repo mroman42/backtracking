@@ -224,6 +224,7 @@ En el algoritmo, \textit{beneficio} representa el valor de la suma de beneficios
 	    \ENDIF
 	  \ENDIF
      	\ENDWHILE
+     	\RETURN{\texttt{solución}}
      	
 	\end{algorithmic}
     \caption{Algoritmo Branch \& Bound para el problema de la mochila}
@@ -261,7 +262,7 @@ En el algoritmo, \textit{beneficio} representa el valor de la suma de beneficios
           \texttt{ciudades}, lista con todas las ciudades \\
           \texttt{ruta}, ruta con algunas ciudades \\
           \texttt{coste\_actual}, coste de la ruta pasada \\
-          \texttt{indice}, índice de la ciudad a partir de la cual tiene que permutar. \\\
+          \texttt{índice}, índice de la ciudad a partir de la cual tiene que permutar. \\\
 
 		\STATE{\texttt{mejor\_coste = $\infty$}}
 
@@ -273,7 +274,7 @@ En el algoritmo, \textit{beneficio} representa el valor de la suma de beneficios
 	        mejor\_ruta = ruta}}
 	      \ENDIF
 	    \ELSE
-	      \FOR{\texttt{i} = indice hasta \texttt{\#ciudades}:}
+	      \FOR{\texttt{i} = índice hasta \texttt{\#ciudades}:}
 	        \STATE{Producimos una permutación:\\
 	        \texttt{intercambia(ruta[i], ruta[indice])\\
 	        coste\_actual += distancia(ruta[indice-1], ruta[indice])}}
@@ -286,6 +287,7 @@ En el algoritmo, \textit{beneficio} representa el valor de la suma de beneficios
 	        
 	      \ENDFOR
 	    \ENDIF
+	    \RETURN{\texttt{ruta}}
   	\end{algorithmic}
       \caption{Algoritmo Branch \& Bound para el TSP}
       \label{Back-TSP}
@@ -297,7 +299,7 @@ En el algoritmo, \textit{beneficio} representa el valor de la suma de beneficios
           \texttt{ciudades}, lista con todas las ciudades \\
           \texttt{ruta}, ruta con algunas ciudades \\
           \texttt{coste\_actual}, coste de la ruta pasada \\
-          \texttt{indice}, \\
+          \texttt{índice}, índice de la ciudad a partir de la cual tiene que permutar. \\\
 
 		\STATE{\texttt{mejor\_coste = $\infty$}}
 
@@ -323,6 +325,7 @@ En el algoritmo, \textit{beneficio} representa el valor de la suma de beneficios
 	        
 	      \ENDFOR
 	    \ENDIF
+	    \RETURN{\texttt{ruta}}
     	\end{algorithmic}
         \caption{Algoritmo Branch \& Bound para el TSP}
         \label{BBound-TSP}

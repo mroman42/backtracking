@@ -235,9 +235,7 @@ Nuestro algoritmo es de tipo iterativo, por lo que usa una cola en la que almace
       Para aplicar backtracking al problema del TSP, utilizamos un algoritmo recursivo, el cual recibe la lista de 
       ciudades del problema, la ruta con las ciudades que llevamos hasta el momento, su coste, y el índice de la 
       última ciudad añadida. Calcularemos todas las ramificaciones posibles de la ruta actual, y tomaremos la mejor 
-      de estas, comparando el coste de cada rama con el coste de la mejor solución hasta el momento. Además, 
-      utilizaremos una técnica 2-OPT para desechar permutaciones: Si la ruta contiene algún cruce de caminos, es 
-      mejorable por 2-OPT y por tanto no es óptima. 
+      de estas. 
   
 	\newpage
         \small
@@ -256,7 +254,6 @@ Nuestro algoritmo es de tipo iterativo, por lo que usa una cola en la que almace
   
   \subsubsection{Algoritmo}
   
-  Para la ramificación y poda de este problema, utilizaremos una técnica basada en 2-OPT para desechar permutaciones: Si al añadir una nueva ciudad, la ruta resultante contiene algún cruce de caminos, es mejorable por 2-OPT y por tanto no es óptima, luego podemos pasar al siguiente candidato sin tener en cuenta las soluciones derivadas de la que hemos calculado.  
   
     \begin{algorithm}[H]
     	\begin{algorithmic}[1]
@@ -295,6 +292,9 @@ Nuestro algoritmo es de tipo iterativo, por lo que usa una cola en la que almace
         \caption{Algoritmo Branch \& Bound para el TSP}
         \label{BBound-TSP}
     \end{algorithm}
+
+\subsubsection{Variante: Branch \& Bound con 2-OPT}
+Una condición para podar una rama, cuando se está realizando la exploración del árbol, puede ser que exista algún cruce de ciudades en el grafo. En ese caso se pueden descartar las soluciones resultantes ya que es seguro que no serán óptimas, siempre que el grafo del problema sea euclídeo.
 
 \section{Planificación en multiprocesadores}
   \subsection{Enunciado}

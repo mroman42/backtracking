@@ -140,7 +140,6 @@ Mochila resolver(int limite, vector<int> pesos, vector<int> beneficios) {
 	        vector<pair<double,int> > w;
 	        int n = sin_nuevo.first.size();
 
-            // Restante = M - peso(actual) + w_(n-1)
             // Peso que queda por llenar
 	        int restante = limite - nuevo_peso + pesos[n-1];
 	        int beneficio_extra = 0;
@@ -151,9 +150,7 @@ Mochila resolver(int limite, vector<int> pesos, vector<int> beneficios) {
 	        sort(w.begin(), w.end(), srt);
 
 	        while (restante > 0 && !w.empty()){
-                // Coeficiente: restante / peso del elemento de máximo ratio (> 1)
                 restante -= pesos[w.back().second];
-
 		        beneficio_extra += beneficios[w.back().second];
 		        w.pop_back();
 	        }

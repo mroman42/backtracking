@@ -247,20 +247,23 @@ En el algoritmo, \textit{beneficio} representa el valor de la suma de beneficios
     \end{equation}
     
   \subsection{Backtracking}
+  \subsubsection{Algoritmo}
+  Para aplicar backtracking al problema del TSP, utilizamos un algoritmo recursivo, 
+  
   \begin{algorithm}[H]
   	\begin{algorithmic}[1]
   		\REQUIRE \ \\
           \texttt{ciudades}, lista con todas las ciudades \\
           \texttt{ruta}, ruta con algunas ciudades \\
           \texttt{coste\_actual}, coste de la ruta pasada \\
-          \texttt{indice}, \\
+          \texttt{indice}, índice de la última ciudad añadida. \\\
 
 		\STATE{\texttt{mejor\_coste = $\infty$}}
 
         \IF{\texttt{indice == \#ciudades}}
           \STATE{\texttt{coste\_actual += distancia(ruta[$n$-1], ruta[0])}}
 
-	      \IF{\texttt{coste\_actual < mejor\_coste}}
+	      \IF{\texttt{coste\_actual <\ mejor\_coste}}
 	        \STATE{\texttt{mejor\_coste = coste\_actual\\
 	        mejor\_ruta = ruta}}
 	      \ENDIF

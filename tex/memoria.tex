@@ -259,9 +259,9 @@ En el algoritmo, \textit{beneficio} representa el valor de la suma de beneficios
   \subsection{Backtracking}
   
   
-  Utilizaremos un vector de enteros para representar una solución, donde almacenaremos los índices de las ciudades que se van recorriendo en la ruta. Como únicamente podemos pasar una vez por cada ciudad, el espacio de soluciones tendrá un tamaño de $(n-1)!$.
+  Utilizaremos un vector de enteros para representar una solución, donde almacenaremos los índices de las ciudades que se van recorriendo en la ruta. Como fijamos la primera ciudad y únicamente podemos pasar una vez por cada una, el espacio de soluciones tendrá un tamaño de $(n-1)!$.
   
-  La poda se realiza generando únicamente vectores que representen posibles soluciones, es decir, solo se consideran permutaciones del vector inicial $(1,\dots,n)$. De esta forma descartamos el resto de posibles combinaciones de los elementos.
+  La poda se realiza generando únicamente vectores que representen posibles soluciones, esto es, solo se consideran permutaciones del vector inicial $(1,\dots,n)$. De esta forma descartamos el resto de posibles combinaciones de los elementos. Diremos que, para un nodo $(i_0, \dots, i_k)$, la función de poda da falso si se repite alguno de los índices, es decir, $\exists p\ne q : i_p = i_q$.
   
   
     \subsubsection{Algoritmo}
@@ -279,6 +279,15 @@ En el algoritmo, \textit{beneficio} representa el valor de la suma de beneficios
   
 
   \subsection{Branch \& Bound}
+  De nuevo, representaremos una solución como un vector de enteros de tamaño $n$, obteniendo el mismo espacio de soluciones de tamaño $(n-1)!$.
+  
+  Dado un nodo intermedio $(i_0, \dots, i_k)$, los posibles hijos serán del tipo\\ $(i_0, \dots, i_k, i_{k+1})$ con $i_{k+1} \notin \{i_0, \dots, i_k\}$, ya que no aceptaremos repeticiones de ciudades (para evitar generar vectores que no sean permutaciones).
+  
+  La cota que se utiliza para la poda es el cálculo del coste (la suma de distancias entre ciudades) hasta el momento. Este coste resulta ser una cota mínima del coste de cualquier posible solución que se obtenga del nodo actual.
+  La poda se realiza en el momento en que la cota mínima supera al coste de la mejor solución hallada hasta el momento.
+  
+  La estrategia de ramificación utilizada en este caso será Least-Cost FIFO, ya que buscamos explorar las soluciones ordenadas por el menor coste.
+  
   \subsubsection{Algoritmo}
   
   Para la ramificación y poda de este problema, utilizaremos una técnica basada en 2-OPT para desechar permutaciones: Si al añadir una nueva ciudad, la ruta resultante contiene algún cruce de caminos, es mejorable por 2-OPT y por tanto no es óptima, luego podemos pasar al siguiente candidato sin tener en cuenta las soluciones derivadas de la que hemos calculado.  

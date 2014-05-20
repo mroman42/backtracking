@@ -299,39 +299,10 @@ Una condición para podar una rama, cuando se está realizando la exploración d
   soluciones es de $2^n$, siendo $n$ el número de aristas.
   
   \subsubsection{Algoritmo}
-        \begin{algorithm}[H]
-        	\begin{algorithmic}[1]
-    		\REQUIRE \ \\
-          	\texttt{aristas} \\
-       	\STATE{\texttt{$n$ = \#aristas}}
-       	\STATE{\texttt{solución = [[false,\dots,false],[false,\dots,false],[false,\dots,false]]}}\\\
-       	\STATE{Creamos una cola \texttt{posibles\_particiones}}
-       	\STATE{\texttt{posibles\_particiones.push([])}}
-       	
-       	\WHILE{\texttt{posibles\_particiones}$\neq \emptyset$}
-  		  \STATE{\texttt{actual = posibles\_particiones.pop()}}
-  		  \STATE{\texttt{indice = \#actual.aristas}}
-  		  \IF{\texttt{indice == $n$}}
-  		    \IF{valor(\texttt{actual}) >\ valor(\texttt{solución})}
-  		      \STATE{\texttt{solución = actual}}
-  		    \ENDIF
-  		  \ELSE
-  	        \STATE{\texttt{con\_nueva = sin\_nueva = actual}
-  	        \STATE{\texttt{con\_nueva.push\_back(true)}}
-  	        \STATE{\texttt{sin\_nueva.push\_back(false)}}}
-  	        
-  	        \STATE{\texttt{posibles\_mochilas.push(sin\_nueva)}}
-  	        \IF{Se puede añadir}
-  	        \STATE{\texttt{posibles\_mochilas.push(con\_nueva)}}
-  	        \ENDIF
-  	      \ENDIF
-   		\ENDWHILE
-       \RETURN{\texttt{solución}}
-        	\end{algorithmic}
-            \caption{Algoritmo Backtracking para el 3D Matching}
-            \label{Back-3DMatch}
-        \end{algorithm}
-  
+
+        \small
+  	\texttt{\input{pseudo_3dmatching_final.tex}}
+        \normalsize
   
   \subsection{Branch \& Bound}
   

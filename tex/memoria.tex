@@ -255,43 +255,11 @@ Nuestro algoritmo es de tipo iterativo, por lo que usa una cola en la que almace
   \subsubsection{Algoritmo}
   
   
-    \begin{algorithm}[H]
-    	\begin{algorithmic}[1]
-		\REQUIRE \ \\
-          \texttt{ciudades}, lista con todas las ciudades \\
-          \texttt{ruta}, ruta con algunas ciudades \\
-          \texttt{coste\_actual}, coste de la ruta pasada \\
-          \texttt{índice}, índice de la ciudad a partir de la cual tiene que permutar. \\\
-
-		\STATE{\texttt{mejor\_coste = $\infty$}}
-
-        \IF{\texttt{indice == \#ciudades}}
-          \STATE{\texttt{coste\_actual += distancia(ruta[$n$-1], ruta[0])}}
-
-	      \IF{\texttt{coste\_actual < mejor\_coste}}
-	        \STATE{\texttt{mejor\_coste = coste\_actual\\
-	        mejor\_ruta = ruta}}
-	      \ENDIF
-	    \ELSIF{\texttt{coste\_actual > mejor\_coste}}
-	      \RETURN $\emptyset$
-	    \ELSE
-	      \FOR{\texttt{i} = indice hasta \texttt{\#ciudades}:}
-	        \STATE{\texttt{Buscamos un cruce de caminos. En cuyo caso, lo desechamos porque no puede ser el óptimo.}}
-	        \STATE{\texttt{Producimos una permutación:\\
-	        intercambiar(ruta[i], ruta[indice])\\
-	        coste\_actual += distancia(ruta[indice-1], ruta[indice])}}
-	        \STATE{\texttt{TSP(ciudades, ruta, coste\_actual, indice+1)}}
-	        \STATE{\texttt{Deshacemos el cambio:\\ coste\_actual --= distancia(ruta[indice - 1], ruta[indice])\\
-	        intercambiar(ruta[indice], ruta[i])}}
-	        
-	        
-	      \ENDFOR
-	    \ENDIF
-	    \RETURN{\texttt{ruta}}
-    	\end{algorithmic}
-        \caption{Algoritmo Branch \& Bound para el TSP}
-        \label{BBound-TSP}
-    \end{algorithm}
+  	\newpage
+          \small
+    	\texttt{\input{pseudo_tsp_bb_final.tex}}
+          \normalsize
+  
 
 \subsubsection{Variante: Branch \& Bound con 2-OPT}
 Una condición para podar una rama, cuando se está realizando la exploración del árbol, puede ser que exista algún cruce de ciudades en el grafo. En ese caso se pueden descartar las soluciones resultantes ya que es seguro que no serán óptimas, siempre que el grafo del problema sea euclídeo.
@@ -316,9 +284,16 @@ Una condición para podar una rama, cuando se está realizando la exploración d
     Buscamos la asignación válida de mayor cardinal, es decir la $M$ asignación válida maximizando $|M|$.
     
   \subsection{Backtracking}
-  En este algoritmo consideraremos todas las asignaciones posibles y nos quedaremos con la asignación que tenga mayor cardinal. Para ello, consideraremos todas las aristas e iremos comprobando para cada una si es posible añadirla. De ser así, distinguiremos dos casos: La arista puede pertenecer o no a la solución. Sobre estos dos casos aplicaremos el mismo algoritmo. Cuando no quede ninguna arista que pueda ser añadida, compararemos los tamaños de la solución obtenida y la mejor solución hasta el momento, actualizando la mejor solución si la actual la mejorase. 
+  En este algoritmo consideraremos todas las asignaciones posibles y nos quedaremos con la asignación que tenga mayor cardinal. 
+  Para ello, consideraremos todas las aristas e iremos comprobando para cada una si es posible añadirla. De ser así, distinguiremos 
+  dos casos: La arista puede pertenecer o no a la solución. Sobre estos dos casos aplicaremos el mismo algoritmo. Cuando no quede
+  ninguna arista que pueda ser añadida, compararemos los tamaños de la solución obtenida y la mejor solución hasta el momento, 
+  actualizando la mejor solución si la actual la mejorase. 
   
-  Representaremos la solución como un vector de booleanos, que nos indican si la arista asociada al índice se encuentra o no en la solución. Como cada arista tiene la opción de estar o no estar en la solución, la dimensión del espacio de soluciones es de $2^n$, siendo $n$ el número de aristas. 
+  Representaremos la solución como un vector de booleanos, que nos indican si la arista asociada al índice se encuentra o 
+  no en la solución. Como cada arista tiene la opción de estar o no estar en la solución, la dimensión del espacio de 
+  soluciones es de $2^n$, siendo $n$ el número de aristas.
+  
   \subsubsection{Algoritmo}
         \begin{algorithm}[H]
         	\begin{algorithmic}[1]

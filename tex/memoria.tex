@@ -197,6 +197,8 @@ En el algoritmo, \textit{beneficio} representa el valor de la suma de beneficios
   
   Se realiza un cálculo del máximo beneficio a partir de un nodo intermedio $(\delta_1, \dots, \delta_k)$. Para hallar esta cota, tomamos el peso que queda por llenar y le añadimos el peso de los objetos que tengan la mejor proporción \textit{beneficio}/\textit{peso}, hasta completar la capacidad de la mochila, y comparamos el beneficio asociado a estos objetos con la mejor solución obtenida hasta ahora.
   
+  La estrategia de poda que se sigue es podar cada rama en la que se encuentre una beneficio máximo (cota superior) menor que el beneficio de la mejor solución encontrada hasta el momento. La estrategia de ramificación utilizada es Maximum-Benefit FIFO, ya que usamos una cola con prioridad ordenada por el mayor beneficio.
+  
 	\subsubsection{Algoritmo}
 
 
@@ -257,7 +259,7 @@ En el algoritmo, \textit{beneficio} representa el valor de la suma de beneficios
   \subsection{Backtracking}
   
   
-  Utilizaremos un vector de enteros para representar una solución, donde almacenaremos los índices de las ciudades que se van recorriendo en la ruta. Como únicamente podemos pasar una vez por cada ciudad, el espacio de soluciones tendrá un tamaño de $n!$
+  Utilizaremos un vector de enteros para representar una solución, donde almacenaremos los índices de las ciudades que se van recorriendo en la ruta. Como únicamente podemos pasar una vez por cada ciudad, el espacio de soluciones tendrá un tamaño de $(n-1)!$
   
   
     \subsubsection{Algoritmo}
@@ -340,6 +342,40 @@ En el algoritmo, \textit{beneficio} representa el valor de la suma de beneficios
   En este algoritmo consideraremos todas las asignaciones posibles y nos quedaremos con la asignación que tenga mayor cardinal. Para ello, consideraremos todas las aristas e iremos comprobando para cada una si es posible añadirla. De ser así, distinguiremos dos casos: La arista puede pertenecer o no a la solución. Sobre estos dos casos aplicaremos el mismo algoritmo. Cuando no quede ninguna arista que pueda ser añadida, compararemos los tamaños de la solución obtenida y la mejor solución hasta el momento, actualizando la mejor solución si la actual la mejorase. 
   
   Representaremos la solución como un vector de booleanos, que nos indican si la arista asociada al índice se encuentra o no en la solución. Como cada arista tiene la opción de estar o no estar en la solución, la dimensión del espacio de soluciones es de $2^n$, siendo $n$ el número de aristas. 
+  \subsubsection{Algoritmo}
+        \begin{algorithm}[H]
+        	\begin{algorithmic}[1]
+    		\REQUIRE \ \\
+          	\texttt{aristas} \\
+       	\STATE{\texttt{$n$ = \#aristas}}
+       	\STATE{\texttt{solución = [[false,\dots,false],[false,\dots,false],[false,\dots,false]]}}\\\
+       	\STATE{Creamos una cola \texttt{posibles\_particiones}}
+       	\STATE{\texttt{posibles\_particiones.push([])}}
+       	
+       	\WHILE{\texttt{posibles\_particiones}$\neq \emptyset$}
+  		  \STATE{\texttt{actual = posibles\_particiones.pop()}}
+  		  \STATE{\texttt{indice = \#actual.aristas}}
+  		  \IF{\texttt{indice == $n$}}
+  		    \IF{valor(\texttt{actual}) >\ valor(\texttt{solución})}
+  		      \STATE{\texttt{solución = actual}}
+  		    \ENDIF
+  		  \ELSE
+  	        \STATE{\texttt{con\_nueva = sin\_nueva = actual}
+  	        \STATE{\texttt{con\_nueva.push\_back(true)}}
+  	        \STATE{\texttt{sin\_nueva.push\_back(false)}}}
+  	        
+  	        \STATE{\texttt{posibles\_mochilas.push(sin\_nueva)}}
+  	        \IF{Se puede añadir}
+  	        \STATE{\texttt{posibles\_mochilas.push(con\_nueva)}}
+  	        \ENDIF
+  	      \ENDIF
+   		\ENDWHILE
+       \RETURN{\texttt{solución}}
+        	\end{algorithmic}
+            \caption{Algoritmo Backtracking para el 3D Matching}
+            \label{Back-3DMatch}
+        \end{algorithm}
+  
   
   \subsection{Branch \& Bound}
   
@@ -347,41 +383,7 @@ En el algoritmo, \textit{beneficio} representa el valor de la suma de beneficios
     
     Como función de poda sobre una solución parcial, consideraremos la satisfacción que obtendríamos con todas las aristas restantes como cota máxima de la satisfacción posible a obtener. Si la satisfacción máxima de la parte restante sumada con la satisfacción de la solución parcial es menor que la satisfacción de la mejor solución hasta el momento, podemos descartar la solución parcial y obviar todas las ramas derivadas. 
     
-	\subsubsection{Algoritmo}
-      \begin{algorithm}[H]
-      	\begin{algorithmic}[1]
-  		\REQUIRE \ \\
-        	\texttt{aristas} \\
-     	\STATE{\texttt{$n$ = \#aristas}}
-     	\STATE{\texttt{solución = [[false,\dots,false],[false,\dots,false],[false,\dots,false]]}}\\\
-     	\STATE{Creamos una cola \texttt{posibles\_particiones}}
-     	\STATE{\texttt{posibles\_particiones.push([])}}
-     	
-     	\WHILE{\texttt{posibles\_particiones}$\neq \emptyset$}
-		  \STATE{\texttt{actual = posibles\_particiones.pop()}}
-		  \STATE{\texttt{indice = \#actual.aristas}}
-		  \IF{\texttt{indice == $n$}}
-		    \IF{valor(\texttt{actual}) >\ valor(\texttt{solución})}
-		      \STATE{\texttt{solución = actual}}
-		    \ENDIF
-		  \ELSE
-	        \STATE{\texttt{con\_nueva = sin\_nueva = actual}
-	        \STATE{\texttt{con\_nueva.push\_back(true)}}
-	        \STATE{\texttt{sin\_nueva.push\_back(false)}}}
-	        
-	        \STATE{\texttt{posibles\_mochilas.push(sin\_nueva)}}
-	        \IF{Se puede añadir}
-	        \STATE{\texttt{posibles\_mochilas.push(con\_nueva)}}
-	        \ENDIF
-	      \ENDIF
- 		\ENDWHILE
-     \RETURN{\texttt{solución}}
-      	\end{algorithmic}
-          \caption{Algoritmo Backtracking para el 3D Matching}
-          \label{Back-3DMatch}
-      \end{algorithm}
-
-  \subsection{Branch \& Bound}
+  \subsubsection{Algoritmo}
     \begin{algorithm}[H]
     	\begin{algorithmic}[1]
 		\REQUIRE 

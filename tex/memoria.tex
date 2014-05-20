@@ -247,8 +247,13 @@ En el algoritmo, \textit{beneficio} representa el valor de la suma de beneficios
     \end{equation}
     
   \subsection{Backtracking}
-  \subsubsection{Algoritmo}
-  Para aplicar backtracking al problema del TSP, utilizamos un algoritmo recursivo, el cual recibe la lista de ciudades del problema, la ruta con las ciudades que llevamos hasta el momento, su coste, y el índice de la última ciudad añadida. Calcularemos todas las ramificaciones posibles de la ruta actual, y tomaremos la mejor de estas, comparando el coste de cada rama con el coste de la mejor solución hasta el momento. Además, utilizaremos una técnica 2-OPT para desechar permutaciones: Si la ruta contiene algún cruce de caminos, es mejorable por 2-OPT y por tanto no es óptima. 
+    \subsubsection{Algoritmo}
+      Para aplicar backtracking al problema del TSP, utilizamos un algoritmo recursivo, el cual recibe la lista de 
+      ciudades del problema, la ruta con las ciudades que llevamos hasta el momento, su coste, y el índice de la 
+      última ciudad añadida. Calcularemos todas las ramificaciones posibles de la ruta actual, y tomaremos la mejor 
+      de estas, comparando el coste de cada rama con el coste de la mejor solución hasta el momento. Además, 
+      utilizaremos una técnica 2-OPT para desechar permutaciones: Si la ruta contiene algún cruce de caminos, es 
+      mejorable por 2-OPT y por tanto no es óptima. 
   
   \begin{algorithm}[H]
   	\begin{algorithmic}[1]
@@ -326,7 +331,8 @@ En el algoritmo, \textit{beneficio} representa el valor de la suma de beneficios
 \section{Planificación en multiprocesadores}
   \subsection{Enunciado}
   Tenemos un conjunto de $n$ tareas con un tiempo de ejecución $t_i$ asociado a cada una, existiendo una relación de precedencia
-  entre algunas tareas, que hace que tengan que ejecutarse unas antes que otras. Nuestro objetivo es obtener la asignación de tareas que, manteniendo las relaciones de dependencia, resulte en un tiempo de ejecución mínimo. 
+  entre algunas tareas, que hace que tengan que ejecutarse unas antes que otras. Nuestro objetivo es obtener la asignación de 
+  tareas que, manteniendo las relaciones de dependencia, resulte en un tiempo de ejecución mínimo. 
   
   
   \subsection{Backtracking}
@@ -346,7 +352,9 @@ En el algoritmo, \textit{beneficio} representa el valor de la suma de beneficios
 
 \section{El problema de la asignación cuadrática (QAP)}
   \subsection{Enunciado}
-   Dado un conjunto de $n$ instalaciones con un flujo de transporte y un coste asociado entre ellas, y dadas $n$ posibles localizaciones, el problema consiste en buscar la localización más adecuada para cada instalación, de forma que el coste total del transporte entre instalaciones sea el mínimo posible. 
+    Dado un conjunto de $n$ instalaciones con un flujo de transporte y un coste asociado entre ellas, y dadas $n$ posibles 
+    localizaciones, el problema consiste en buscar la localización más adecuada para cada instalación, de forma que el 
+    coste total del transporte entre instalaciones sea el mínimo posible. 
 
   \subsection{Backtracking}
   \subsection{Branch \& Bound}

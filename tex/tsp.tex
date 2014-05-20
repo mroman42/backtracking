@@ -59,11 +59,12 @@
 \mbox{}\ \ \ \ \textit{\textcolor{Brown}{//\ Caso\ de\ la\ ruta\ finalizada}} \\
 \mbox{}\ \ \ \ \textit{\textcolor{Brown}{//\ Comprueba\ si\ se\ mejora\ el\ óptimo.\ \ \ \ }} \\
 \mbox{}\ \ \ \ \textbf{\textcolor{Blue}{if}}\ \textcolor{BrickRed}{(}indice\ \textcolor{BrickRed}{==}\ dimension\textcolor{BrickRed}{)}\ \textcolor{Red}{\{} \\
-\mbox{}\ \ \ \ \ \ \ \ \textcolor{TealBlue}{Coste}\ coste$\_$total\ \textcolor{BrickRed}{=}\ coste$\_$actual\ \textcolor{BrickRed}{+}\ \textbf{\textcolor{Black}{distancia}}\textcolor{BrickRed}{(}ruta\textcolor{BrickRed}{[}indice\textcolor{BrickRed}{-}\textcolor{Purple}{1}\textcolor{BrickRed}{],}\ ruta\textcolor{BrickRed}{[}\textcolor{Purple}{0}\textcolor{BrickRed}{]);} \\
-\mbox{}\ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{if}}\ \textcolor{BrickRed}{(}coste$\_$total\ \textcolor{BrickRed}{\textless{}}\ mejor$\_$coste\textcolor{BrickRed}{)}\ \textcolor{Red}{\{} \\
-\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ mejor$\_$ruta\ \textcolor{BrickRed}{=}\ ruta\textcolor{BrickRed}{;} \\
-\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ mejor$\_$coste\ \textcolor{BrickRed}{=}\ coste$\_$total\textcolor{BrickRed}{;} \\
-\mbox{}\ \ \ \ \ \ \ \ \textcolor{Red}{\}} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{TealBlue}{Coste}\ coste$\_$total\ \textcolor{BrickRed}{=}\ coste$\_$actual\ \textcolor{BrickRed}{+}\ \textbf{\textcolor{Black}{distancia}}\textcolor{BrickRed}{(}ruta\textcolor{BrickRed}{[}indice\textcolor{BrickRed}{-}\textcolor{Purple}{1}\textcolor{BrickRed}{],}\ ruta\textcolor{BrickRed}{[}\textcolor{Purple}{0}\textcolor{BrickRed}{]);} \\
+\mbox{} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{if}}\ \textcolor{BrickRed}{(}coste$\_$total\ \textcolor{BrickRed}{\textless{}}\ mejor$\_$coste\textcolor{BrickRed}{)}\ \textcolor{Red}{\{} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ mejor$\_$ruta\ \textcolor{BrickRed}{=}\ ruta\textcolor{BrickRed}{;} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ mejor$\_$coste\ \textcolor{BrickRed}{=}\ coste$\_$total\textcolor{BrickRed}{;} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{Red}{\}} \\
 \mbox{}\ \ \ \ \textcolor{Red}{\}} \\
 \mbox{}\ \ \ \  \\
 \mbox{}\textbf{\textcolor{RoyalBlue}{\ \ \ \ \#ifdef}}\ BBOUND \\
@@ -79,14 +80,14 @@
 \mbox{}\ \ \ \ \textbf{\textcolor{Blue}{else}}\ \textcolor{Red}{\{} \\
 \mbox{}\ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{for}}\ \textcolor{BrickRed}{(}\textcolor{TealBlue}{uint}\ i\ \textcolor{BrickRed}{=}\ indice\textcolor{BrickRed}{;}\ i\ \textcolor{BrickRed}{\textless{}}\ dimension\textcolor{BrickRed}{;}\ \textcolor{BrickRed}{++}i\textcolor{BrickRed}{)}\ \textcolor{Red}{\{} \\
 \mbox{}\textbf{\textcolor{RoyalBlue}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \#ifdef}}\ OPTBOUND \\
-\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \textit{\textcolor{Brown}{//\ Caso\ en\ el\ que\ la\ permutación\ introduciría\ un\ cruce\ de\ caminos.}} \\
-\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \textit{\textcolor{Brown}{//\ Por\ optimización\ OPT-2,\ no\ puede\ ser\ el\ óptimo.}} \\
-\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{ForestGreen}{bool}\ opt2\ \textcolor{BrickRed}{=}\ \textbf{\textcolor{Blue}{false}}\textcolor{BrickRed}{;} \\
-\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{for}}\ \textcolor{BrickRed}{(}\textcolor{TealBlue}{uint}\ j\ \textcolor{BrickRed}{=}\ \textcolor{Purple}{1}\textcolor{BrickRed}{;}\ j\ \textcolor{BrickRed}{\textless{}}\ \textcolor{TealBlue}{indice}\ and\ \textcolor{BrickRed}{!}opt2\textcolor{BrickRed}{;}\ j\textcolor{BrickRed}{++)} \\
-\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ opt2\ \textcolor{BrickRed}{=}\ \textbf{\textcolor{Black}{cruce}}\textcolor{BrickRed}{(}ruta\textcolor{BrickRed}{[}i\textcolor{BrickRed}{],}ruta\textcolor{BrickRed}{[}indice\textcolor{BrickRed}{-}\textcolor{Purple}{1}\textcolor{BrickRed}{],}\ ruta\textcolor{BrickRed}{[}j\textcolor{BrickRed}{],}ruta\textcolor{BrickRed}{[}j\textcolor{BrickRed}{-}\textcolor{Purple}{1}\textcolor{BrickRed}{]);} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textit{\textcolor{Brown}{//\ Caso\ en\ el\ que\ la\ permutación\ introduciría\ un\ cruce\ de\ caminos.}} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textit{\textcolor{Brown}{//\ Por\ optimización\ OPT-2,\ no\ puede\ ser\ el\ óptimo.}} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{ForestGreen}{bool}\ opt2\ \textcolor{BrickRed}{=}\ \textbf{\textcolor{Blue}{false}}\textcolor{BrickRed}{;} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{for}}\ \textcolor{BrickRed}{(}\textcolor{TealBlue}{uint}\ j\ \textcolor{BrickRed}{=}\ \textcolor{Purple}{1}\textcolor{BrickRed}{;}\ j\ \textcolor{BrickRed}{\textless{}}\ \textcolor{TealBlue}{indice}\ and\ \textcolor{BrickRed}{!}opt2\textcolor{BrickRed}{;}\ j\textcolor{BrickRed}{++)} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ opt2\ \textcolor{BrickRed}{=}\ \textbf{\textcolor{Black}{cruce}}\textcolor{BrickRed}{(}ruta\textcolor{BrickRed}{[}i\textcolor{BrickRed}{],}ruta\textcolor{BrickRed}{[}indice\textcolor{BrickRed}{-}\textcolor{Purple}{1}\textcolor{BrickRed}{],}\ ruta\textcolor{BrickRed}{[}j\textcolor{BrickRed}{],}ruta\textcolor{BrickRed}{[}j\textcolor{BrickRed}{-}\textcolor{Purple}{1}\textcolor{BrickRed}{]);} \\
 \mbox{} \\
-\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{if}}\ \textcolor{BrickRed}{(}opt2\textcolor{BrickRed}{)} \\
-\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{continue}}\textcolor{BrickRed}{;} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{if}}\ \textcolor{BrickRed}{(}opt2\textcolor{BrickRed}{)} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{continue}}\textcolor{BrickRed}{;} \\
 \mbox{}\textbf{\textcolor{RoyalBlue}{\ \ \ \ \ \ \ \ \ \ \ \ \#endif}} \\
 \mbox{} \\
 \mbox{} \\

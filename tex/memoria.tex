@@ -256,42 +256,11 @@ En el algoritmo, \textit{beneficio} representa el valor de la suma de beneficios
       utilizaremos una técnica 2-OPT para desechar permutaciones: Si la ruta contiene algún cruce de caminos, es 
       mejorable por 2-OPT y por tanto no es óptima. 
   
-  \begin{algorithm}[H]
-  	\begin{algorithmic}[1]
-  		\REQUIRE \ \\
-          \texttt{ciudades}, lista con todas las ciudades \\
-          \texttt{ruta}, ruta con algunas ciudades \\
-          \texttt{coste\_actual}, coste de la ruta pasada \\
-          \texttt{índice}, índice de la ciudad a partir de la cual tiene que permutar. \\\
-
-		\STATE{\texttt{mejor\_coste = $\infty$}}
-
-        \IF{\texttt{indice == \#ciudades}}
-          \STATE{\texttt{coste\_actual += distancia(ruta[$n$-1], ruta[0])}}
-
-	      \IF{\texttt{coste\_actual <\ mejor\_coste}}
-	        \STATE{\texttt{mejor\_coste = coste\_actual\\
-	        mejor\_ruta = ruta}}
-	      \ENDIF
-	    \ELSE
-	      \FOR{\texttt{i} = índice hasta \texttt{\#ciudades}:}
-	        \STATE{Producimos una permutación:\\
-	        \texttt{intercambia(ruta[i], ruta[indice])\\
-	        coste\_actual += distancia(ruta[indice-1], ruta[indice])}}
-	        \STATE{Llamamos recursivamente a la función:\\
-	        \texttt{TSP(ciudades, ruta, coste\_actual, indice+1)}}
-	        \STATE{Deshacemos el cambio:\\ 
-	        \texttt{coste\_actual --= distancia(ruta[indice - 1], ruta[indice])\\
-	        intercambiar(ruta[indice], ruta[i])}}
-	        
-	        
-	      \ENDFOR
-	    \ENDIF
-	    \RETURN{\texttt{ruta}}
-  	\end{algorithmic}
-      \caption{Algoritmo Branch \& Bound para el TSP}
-      \label{Back-TSP}
-  \end{algorithm}
+	\newpage
+        \small
+  	\texttt{\input{pseudo_tsp_final.tex}}
+        \normalsize
+  
   \subsection{Branch \& Bound}
     \begin{algorithm}[H]
     	\begin{algorithmic}[1]

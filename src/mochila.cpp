@@ -156,7 +156,7 @@ Mochila resolver(int limite, vector<int> pesos, vector<int> beneficios) {
 	        }
 
 	        // Si dicha cota superior supera al mejor valor hasta el momento,
-	        // introducimos la nueva mochila, en caso opuesto no
+	        // introducimos la nueva mochila
 	        if (max_valor < nuevo_beneficio)
             #endif
             posibles_mochilas.push(sin_nuevo);

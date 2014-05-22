@@ -276,8 +276,11 @@ Una condición para podar una rama, cuando se está realizando la exploración d
     
     Como función de poda sobre una solución parcial, consideraremos la satisfacción que obtendríamos con todas las aristas restantes como cota máxima de la satisfacción posible a obtener. Si la satisfacción máxima de la parte restante sumada con la satisfacción de la solución parcial es menor que la satisfacción de la mejor solución hasta el momento, podemos descartar la solución parcial y obviar todas las ramas derivadas. 
     
+    La satisfacción estará relacionada con la preferencia de cada arista. Dicha preferencia vendrá dada en un nuevo vector de valores reales, que utilizaremos para calcular el valor de cada arista en base a su preferencia. 
+    
+    \subsubsection{Algoritmo}    
     \small
-%	\texttt{\input{pseudo_3dmatching_final_bb.tex}}
+	\texttt{\input{pseudo_3dmatching_bb_final.tex}}
     \normalsize
 
 \section{El problema de la asignación cuadrática (QAP)}

@@ -237,10 +237,16 @@ Una condición para podar una rama, cuando se está realizando la exploración d
 \section{Planificación en multiprocesadores}
   \subsection{Enunciado}
   Tenemos un conjunto de $n$ tareas con un tiempo de ejecución $t_i$ asociado a cada una, existiendo una relación de precedencia
-  entre algunas tareas, que hace que tengan que ejecutarse unas antes que otras. Nuestro objetivo es obtener la asignación de tareas que, manteniendo las relaciones de dependencia, resulte en un tiempo de ejecución mínimo. 
+  entre algunas tareas, de forma que unas han de ejecutarse antes que otras. El objetivo es asignar las tareas entre $k$ procesadores, manteniendo las relaciones de dependencia, de manera que el tiempo de ejecución sea mínimo. 
   
   
   \subsection{Backtracking}
+  En este caso, la representación de la solución se realiza mediante un vector de estructuras con los siguientes datos:
+  \begin{itemize}
+  \item Tarea asignada
+  \item Tiempo de inicio
+  \item Núcleo (\textit{core}) asignado
+  \end{itemize}
   
   \subsection{Branch \& Bound}
 
@@ -294,6 +300,8 @@ Una condición para podar una rama, cuando se está realizando la exploración d
 
 
 \section{Implementaciones}
+% Hay que regenerar las implementaciones cuando
+% terminemos de hacer cambios!
   \subsection{El problema de la mochila}
         Versión en C++:
         

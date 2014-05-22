@@ -9,6 +9,8 @@
 #include <utility>
 #include <numeric>
 #include <iostream>
+#include <chrono>
+
 using namespace std;
 
 typedef double tiempo;
@@ -196,7 +198,7 @@ Planificador::Planificacion Planificador::planifica() {
                 }
 
                 actual.t_ejecucion += minimo;
-                
+
                 #ifdef BBOUND
                 if (actual.t_ejecucion < solucion.t_ejecucion)
                 #endif
@@ -239,10 +241,17 @@ int main (int argc, char const *argv[]) {
     }
     Planificador instancia(tareas);
 
+    auto time1 = chrono::high_resolution_clock::now();
+
     Planificador::Planificacion solucion = instancia.planifica();
+
+    auto time2 = chrono::high_resolution_clock::now();
+    chrono::duration<double> time_span = chrono::duration_cast<chrono::duration<double> >(time2 - time1);
+    double time = time_span.count();
 
     for (auto& asig : solucion.historial)
         cout << "Core " << asig.core << ": tarea " << asig.tarea << " (comenzando en " << asig.t_inicio << ")" << endl;
 
     cout << "Tiempo total: " << solucion.t_ejecucion << endl;
+    cout << "Tiempo de cómputo: " << time << endl;
 }

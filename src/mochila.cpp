@@ -151,7 +151,9 @@ Mochila resolver(int limite, vector<int> pesos, vector<int> beneficios) {
 
 	        while (restante > 0 && !w.empty()){
                 restante -= pesos[w.back().second];
-		        nuevo_beneficio += beneficios[w.back().second];
+		        nuevo_beneficio += beneficios[w.back().second] *
+                // Fraccionamos el beneficio acumulado si sobra peso
+                    (1 + (restante < 0)*restante/pesos[w.back().second]);
 		        w.pop_back();
 	        }
 

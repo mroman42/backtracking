@@ -10,14 +10,14 @@
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{if}}\ valor\textcolor{BrickRed}{(}actual\textcolor{BrickRed}{)}\ \textcolor{BrickRed}{\textgreater{}}\ valor\textcolor{BrickRed}{(}solucion\textcolor{BrickRed}{)} \\
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ solucion\ \textcolor{BrickRed}{=}\ actual \\
 \mbox{}\ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{else}} \\
-\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{if}}\ intersecta?\textcolor{BrickRed}{(}$\mathtt{aristas[\#actual]}$\textcolor{BrickRed}{,}\ actual\textcolor{BrickRed}{)} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{if}}\ interseca?\textcolor{BrickRed}{(}$\mathtt{aristas[\#actual]}$\textcolor{BrickRed}{,}\ actual\textcolor{BrickRed}{)} \\
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ particiones\textcolor{BrickRed}{.}push\textcolor{BrickRed}{(}actual\ \textcolor{BrickRed}{++}\ \textcolor{BrickRed}{[}\textbf{\textcolor{Blue}{true}}\textcolor{BrickRed}{])} \\
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ particiones\textcolor{BrickRed}{.}push\textcolor{BrickRed}{(}actual\ \textcolor{BrickRed}{++}\ \textcolor{BrickRed}{[}\textbf{\textcolor{Blue}{false}}\textcolor{BrickRed}{])} \\
 \mbox{} \\
 \mbox{}\ \ \ \ \textbf{\textcolor{Blue}{return}}\ solucion \\
 \mbox{}\textbf{\textcolor{Blue}{end}} \\
 \mbox{} \\
-\mbox{}\textbf{\textcolor{Blue}{def}}\ intersecta?\textcolor{BrickRed}{(}particion\textcolor{BrickRed}{,}\ arista\textcolor{BrickRed}{)} \\
+\mbox{}\textbf{\textcolor{Blue}{def}}\ interseca?\textcolor{BrickRed}{(}particion\textcolor{BrickRed}{,}\ arista\textcolor{BrickRed}{)} \\
 \mbox{}\ \ \ \ \textbf{\textcolor{Blue}{return}}\ $\mathtt{!(arista.x \in particion.usadosX)}$ \\ %$\bigcup_{\mathtt{particion[i]}} \left( \mathtt{aristas[i]} \cap \mathtt{arista} \right) == \empty$ \\
 \mbox{}\ \ \ \ \ \ \ \textbf{\textcolor{Blue}{and}}\ $\mathtt{!(arista.y \in particion.usadosY)}$ \\
 \mbox{}\ \ \ \ \ \ \ \textbf{\textcolor{Blue}{and}}\ $\mathtt{!(arista.z \in particion.usadosZ)}$ \\

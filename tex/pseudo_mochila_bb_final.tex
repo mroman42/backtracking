@@ -2,7 +2,7 @@
 \noindent
 \mbox{}\textbf{\textcolor{Blue}{def}}\ mochila\textcolor{BrickRed}{(}capacidad\textcolor{BrickRed}{,}\ pesos\textcolor{BrickRed}{,}\ beneficios\textcolor{BrickRed}{)} \\
 \mbox{}\ \ \ \ \textbf{\textcolor{Blue}{def}}\ generar\textcolor{BrickRed}{()} \\
-\mbox{}\ \ \ \ \ \ \ \ posibles$\_$mochilas\ \textcolor{BrickRed}{=}\ new\ Queue \\
+\mbox{}\ \ \ \ \ \ \ \ posibles$\_$mochilas\ \textcolor{BrickRed}{=}\ new\ Priority\ Queue \\
 \mbox{}\ \ \ \ \ \ \ \ posibles$\_$mochilas\textcolor{BrickRed}{.}push\textcolor{BrickRed}{([])} \\
 \mbox{} \\
 \mbox{}\ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{while}}\ \textcolor{BrickRed}{(}\textbf{\textcolor{Blue}{not}}\ posibles$\_$mochilas\textcolor{BrickRed}{.}empty?\textcolor{BrickRed}{)} \\
@@ -35,8 +35,11 @@
 \mbox{} \\
 \mbox{}\ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{while}}\ \textcolor{BrickRed}{(}restante\ \textcolor{BrickRed}{\textgreater{}}\ \textcolor{Purple}{0}\ \textbf{\textcolor{Blue}{and}}\ \textcolor{BrickRed}{!}w\textcolor{BrickRed}{.}empty\textcolor{BrickRed}{())} \\
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ restante\ \textcolor{BrickRed}{-=}\ pesos\textcolor{BrickRed}{[}w\textcolor{BrickRed}{.}max\textcolor{BrickRed}{()]} \\
-\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ beneficio$\_$extra\ \textcolor{BrickRed}{+=}\ beneficios\textcolor{BrickRed}{[}w\textcolor{BrickRed}{.}max\textcolor{BrickRed}{()]} \\
-\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ w\textcolor{BrickRed}{.}delete$\_$max\textcolor{BrickRed}{()} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{if}}\ \textcolor{BrickRed}{(}restante\ \textcolor{BrickRed}{$\ge$}\ \textcolor{Purple}{0}\textcolor{BrickRed}{)} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ beneficio$\_$extra\ \textcolor{BrickRed}{+=}\ beneficios\textcolor{BrickRed}{[}w\textcolor{BrickRed}{.}max\textcolor{BrickRed}{()]} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{else}} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ beneficio$\_$extra\ \textcolor{BrickRed}{+=} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{BrickRed}{(}\textcolor{Purple}{1}\ \textcolor{BrickRed}{+}\ restante\textcolor{BrickRed}{/}pesos\textcolor{BrickRed}{[}w\textcolor{BrickRed}{.}max\textcolor{BrickRed}{()])}\ \textcolor{BrickRed}{*}\ beneficios\textcolor{BrickRed}{[}w\textcolor{BrickRed}{.}max\textcolor{BrickRed}{()]} \\
 \mbox{} \\
 \mbox{}\ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{return}}\ beneficio$\_$extra \\
 \mbox{}\ \ \ \ \textbf{\textcolor{Blue}{end}} \\

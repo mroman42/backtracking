@@ -5,6 +5,7 @@
  */
 #include <vector>
 #include <queue>
+#include <stack>
 #include <algorithm>
 #include <utility>
 #include <numeric>
@@ -117,9 +118,21 @@ uint Planificador::gap(vector<Tarea> &procesador){
     return 0;
 }
 
+struct cmp {
+    bool operator()(const Planificador::Planificacion& una,
+        const Planificador::Planificacion& otra) {
+        return una.t_ejecucion < otra.t_ejecucion;
+    }
+};
+
 // Crea planificaciones
 Planificador::Planificacion Planificador::planifica() {
-    queue<Planificacion> posibles;
+    #ifdef BBOUND
+    priority_queue<Planificacion, vector<Planificacion>, cmp> posibles;
+    #else
+    stack<Planificacion> posibles;
+    #endif
+
     Planificacion solucion;
     solucion.t_ejecucion = numeric_limits<tiempo>::infinity();
 
@@ -127,7 +140,7 @@ Planificador::Planificacion Planificador::planifica() {
 
 
     while (!posibles.empty()) {
-        Planificacion actual = posibles.front();
+        Planificacion actual = posibles.top();
         posibles.pop();
 
         // Si es una planificación de todos las tareas, comprobamos si es mejor que la que ya tenemos

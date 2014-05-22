@@ -247,8 +247,22 @@ Una condición para podar una rama, cuando se está realizando la exploración d
   \item Tiempo de inicio
   \item Núcleo (\textit{core}) asignado
   \end{itemize}
+  Además, podemos entender la \textit{tarea} como un tipo de dato que comprende tanto el tiempo de ejecución como referencias (por ejemplo, índices a un vector) de sus dependencias.
+  
+  La función de poda en este caso devuelve falso si la tarea que se va a añadir tiene una dependencia pendiente, esto es, incluye en sus dependencias a otra tarea que aún no se ha terminado de ejecutar.
+  
+  \subsubsection{Algoritmo}
   
   \subsection{Branch \& Bound}
+  Para el algoritmo siguiendo la estrategia Branch \& Bound, utilizamos la misma representación para la solución y por tanto tenemos un espacio de soluciones idéntico.
+  
+  Los hijos posibles de un nodo intermedio $(a_1, \dots, a_m)$ (con $a_i$ asignaciones válidas) son del tipo $(a_1, \dots, a_m, a_{m+1})$, donde $a_{m+1}$ es una asignación asociada a una tarea que no está ya en $\{a_1, \dots, a_m\}$.
+  
+  La cota que se utiliza para minorar el tiempo de ejecución de una posible solución es el tiempo de ejecución que lleva hasta el momento. Si en un nodo intermedio, este valor es mayor que la mejor solución hasta el momento, es seguro que no encontraremos una solución óptima al desarrollar el nodo.
+  
+  La estrategia de ramificación es LC-FIFO, usando una cola con prioridad para obtener las posibles planificaciones de menor a mayor tiempo de ejecución.
+  
+  \subsubsection{Algoritmo}
 
 \section{3-Dimensional Matching}
   \subsection{Enunciado}

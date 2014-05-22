@@ -44,6 +44,7 @@
 
 #include <iostream>
 #include <vector>
+#include <stack>
 #include <queue>
 #include <algorithm>
 #include <chrono>
@@ -82,7 +83,7 @@ Mochila resolver(int limite, vector<int> pesos, vector<int> beneficios) {
     #ifdef BBOUND
         priority_queue<Mochila, vector<Mochila>, cmp> posibles_mochilas;
     #else
-        queue<Mochila> posibles_mochilas;
+        stack<Mochila> posibles_mochilas;
     #endif
 
     posibles_mochilas.push(Mochila(vector<bool>(),0));
@@ -92,11 +93,7 @@ Mochila resolver(int limite, vector<int> pesos, vector<int> beneficios) {
 
     // Prueba cada una de las posibles mochilas.
     while (!posibles_mochilas.empty()) {
-        #ifdef BBOUND
-            Mochila actual = posibles_mochilas.top();
-        #else
-            Mochila actual = posibles_mochilas.front();
-        #endif
+        Mochila actual = posibles_mochilas.top();
 
         posibles_mochilas.pop();
 

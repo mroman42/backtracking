@@ -221,18 +221,15 @@ Nuestro algoritmo es de tipo iterativo, por lo que usa una pila en la que almace
   La poda se realiza en el momento en que la cota mínima supera al coste de la mejor solución hallada hasta el momento.
   
   La estrategia de ramificación utilizada en este caso será Least-Cost FIFO, ya que buscamos explorar las soluciones ordenadas por el menor coste.
-  
-    	\newpage
-  
+
+\subsubsection{Variante: Branch \& Bound con 2-OPT}
+  Una condición para podar una rama, cuando se está realizando la exploración del árbol, puede ser que exista algún cruce de ciudades en el grafo. En ese caso se pueden descartar las soluciones resultantes ya que es seguro que no serán óptimas, siempre que el grafo del problema sea euclídeo.
+
   \subsubsection{Algoritmo}
   
     \small
   	\texttt{\input{pseudo_tsp_bb_final.tex}}
      \normalsize
-  
-
-\subsubsection{Variante: Branch \& Bound con 2-OPT}
-Una condición para podar una rama, cuando se está realizando la exploración del árbol, puede ser que exista algún cruce de ciudades en el grafo. En ese caso se pueden descartar las soluciones resultantes ya que es seguro que no serán óptimas, siempre que el grafo del problema sea euclídeo.
 
 \section{Planificación en multiprocesadores}
   \subsection{Enunciado}

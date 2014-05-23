@@ -75,7 +75,7 @@ void permutaciones(Permutacion& p, uint indice = 0){
             #ifdef BBOUND
             // Si la permutación actual es peor que la mejor en cuanto a coste,
             // no la introducimos
-            if (cost(p,indice) < mejor_coste)
+            if (cost(p,indice + 1) < mejor_coste)
                 permutaciones (p, indice + 1);
             #else
             // Estudia permutaciones con ese cambio.

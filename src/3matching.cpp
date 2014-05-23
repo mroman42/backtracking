@@ -47,11 +47,11 @@ int sizec = 0;
 // Señala las aristas seleccionadas y los nodos usados de cada conjunto.
 // Señala además la cardinalidad de la asignación (su valor).
 struct Matching {
+    int valor;
     vector<bool> aristas;
     vector<bool> nodosa;
     vector<bool> nodosb;
     vector<bool> nodosc;
-    int valor;
 
     Matching ()
     : valor(0),
@@ -144,10 +144,11 @@ int main () {
     // Bloque de entradas
     vector<Arista> aristas;
     vector<int> preferencias;
-    int preferencia;
     int a,b,c;
 
     #ifdef BBOUND
+    int preferencia;
+
     while (cin >> a >> b >> c >> preferencia){
         aristas.push_back(Arista(a,b,c));
         preferencias.push_back(preferencia);

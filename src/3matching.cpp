@@ -7,6 +7,7 @@
 #include <iostream>
 #include <vector>
 #include <queue>
+#include <stack>
 #include <chrono>
 #include <utility>
 using namespace std;
@@ -73,7 +74,7 @@ Matching resolver(vector<Arista> aristas, vector<int> preferencias) {
     #ifdef BBOUND
     priority_queue<Matching, vector<Matching>, cmp> posibles_particiones;
     #else
-    queue<Matching> posibles_particiones;
+    stack<Matching> posibles_particiones;
     #endif
     Matching solucion;
     uint tamanio = aristas.size();
@@ -81,11 +82,7 @@ Matching resolver(vector<Arista> aristas, vector<int> preferencias) {
     // Prueba cada posible asignación, empezando por la vacía.
     posibles_particiones.push(Matching());
     while (!posibles_particiones.empty()) {
-        #ifdef BBOUND
         Matching actual = posibles_particiones.top();
-        #else
-        Matching actual = posibles_particiones.front();
-        #endif
         posibles_particiones.pop();
         uint indice = actual.aristas.size();
 

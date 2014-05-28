@@ -1,6 +1,6 @@
 /**
- * tsp.cpp
- * Traveling Salesman Problem.
+ * qap.cpp
+ * Quadratic Assignment Problem
  * Implementación de un algoritmo de backtracking en C++.
  */
 

@@ -310,9 +310,13 @@ Nuestro algoritmo es de tipo iterativo, por lo que usa una pila en la que almace
   
   En nuestro algoritmo de tipo Backtracking consideraremos todas las posibles opciones para quedarnos con la mejor de ellas. Tomaremos una instalación y la emplazaremos en un lugar cualquiera. A partir de aquí, colocaremos una nueva instalación en otro emplazamiento vacío hasta que se agoten. Llegados a este punto, volveremos hacia atrás y consideraremos soluciones alternativas, colocando las instalaciones en los demás emplazamientos no considerados hasta el momento. Una vez obtenida una posible solución, compararemos costes con la mejor solución hasta el momento y la actualizaremos si es mejorada. 
   
+  Representaremos la solución como un vector de enteros, que nos indica en que emplazamiento hemos colocado cada ciudad a través del índice. El tamaño del espacio de soluciones es de $n!$, que representa los emplazamientos posibles que tenemos para cada ciudad. 
+  
   \subsection{Branch \& Bound}
   
   En este caso, volveremos a recorrer todo el árbol de soluciones en profundidad, utilizando una función que nos permite acotar el coste de una permutación, ahorrándonos explorar ramas del árbol. Para ello, calcularemos el coste total de la permutación hasta el momento, y si este es mayor que el coste de la mejor solución, podemos afirmar que todas las soluciones derivadas de la actual no son las óptimas, y podemos dejar de explorar la rama, pasando a la siguiente. 
+  
+  La solución será representada como en Backtracking, siendo de nuevo el tamaño del espacio de soluciones de $n!$.
 
 
 \section{Implementaciones}

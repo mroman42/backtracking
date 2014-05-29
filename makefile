@@ -35,6 +35,9 @@ $(BIN)/planificacion_bbound: $(SRC)/planificacion.cpp
 $(BIN)/3matching_bbound: $(SRC)/3matching.cpp
 	g++ $< -o $@ $(FLAGS) -DBBOUND
 
+$(BIN)/qap_bbound: $(SRC)/qap.cpp
+	g++ $< -o $@ $(FLAGS) -DBBOUND
+
 # Archivos .tex
 .PHONY: tex
 

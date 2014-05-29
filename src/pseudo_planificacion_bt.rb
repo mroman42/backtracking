@@ -1,86 +1,61 @@
-def planifica
-    posibles_planificaciones = new Stack
+def planifica(ncores, tareas)
+    def resolver()
+        posibles = new Stack
+        solución = []
+        tiempo = LATEXinfty
 
-    solucion.t_ejecucion = LATEXinfty
+        posibles.push({
+            historial: []
+            ejecutando: []
+            restantes: tareas
+        })
 
-    #posibles_planificaciones.push(Planificacion(problema))  ???
+        while (not posibles.empty?)
+            actual = posibles.pop
 
-    until posibles_planificaciones.empty?
-        actual = posibles_planificaciones.pop
+            if (actual.historial.size == tareas.size && actual.ejecutando.empty?)
+                solucion = actual if t_ejecucion(actual) < t_ejecucion(solucion)
+            else
+                libre = get_core(actual.ejecutando)
 
-        # Si es una planificación de todos las tareas, comprobamos si es mejor que la que ya tenemos
-        if (actual.historial.size() == problema.size() && empty(actual.procesador_actual))
-            if (actual.t_ejecucion < solucion.t_ejecucion)
-                solucion = actual
-            end
-        else
-            core = gap(actual.procesador_actual)
-            /*
-             Si hay core libre, intentamos planificar algún proceso en dicho core
-             */
+                if (libre > -1)
+                    for (nueva in actual.restantes)
+                        if (not tiene_dependencias(nueva, actual))
+                            copia = actual
+                            copia.ejecutando[libre] = nueva
+                            copia.restantes.delete(j)
+                            copia.historial.push({
+                                tarea: nueva
+                                t_inicio: t_ejecucion(copia)
+                                core: libre
+                            })
 
+                            posibles.push(copia)
 
-            if (core)
-                core--
-                # Comprueba si tiene dependencia con...
-                for j in [0..actual.restantes.size]
-                    dependencia = false
-                    # ·Los que están ejecutándose
-                    for i in [0..num_cores]
-                        if(!dependencia)
-                            if (!actual.procesador_actual[i].empty())
-                                dependencia = depende(actual.procesador_actual[i].index, actual.restantes[j].index)
-                            end
-                        end
-                    end
+                if (not actual.ejecutando.empty?)
+                    min_restante = min{tarea.tiempo, tarea LATEXin actual.ejecutando}
 
-                    # ·Los que aún no se han ejecutado
-                    for k in [0..actual.restantes.size]
-                        if(!dependencia)
-                            if (k!=j)
-                                if (!actual.restantes[j].empty())
-                                    dependencia = depende(actual.restantes[k].index, actual.restantes[j].index)
-                            end
-                        end
-                    end
+                    for (tarea in actual.restantes)
+                        tarea.tiempo -= min_restante
 
-                    # Si no hay dependencia, lo ejecutamos en el núcleo libre
-                    if (!dependencia)
-                        copia_actual = actual
-                        copia_actual.procesador_actual[core] = actual.restantes[j]
-                        #vector <Tarea>::iterator it = copia_actual.restantes.begin()
-                        #advance (it,j)
-                        #copia_actual.restantes.erase(it)
-                        #copia_actual.historial.push_back(Asignacion(core, actual.restantes[j], copia_actual.t_ejecucion))
-                        posibles_planificaciones.push(copia_actual)
-                    end
-                end
-            end
-            # Si el procesador no estaba vacío,...
-            if (!empty(actual.procesador_actual))
-                t_minimo = LATEXinfty
-                for tarea in actual.procesador_actual
-                    if (!tarea.empty())
-                        if (tarea.ejecucion < t_minimo)
-                            t_minimo = tarea.ejecucion
-                        end
-                    end
-                end
+                    posibles.push(actual)
 
-                # Actualizamos tiempos de ejecución del procesador
-                for tarea in actual.procesador_actual
-                    tarea.ejecucion -= t_minimo
-
-                    if (tarea.ejecucion < 0)
-                        tarea.ejecucion = 0
-                    end
-                end
-
-                actual.t_ejecucion += minimo
-
-                posibles_planificaciones.push(actual)
-            end
-        end
+        return solucion
     end
-    return solucion
+
+    def t_ejecucion(planificacion)
+        return max{planificacion[i].t_inicio + planificacion[i].tarea.tiempo,
+            i LATEXin {1, ... planificacion.size}}
+    end
+
+    def get_core(multiprocesador)
+        return min{i < ncores, multiprocesador[i].empty?}
+    end
+
+    def tiene_dependencias(tarea, plan)
+        return LATEXexists i : tarea LATEXin plan.ejecutando[i].dependencias or
+            LATEXexists i : tarea LATEXin plan.restantes[i].dependencias
+    end
+
+    return resolver()
 end

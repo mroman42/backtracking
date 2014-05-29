@@ -112,10 +112,10 @@ bool Planificador::empty(const vector<Tarea> &procesador){
 uint Planificador::gap(vector<Tarea> &procesador){
     for (uint i=0; i<num_cores; ++i){
         if (procesador[i].empty()){
-            return i+1;
+            return i;
         }
     }
-    return 0;
+    return -1;
 }
 
 struct cmp {
@@ -157,8 +157,7 @@ Planificador::Planificacion Planificador::planifica() {
              */
 
 
-            if (core){
-                core--;
+            if (core > -1){
                 // Comprueba si tiene dependencia con...
                 for (uint j=0; j<actual.restantes.size(); ++j){
                     dependencia = false;

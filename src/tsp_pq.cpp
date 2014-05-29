@@ -20,7 +20,7 @@ typedef pair<double,double> Punto;
 typedef float Coste;
 typedef vector<int> Ruta;
 typedef struct {
-    vector<int> ruta;
+    Ruta ruta;
     unsigned indice;
     Coste cota_restantes;
     Coste coste;
@@ -57,13 +57,9 @@ bool cruce (int u, int v, int w, int z) {
 }
 #endif
 
-Coste restante(Nodo& una) {
-    return 0;
-}
-
 struct cmp {
     bool operator()(Nodo& una, Nodo& otra) {
-        return una.coste < otra.coste;
+        return una.coste + una.cota_restantes < otra.coste + otra.cota_restantes;
     }
 };
 
@@ -88,11 +84,7 @@ vector<int> get_minimos() {
 }
 
 Nodo resuelve() {
-    #ifdef BBOUND
-        priority_queue<Nodo, vector<Nodo>, cmp> posibles;
-    #else
-        stack<Nodo> posibles;
-    #endif
+    priority_queue<Nodo, vector<Nodo>, cmp> posibles;
 
     unsigned dim = ciudades.size();
 
@@ -120,12 +112,8 @@ Nodo resuelve() {
                 mejor.coste = total;
             }
         }
-        #ifdef BBOUND
-            // Poda: No generamos más hijos si no vamos a mejorar la solución
-            else if (actual.coste + actual.cota_restantes < mejor.coste) {
-        #else
-            else {
-        #endif
+        // Poda: No generamos más hijos si no vamos a mejorar la solución
+        else if (actual.coste + actual.cota_restantes < mejor.coste) {
             for (unsigned i = actual.indice; i < dim; ++i) {
                 bool opt2 = false;
 

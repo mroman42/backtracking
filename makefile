@@ -8,7 +8,7 @@ FLAGS=-std=c++11 -Wall -g
 
 
 # make all: Compilar todos los programas
-all: $(patsubst $(SRC)/%.cpp, $(BIN)/%, $(wildcard $(SRC)/*.cpp)) $(BIN)/mochila_bbound $(BIN)/tsp_bbound $(BIN)/tsp_optbound $(BIN)/planificacion_bbound $(BIN)/3matching_bbound $(BIN)/tsp_pq_bbound $(BIN)/tsp_pq_optbound $(BIN)/qap_bbound1 $(BIN)/qap_bbound2 $(BIN)/qap_bbound3
+all: $(patsubst $(SRC)/%.cpp, $(BIN)/%, $(wildcard $(SRC)/*.cpp)) $(BIN)/mochila_bbound $(BIN)/tsp_bb_opt $(BIN)/planificacion_bbound $(BIN)/3matching_bbound $(BIN)/qap_bbound1 $(BIN)/qap_bbound2 $(BIN)/qap_bbound3
 
 # Opciones individuales
 $(BIN)/%: $(SRC)/%.cpp
@@ -17,13 +17,7 @@ $(BIN)/%: $(SRC)/%.cpp
 $(BIN)/mochila_bbound: $(SRC)/mochila.cpp
 	g++ $< -o $@ $(FLAGS) -DBBOUND
 
-$(BIN)/tsp_bbound: $(SRC)/tsp.cpp
-	g++ $< -o $@ $(FLAGS) -DBBOUND
-
-$(BIN)/tsp_optbound: $(SRC)/tsp.cpp
-	g++ $< -o $@ $(FLAGS) -DOPTBOUND -DBBOUND
-
-$(BIN)/tsp_pq_optbound: $(SRC)/tsp_pq.cpp
+$(BIN)/tsp_bb_opt: $(SRC)/tsp_bb.cpp
 	g++ $< -o $@ $(FLAGS) -DOPTBOUND
 
 $(BIN)/planificacion_bbound: $(SRC)/planificacion.cpp

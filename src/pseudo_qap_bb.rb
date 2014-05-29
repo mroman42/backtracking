@@ -25,14 +25,3 @@ def coste(permutacion, n)
     return LATEX
 end
 
-
-
-
-
-
-
-
-
-
-
-

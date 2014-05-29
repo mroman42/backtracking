@@ -1,0 +1,64 @@
+% Generator: GNU source-highlight, by Lorenzo Bettini, http://www.gnu.org/software/src-highlite
+\noindent
+\mbox{}\textbf{\textcolor{Blue}{def}}\ planifica\textcolor{BrickRed}{(}ncores\textcolor{BrickRed}{,}\ tareas\textcolor{BrickRed}{)} \\
+\mbox{}\ \ \ \ \textbf{\textcolor{Blue}{def}}\ resolver\textcolor{BrickRed}{()} \\
+\mbox{}\ \ \ \ \ \ \ \ posibles\ \textcolor{BrickRed}{=}\ new\ Stack \\
+\mbox{}\ \ \ \ \ \ \ \ solución\ \textcolor{BrickRed}{=}\ \textcolor{BrickRed}{[]} \\
+\mbox{}\ \ \ \ \ \ \ \ tiempo\ \textcolor{BrickRed}{=}\ LATEXinfty \\
+\mbox{} \\
+\mbox{}\ \ \ \ \ \ \ \ posibles\textcolor{BrickRed}{.}push\textcolor{BrickRed}{(}\textcolor{Red}{\{} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ historial\textcolor{BrickRed}{:}\ \textcolor{BrickRed}{[]} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ ejecutando\textcolor{BrickRed}{:}\ \textcolor{BrickRed}{[]} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ restantes\textcolor{BrickRed}{:}\ tareas \\
+\mbox{}\ \ \ \ \ \ \ \ \textcolor{Red}{\}}\textcolor{BrickRed}{)} \\
+\mbox{} \\
+\mbox{}\ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{while}}\ \textcolor{BrickRed}{(}\textbf{\textcolor{Blue}{not}}\ posibles\textcolor{BrickRed}{.}empty?\textcolor{BrickRed}{)} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ actual\ \textcolor{BrickRed}{=}\ posibles\textcolor{BrickRed}{.}pop \\
+\mbox{} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{if}}\ \textcolor{BrickRed}{(}LATEXactual\textcolor{BrickRed}{.}historial\ \textcolor{BrickRed}{==}\ LATEXtareas\ \textcolor{BrickRed}{\&\&}\ actual\textcolor{BrickRed}{.}ejecutando\textcolor{BrickRed}{.}empty?\textcolor{BrickRed}{)} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ solucion\ \textcolor{BrickRed}{=}\ actual\ \textbf{\textcolor{Blue}{if}}\ t$\_$ejecucion\textcolor{BrickRed}{(}actual\textcolor{BrickRed}{)}\ \textcolor{BrickRed}{\textless{}}\ t$\_$ejecucion\textcolor{BrickRed}{(}solucion\textcolor{BrickRed}{)} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{else}} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ libre\ \textcolor{BrickRed}{=}\ get$\_$core\textcolor{BrickRed}{(}actual\textcolor{BrickRed}{.}ejecutando\textcolor{BrickRed}{)} \\
+\mbox{} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{if}}\ \textcolor{BrickRed}{(}libre\ \textcolor{BrickRed}{\textgreater{}}\ \textcolor{BrickRed}{-}\textcolor{Purple}{1}\textcolor{BrickRed}{)} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{for}}\ \textcolor{BrickRed}{(}nueva\ \textbf{\textcolor{Blue}{in}}\ actual\textcolor{BrickRed}{.}restantes\textcolor{BrickRed}{)} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{if}}\ \textcolor{BrickRed}{(}\textbf{\textcolor{Blue}{not}}\ tiene$\_$dependencias\textcolor{BrickRed}{(}nueva\textcolor{BrickRed}{,}\ actual\textcolor{BrickRed}{))} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ copia\ \textcolor{BrickRed}{=}\ actual \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ copia\textcolor{BrickRed}{.}ejecutando\textcolor{BrickRed}{[}libre\textcolor{BrickRed}{]}\ \textcolor{BrickRed}{=}\ nueva \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ copia\textcolor{BrickRed}{.}restantes\textcolor{BrickRed}{.}delete\textcolor{BrickRed}{(}j\textcolor{BrickRed}{)} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ copia\textcolor{BrickRed}{.}historial\textcolor{BrickRed}{.}push\textcolor{BrickRed}{(}\textcolor{Red}{\{} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tarea\textcolor{BrickRed}{:}\ nueva \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ t$\_$inicio\textcolor{BrickRed}{:}\ t$\_$ejecucion\textcolor{BrickRed}{(}copia\textcolor{BrickRed}{)} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ core\textcolor{BrickRed}{:}\ libre \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{Red}{\}}\textcolor{BrickRed}{)} \\
+\mbox{} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ posibles\textcolor{BrickRed}{.}push\textcolor{BrickRed}{(}copia\textcolor{BrickRed}{)} \\
+\mbox{} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{if}}\ \textcolor{BrickRed}{(}\textbf{\textcolor{Blue}{not}}\ actual\textcolor{BrickRed}{.}ejecutando\textcolor{BrickRed}{.}empty?\textcolor{BrickRed}{)} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ min$\_$restante\ \textcolor{BrickRed}{=}\ min\textcolor{Red}{\{}tarea\textcolor{BrickRed}{.}tiempo\textcolor{BrickRed}{,}\ tarea\ LATEXin\ actual\textcolor{BrickRed}{.}ejecutando\textcolor{Red}{\}} \\
+\mbox{} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{for}}\ \textcolor{BrickRed}{(}tarea\ \textbf{\textcolor{Blue}{in}}\ actual\textcolor{BrickRed}{.}restantes\textcolor{BrickRed}{)} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tarea\textcolor{BrickRed}{.}tiempo\ \textcolor{BrickRed}{-=}\ min$\_$restante \\
+\mbox{} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ posibles\textcolor{BrickRed}{.}push\textcolor{BrickRed}{(}actual\textcolor{BrickRed}{)} \\
+\mbox{} \\
+\mbox{}\ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{return}}\ solucion \\
+\mbox{}\ \ \ \ \textbf{\textcolor{Blue}{end}} \\
+\mbox{} \\
+\mbox{}\ \ \ \ \textbf{\textcolor{Blue}{def}}\ t$\_$ejecucion\textcolor{BrickRed}{(}planificacion\textcolor{BrickRed}{)} \\
+\mbox{}\ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{return}}\ max\textcolor{Red}{\{}planificacion\textcolor{BrickRed}{[}i\textcolor{BrickRed}{].}t$\_$inicio\ \textcolor{BrickRed}{+}\ planificacion\textcolor{BrickRed}{[}i\textcolor{BrickRed}{].}tarea\textcolor{BrickRed}{.}tiempo\textcolor{BrickRed}{,} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ i\ LATEXin\ \textcolor{Red}{\{}\textcolor{Purple}{1}\textcolor{BrickRed}{,}\ \textcolor{BrickRed}{...}\ LATEXplanificacion\textcolor{Red}{\}\}} \\
+\mbox{}\ \ \ \ \textbf{\textcolor{Blue}{end}} \\
+\mbox{} \\
+\mbox{}\ \ \ \ \textbf{\textcolor{Blue}{def}}\ get$\_$core\textcolor{BrickRed}{(}multiprocesador\textcolor{BrickRed}{)} \\
+\mbox{}\ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{return}}\ min\textcolor{Red}{\{}i\ \textcolor{BrickRed}{\textless{}}\ ncores\textcolor{BrickRed}{,}\ multiprocesador\textcolor{BrickRed}{[}i\textcolor{BrickRed}{].}empty?\textcolor{Red}{\}} \\
+\mbox{}\ \ \ \ \textbf{\textcolor{Blue}{end}} \\
+\mbox{} \\
+\mbox{}\ \ \ \ \textbf{\textcolor{Blue}{def}}\ tiene$\_$dependencias\textcolor{BrickRed}{(}tarea\textcolor{BrickRed}{,}\ plan\textcolor{BrickRed}{)} \\
+\mbox{}\ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{return}}\ LATEXexists\ i\ \textcolor{BrickRed}{:}\ tarea\ LATEXin\ plan\textcolor{BrickRed}{.}ejecutando\textcolor{BrickRed}{[}i\textcolor{BrickRed}{].}dependencias\ \textbf{\textcolor{Blue}{or}} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ LATEXexists\ i\ \textcolor{BrickRed}{:}\ tarea\ LATEXin\ plan\textcolor{BrickRed}{.}restantes\textcolor{BrickRed}{[}i\textcolor{BrickRed}{].}dependencias \\
+\mbox{}\ \ \ \ \textbf{\textcolor{Blue}{end}} \\
+\mbox{} \\
+\mbox{}\ \ \ \ \textbf{\textcolor{Blue}{return}}\ resolver\textcolor{BrickRed}{()} \\
+\mbox{}\textbf{\textcolor{Blue}{end}} \\
+\mbox{}

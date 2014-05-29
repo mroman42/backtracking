@@ -13,7 +13,7 @@ def planifica(ncores, tareas)
         while (not posibles.empty?)
             actual = posibles.pop
 
-            if (actual.historial.size == tareas.size && actual.ejecutando.empty?)
+            if (LATEXactual.historial == LATEXtareas && actual.ejecutando.empty?)
                 solucion = actual if t_ejecucion(actual) < t_ejecucion(solucion)
             else
                 libre = get_core(actual.ejecutando)
@@ -45,7 +45,7 @@ def planifica(ncores, tareas)
 
     def t_ejecucion(planificacion)
         return max{planificacion[i].t_inicio + planificacion[i].tarea.tiempo,
-            i LATEXin {1, ... planificacion.size}}
+            i LATEXin {1, ... LATEXplanificacion}}
     end
 
     def get_core(multiprocesador)

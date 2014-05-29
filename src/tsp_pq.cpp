@@ -12,16 +12,17 @@
 #include <algorithm>
 #include <chrono>
 #include <queue>
+#include <stack>
 
 using namespace std;
 
 typedef pair<double,double> Punto;
-typedef vector<int> Ruta;
 typedef float Coste;
+typedef vector<int> Ruta;
 typedef struct {
-    Ruta ruta;
+    vector<int> ruta;
     unsigned indice;
-    Coste cota;
+    Coste cota_restantes;
     Coste coste;
 } Nodo;
 
@@ -29,7 +30,7 @@ vector<Punto> ciudades;
 
 // Función de impresión de vectores
 template<class T>
-ostream& operator<<(ostream& output, vector<T>& v) {
+ostream& operator<<(ostream& output, const vector<T>& v) {
     for (auto i : v)
         output << i << ' ';
 
@@ -62,24 +63,46 @@ Coste restante(Nodo& una) {
 
 struct cmp {
     bool operator()(Nodo& una, Nodo& otra) {
-        return una.cota < otra.cota;
+        return una.coste < otra.coste;
     }
 };
 
-Coste calcula_coste(Ruta& ruta) {
-    Coste resultado = 0;
-    for (unsigned i = 1; i <= ruta.size(); ++i)
-        resultado += distancia(i-1,i%ruta.size());
-    return resultado;
+vector<int> get_minimos() {
+    vector<int> min_distancias;
+
+    for (unsigned i = 0; i < ciudades.size(); ++i) {
+        Coste minimo = numeric_limits<Coste>::infinity();
+
+        for (unsigned j = 0; j < ciudades.size(); ++j) {
+            Coste posible = distancia(i,j);
+
+            if (posible < minimo && posible > 0) {
+                minimo = posible;
+            }
+        }
+
+        min_distancias.push_back(minimo);
+    }
+
+    return min_distancias;
 }
 
 Nodo resuelve() {
-    priority_queue<Nodo, vector<Nodo>, cmp> posibles;
+    #ifdef BBOUND
+        priority_queue<Nodo, vector<Nodo>, cmp> posibles;
+    #else
+        stack<Nodo> posibles;
+    #endif
+
     unsigned dim = ciudades.size();
 
     // Generamos una ruta inicial, fijamos la primera ciudad
     Nodo mejor({ Ruta(dim), 1, 0, 0 });
     iota(mejor.ruta.begin(), mejor.ruta.end(), 0);
+
+    vector<int> min_distancias = get_minimos();
+    mejor.cota_restantes = accumulate(min_distancias.begin(), min_distancias.end(), 0);
+
     posibles.push(mejor);
     mejor.coste = numeric_limits<Coste>::infinity();
 
@@ -88,39 +111,43 @@ Nodo resuelve() {
         posibles.pop();
 
         // Caso de la ruta finalizada
-        // Comprueba si se mejora el óptimo.
-        if (actual.indice >= dim - 1) {
-            Coste total = actual.coste + distancia(actual.ruta[actual.indice-1], actual.ruta[0]);
+        // Comprueba si se mejora el óptimo
+        if (actual.indice == dim) {
+            Coste total = actual.coste + distancia(actual.ruta[dim-1], actual.ruta[0]);
 
             if (total < mejor.coste) {
-                mejor = actual;
-                cout << "estoy asignando " << actual.ruta;
+                mejor.ruta = actual.ruta;
+                mejor.coste = total;
             }
         }
-        // Poda: No generamos más hijos si no vamos a mejorar la solución
-        else if (actual.cota < mejor.coste) {
+        #ifdef BBOUND
+            // Poda: No generamos más hijos si no vamos a mejorar la solución
+            else if (actual.coste + actual.cota_restantes < mejor.coste) {
+        #else
+            else {
+        #endif
             for (unsigned i = actual.indice; i < dim; ++i) {
                 bool opt2 = false;
 
                 #ifdef OPTBOUND
-                    // Caso en el que la permutación introduciría un cruce de caminos.
-                    // Por optimización OPT-2, no puede ser el óptimo.
-                    for (unsigned j = 1; j < indice && !opt2; j++)
+                    // Caso en el que la permutación introduciría un cruce de caminos
+                    // Por optimización OPT-2, no puede ser el óptimo
+                    for (unsigned j = 1; j < actual.indice && !opt2; j++)
                         opt2 = cruce(actual.ruta[i],actual.ruta[actual.indice-1],
                             actual.ruta[j], actual.ruta[j-1]);
                 #endif
 
                 if (!opt2) {
-                    // Produce una permutación en la ruta.
+                    // Produce una permutación en la ruta
                     Nodo hijo(actual);
                     swap(hijo.ruta[i], hijo.ruta[hijo.indice]);
 
                     hijo.coste += distancia(hijo.ruta[hijo.indice - 1], hijo.ruta[hijo.indice]);
+                    hijo.cota_restantes -= min_distancias[hijo.indice - 1];
+
                     hijo.indice++;
 
                     posibles.push(hijo);
-                    // Estudia permutaciones con ese cambio.
-                    //permutaciones (ruta, coste_actual, indice + 1);
                 }
             }
         }
@@ -142,12 +169,6 @@ int main() {
     for (auto& p : ciudades)
         cin >> p.first >> p.second;
 
-    // Resolución del problema
-    // Recorre las posibles permutaciones dejando fija la primera ciudad.
-    // Crea una primera ruta con la permutación identidad.
-    Ruta ruta(dimension);
-    iota(ruta.begin(),ruta.end(),0);
-
     auto time1 = chrono::high_resolution_clock::now();
     mejor = resuelve();
     auto time2 = chrono::high_resolution_clock::now();
@@ -155,7 +176,7 @@ int main() {
     double tiempo = time_span.count();
 
     // Muestra la solución
-    cout << "Mejor coste obtenido: " << mejor.coste << " " << calcula_coste(mejor.ruta) << endl
+    cout << "Mejor coste obtenido: " << mejor.coste << endl
         << "Mejor ruta: " << endl << mejor.ruta
         << "Tiempo de cómputo: " << tiempo << endl;
 }

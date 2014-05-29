@@ -22,6 +22,8 @@ template<class T> istream& operator>> (istream& input, vector<T>& v);
 
 // Datos globales del problema
 uint dimension;
+uint nodos_expandidos(0);
+uint nodos_podados(0);
 Permutacion mejor_permutacion;
 Coste mejor_coste;
 vector<vector<double>> w;
@@ -92,9 +94,12 @@ void permutaciones(Permutacion& p, uint indice = 0){
                 }
                 coste += minimo;
             }
-            if (coste < mejor_coste)
+            if (coste < mejor_coste){
                 permutaciones (p, indice + 1);
-            
+                nodos_expandidos++;
+            }
+            else
+                nodos_podados++;
             #else 
             #ifdef BBOUND2
             coste = cost(p,indice + 1);
@@ -110,18 +115,27 @@ void permutaciones(Permutacion& p, uint indice = 0){
                     coste += w[h][j] * minimo_i + w[j][h] * minimo_ii;   
                 }
             }
-            if (coste < mejor_coste)
+            if (coste < mejor_coste){
                 permutaciones (p, indice + 1);
+                nodos_expandidos++;
+            }
+            else
+                nodos_podados++;
             
             #else
             #ifdef BBOUND3
             // Si la permutación actual es peor que la mejor en cuanto a coste,
             // no la introducimos
-            if (cost(p,indice + 1) < mejor_coste)
-                permutaciones (p, indice + 1);            
+            if (cost(p,indice + 1) < mejor_coste){
+                permutaciones (p, indice + 1);    
+                nodos_expandidos++;
+            }
+            else
+                nodos_podados++;
             #else
             // Estudia permutaciones con ese cambio.
             permutaciones (p, indice + 1);
+            nodos_expandidos++;
             #endif
             #endif
             #endif
@@ -165,7 +179,9 @@ int main(){
     // Bloque de salidas
     cout << "Mejor coste obtenido: " << mejor_coste << endl
         << "Mejor permutación: " << endl << mejor_permutacion
-        << "Tiempo de cómputo: " << time << endl;
+        << "Tiempo de cómputo: " << time << endl
+        << "Nodos expandidos: " << nodos_expandidos << endl
+        << "Nodos podados: " << nodos_podados << endl;
 }
  
 

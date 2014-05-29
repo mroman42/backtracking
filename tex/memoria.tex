@@ -159,12 +159,24 @@ Backtracking y Branch \& Bound} % Subtitle
 	\subsubsection{Algoritmo}
 	  Nuestro algoritmo es de tipo iterativo, por lo que usa una pila en la que almacenamos las mochilas que 
 	  vamos procesando. La poda se produce cuando al añadir un objeto, la mochila resultante supera el peso 
-	  límite, en cuyo caso esta no es añadida a la pila de candidatas. Cuando encontremos una mochila completa, 
+	  límite, en cuyo caso, esta no es añadida a la pila de candidatas. Cuando encontremos una mochila completa, 
 	  se compara con la solución actual, y se sustituye en caso de mejorarla. 
     
 	  \small
 	    \texttt{\input{pseudo_mochila_final_bt.tex}}
 	  \normalsize
+	  
+	\subsubsection{Árbol de Estados}
+	Se incluye el árbol de estados para el ejemplo proporcionado en el guión. 
+	\begin{itemize}
+	\item $M = 61$
+	\item $n = 5$
+	\item $Pesos = (1, 11, 21, 23, 33)$
+	\item $Beneficios = (11, 21, 31, 33, 43)$
+	\end{itemize}
+	 \tiny
+	   	\texttt{\input{arbol_mochila.tex}}
+	 \normalsize
     
     
 	\subsection{Branch \& Bound}
@@ -188,7 +200,13 @@ Backtracking y Branch \& Bound} % Subtitle
 	    \texttt{\input{pseudo_mochila_bb_final.tex}}
 	    \normalsize
 
+	\subsubsection{Árbol de Estados}
+	Se incluye el árbol de estados para el ejemplo proporcionado en el guión. 
     
+    \tiny
+	   	\texttt{\input{arbol_mochila_bb.tex}}
+    \normalsize
+        
     
     \section{Traveling Salesman Problem}
       \subsection{Enunciado}
@@ -241,6 +259,12 @@ Backtracking y Branch \& Bound} % Subtitle
       
       La estrategia de ramificación utilizada en este caso será Least-Cost FIFO, ya que buscamos explorar las soluciones ordenadas por el menor coste.
       
+      \subsubsection{Algoritmo}
+      
+      \small
+      \texttt{\input{pseudo_tsp_bb_final.tex}}
+      \normalsize
+      
       \subsubsection{Variante: Branch \& Bound con 2-OPT}
 	Una condición para podar una rama, cuando se está realizando la exploración del árbol, puede ser que exista algún cruce de ciudades en el grafo.
 	Entendemos un cruce de ciudades como un caso en el que al permutar dos caminos del problema (cambiando $(a,b),(c,d)$ por $(a,d),(c,b)$), obtenemos
@@ -251,7 +275,7 @@ Backtracking y Branch \& Bound} % Subtitle
     \subsubsection{Algoritmo}
     
     \small
-    \texttt{\input{pseudo_tsp_bb_final.tex}}
+    \texttt{\input{pseudo_tsp_opt_final.tex}}
     \normalsize
     
     \section{Planificación en multiprocesadores}
@@ -271,6 +295,8 @@ Backtracking y Branch \& Bound} % Subtitle
     \end{itemize}
     Además, podemos entender la \textit{tarea} como un tipo de dato que comprende tanto el tiempo de ejecución como referencias (por ejemplo, índices a un vector) de sus dependencias.
     
+    Al tener esta representación de la solución, no es posible encontrar el tamaño del espacio de soluciones, pues el tiempo de inicio de cada tarea nos impide poder cuantificar dicho tamaño a partir del natural que representa la magnitud del problema. 
+    
     La función de poda en este caso devuelve falso si la tarea que se va a añadir tiene una dependencia pendiente, esto es, incluye en sus dependencias a otra tarea que aún no se ha terminado de ejecutar.
     
     \subsubsection{Algoritmo}
@@ -281,7 +307,7 @@ Backtracking y Branch \& Bound} % Subtitle
     
     \subsection{Branch \& Bound}
       Para el algoritmo siguiendo la estrategia Branch \& Bound, utilizamos la misma representación para la 
-      solución y por tanto tenemos un espacio de soluciones idéntico.
+      solución. De nuevo no podemos encontrar el tamaño del espacio de soluciones. 
       
       Los hijos posibles de un nodo intermedio $(a_1, \dots, a_m)$ (con $a_i$ asignaciones válidas) son del tipo 
       $(a_1, \dots, a_m, a_{m+1})$, donde $a_{m+1}$ es una asignación asociada a una tarea que no está ya en 
@@ -299,22 +325,27 @@ Backtracking y Branch \& Bound} % Subtitle
         \small
         \texttt{\input{pseudo_planificacion_bb_final.tex}}
         \normalsize
+     
+    \subsection{Implementación en un Sistema Operativo}
+    Al analizar la viabilidad de implementar el algoritmo de planificación como parte de un Sistema Operativo, hemos concluido que no es viable, ya que no conocemos de antemano los tiempos de ejecución de los programas, lo que nos impide planificar la tareas conforme a nuestro algoritmo. De igual forma, la misma planificación de las tareas podría suponer un coste en tiempo muy significativo, si el número de tareas es muy grande, lo que ralentizaría mucho el Sistema Operativo en general. 
       
-    \section{3-Dimensional Matchisng}
+    \section{3-Dimensional Matching}
     \subsection{Enunciado}
     Sean $X$,$Y$,$Z$ tres conjuntos finitos y sea $T \subset X \times Y \times Z$, subconjunto de tripletas válidas.
     Una asignación válida $M$ es un subconjunto de elementos disjuntos de $T$. Es decir, $M \subset T$ tal que:
     \begin{equation}
         \forall (x_1,y_1,z_1), (x_2,y_2,z_2) \in M : \quad (x_1 \neq x_2) \wedge (y_1 \neq y_2) \wedge (z_1 \neq z_2)
         \end{equation} 
-        Buscamos la asignación válida de mayor cardinal, es decir la $M$ asignación válida maximizando $|M|$.
+        Buscamos la asignación válida de mayor cardinal, es decir la $M$ asignación válida maximizando la satisfacción.
         
         \subsection{Backtracking}
-	  En este algoritmo consideraremos todas las asignaciones posibles y nos quedaremos con la asignación que tenga mayor cardinal. 
-	  Para ello, consideraremos todas las aristas e iremos comprobando para cada una si es posible añadirla. De ser así, distinguiremos 
-	  dos casos: La arista puede pertenecer o no a la solución. Sobre estos dos casos aplicaremos el mismo algoritmo. Cuando no quede
-	  ninguna arista que pueda ser añadida, compararemos los tamaños de la solución obtenida y la mejor solución hasta el momento, 
-	  actualizando la mejor solución si la actual la mejorase. 
+	  En este algoritmo consideraremos todas las asignaciones posibles y nos quedaremos con la asignación que tenga mayor satisfacción
+	  que, en este caso, coincide con el cardinal.
+	  
+	  Para ello, consideraremos todas las aristas e iremos comprobando para cada una si es posible añadirla. De ser así, distinguiremos dos
+	  casos: La arista puede pertenecer o no a la solución. Sobre estos dos casos aplicaremos el mismo algoritmo. Cuando no quede ninguna
+	  arista que pueda ser añadida, compararemos los tamaños de la solución obtenida y la mejor solución hasta el momento, actualizando
+	  la mejor solución si la actual la mejorase. 
 	  
 	  Representaremos la solución como un vector de booleanos, que nos indican si la arista asociada al índice se encuentra o 
 	  no en la solución. Como cada arista tiene la opción de estar o no estar en la solución, la dimensión del espacio de 
@@ -329,14 +360,22 @@ Backtracking y Branch \& Bound} % Subtitle
 	  Para la versión Branch \& Bound del algoritmo, usaremos la misma representación para la solución, 
 	  un vector de booleanos, por lo que tendremos el mismo espacio de soluciones.
 	  
+	  Los hijos posibles de un nodo intermedio $(a_1, \dots, a_m)$ (con $a_i$ asignaciones válidas) son del tipo 
+	  $(a_1, \dots, a_m, a_{m+1})$, donde $a_{m+1}$ es una asignación válida que no está ya en $\{a_1, \dots, a_m\}$.
+	  
 	  Como función de poda sobre una solución parcial, consideraremos la satisfacción que obtendríamos con todas 
 	  las aristas restantes como cota máxima de la satisfacción posible a obtener. Si la satisfacción máxima de 
 	  la parte restante sumada con la satisfacción de la solución parcial es menor que la satisfacción de la mejor 
 	  solución hasta el momento, podemos descartar la solución parcial y obviar todas las ramas derivadas. 
 	  
-	  La satisfacción estará relacionada con la preferencia de cada arista. Dicha preferencia vendrá dada en un 
+	  En este caso, la satisfacción estará relacionada con la preferencia de cada arista. Dicha preferencia vendrá dada en un 
 	  nuevo vector de valores reales, que utilizaremos para calcular el valor de cada arista en base a su preferencia. 
-        
+      
+      Al tratarse de un problema de maximización, la estrategia de poda que se sigue es podar cada rama en la que se
+      encuentre una satisfacción máxima (cota superior) menor que la satisfacción de la mejor solución encontrada hasta el
+      momento. La estrategia de ramificación utilizada es Maximum-Benefit FIFO, ya que usamos una cola con prioridad
+      ordenada por el mayor beneficio.
+    
         \subsubsection{Algoritmo}    
         \small
         \texttt{\input{pseudo_3dmatching_bb_final.tex}}

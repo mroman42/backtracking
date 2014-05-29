@@ -35,7 +35,7 @@
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ posibles\textcolor{BrickRed}{.}push\textcolor{BrickRed}{(}copia\textcolor{BrickRed}{)} \\
 \mbox{} \\
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{if}}\ \textcolor{BrickRed}{(}\textbf{\textcolor{Blue}{not}}\ actual\textcolor{BrickRed}{.}ejecutando\textcolor{BrickRed}{.}empty?\textcolor{BrickRed}{)} \\
-\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ min$\_$restante\ \textcolor{BrickRed}{=}\ $min\left\{tarea.tiempo: tarea \in actual.ejecutando\right\}$ \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ min$\_$restante\ \textcolor{BrickRed}{=}\ $\mathtt{min\left\{tarea.tiempo: tarea \in actual.ejecutando\right\}}$ \\
 \mbox{} \\
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{for}}\ \textcolor{BrickRed}{(}tarea\ \textbf{\textcolor{Blue}{in}}\ actual\textcolor{BrickRed}{.}restantes\textcolor{BrickRed}{)} \\
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tarea\textcolor{BrickRed}{.}tiempo\ \textcolor{BrickRed}{-=}\ min$\_$restante \\
@@ -48,16 +48,16 @@ posibles\textcolor{BrickRed}{.}push\textcolor{BrickRed}{(}actual\textcolor{Brick
 \mbox{}\ \ \ \ \textbf{\textcolor{Blue}{end}} \\
 \mbox{} \\
 \mbox{}\ \ \ \ \textbf{\textcolor{Blue}{def}}\ t$\_$ejecucion\textcolor{BrickRed}{(}planificacion\textcolor{BrickRed}{)} \\
-\mbox{}\ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{return}}\ $max\left\{ planificacion[i].t\_inicio : i \in \{0, \dots \#planificacion -1\} \right\}$ \\
+\mbox{}\ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{return}}\ $\mathtt{max\left\{ planificacion[i].t\_inicio : i \in \{0, \dots \#planificacion -1\} \right\}}$ \\
 \mbox{}\ \ \ \ \textbf{\textcolor{Blue}{end}} \\
 \mbox{} \\
 \mbox{}\ \ \ \ \textbf{\textcolor{Blue}{def}}\ get$\_$core\textcolor{BrickRed}{(}multiprocesador\textcolor{BrickRed}{)} \\
-\mbox{}\ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{return}}\ $min\left\{i < ncores : multiprocesador[i].empty? \right\}$ \\
+\mbox{}\ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{return}}\ $\mathtt{min\left\{i < ncores : multiprocesador[i].empty? \right\}}$ \\
 \mbox{}\ \ \ \ \textbf{\textcolor{Blue}{end}} \\
 \mbox{} \\
 \mbox{}\ \ \ \ \textbf{\textcolor{Blue}{def}}\ tiene$\_$dependencias\textcolor{BrickRed}{(}tarea\textcolor{BrickRed}{,}\ plan\textcolor{BrickRed}{)} \\
-\mbox{}\ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{return}}\ $\exists i : tarea \in plan.ejecutando[i].dependencias$ \textbf{\textcolor{Blue}{or}} \\
-\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ $\exists i : tarea \in plan.restantes[i].dependencias$ \\
+\mbox{}\ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{return}}\ $\mathtt{\exists i : tarea \in plan.ejecutando[i].dependencias}$ \textbf{\textcolor{Blue}{or}} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ $\mathtt{\exists i : tarea \in plan.restantes[i].dependencias}$ \\
 \mbox{}\ \ \ \ \textbf{\textcolor{Blue}{end}} \\
 \mbox{} \\
 \mbox{}\ \ \ \ \textbf{\textcolor{Blue}{return}}\ resolver\textcolor{BrickRed}{()} \\

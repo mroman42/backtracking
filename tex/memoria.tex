@@ -85,14 +85,14 @@
 
 \renewcommand{\maketitle}{ % Customize the title - do not edit title and author name here, see the TITLE block below
 \begin{flushright} % Right align
-{\LARGE\@title} % Increase the font size of the title
-
-\vspace{50pt} % Some vertical space between the title and author name
-
-{\large\@author} % Author name
-\\\@date % Date
-
-\vspace{40pt} % Some vertical space between the author block and abstract
+    {\LARGE\@title} % Increase the font size of the title
+    
+    \vspace{50pt} % Some vertical space between the title and author name
+    
+    {\large\@author} % Author name
+    \\\@date % Date
+    
+    \vspace{40pt} % Some vertical space between the author block and abstract
 \end{flushright}
 }
 
@@ -119,229 +119,236 @@ Backtracking y Branch \& Bound} % Subtitle
 %----------------------------------------------------------------------------------------
 
 \begin{document}
-
-\maketitle % Print the title section
-
-\renewcommand{\abstractname}{Resumen} % Uncomment to change the name of the abstract to something else
-\begin{abstract}
-\end{abstract}
-{\parskip=2pt
-\tableofcontents
-}
-\pagebreak
-
-
-\section{El problema de la mochila}
-
-\subsection{Enunciado}
-El problema de la mochila es un problema de maximización, en el que tenemos un contenedor con un tamaño 
-fijo $M$ y un conjunto de $n$ elementos que queremos almacenar en nuestro contenedor. Dichos elementos tendrán un peso $\omega_i$
-determinado, y obtendremos un cierto beneficio $b_i$ por cada objeto almacenado.
-
-Nuestro objetivo es maximizar la suma de beneficios, $\sum_{i=1}^{n} b_i\delta_i$, (siendo $\delta_i = 1$ si el i-ésimo objeto está en la mochila, 0 en caso contrario) con la restricción de que la mochila solo puede llevar un peso máximo, determinado por su tamaño: $\sum_{i=1}^{n} \omega_i\delta_i \leq M$.
-
-  
-    \subsection{Backtracking}
-Representamos una mochila como un vector de datos booleanos, $\delta$, de tamaño $n$. Esto implica que nuestro espacio de soluciones tendrá un tamaño de $2^n$.
-
-La función de poda toma un vector $\delta = (\delta_1, \dots, \delta_n)$ y devuelve falso en caso de que $\sum_{i=1}^{n} \omega_i\delta_i > M$, asegurando así que solo se van considerando en el proceso candidatas a solución.
-
+    
+    \maketitle % Print the title section
+    
+    \renewcommand{\abstractname}{Resumen} % Uncomment to change the name of the abstract to something else
+    \begin{abstract}
+    \end{abstract}
+    {\parskip=2pt
+    \tableofcontents
+    }
+    \pagebreak
+    
+    
+    \section{El problema de la mochila}
+      \subsection{Enunciado}
+	El problema de la mochila es un problema de maximización, en el que tenemos un contenedor con un tamaño 
+	fijo $M$ y un conjunto de $n$ elementos que queremos almacenar en nuestro contenedor. Dichos elementos tendrán un peso $\omega_i$
+	determinado, y obtendremos un cierto beneficio $b_i$ por cada objeto almacenado.
+	
+	Nuestro objetivo es maximizar la suma de beneficios, $\sum_{i=1}^{n} b_i\delta_i$, (siendo $\delta_i = 1$ si el i-ésimo objeto 
+	está en la mochila, 0 en caso contrario) con la restricción de que la mochila solo puede llevar un peso máximo, determinado por 
+	su tamaño: $\sum_{i=1}^{n} \omega_i\delta_i \leq M$.
+    
+      \subsection{Backtracking}
+	Representamos una mochila como un vector de datos booleanos, $\delta$, de tamaño $n$. Esto implica 
+	que nuestro espacio de soluciones tendrá un tamaño de $2^n$. La función de poda toma un vector 
+	$\delta = (\delta_1, \dots, \delta_n)$ y devuelve falso en caso de que $\sum_{i=1}^{n} \omega_i\delta_i > M$, 
+	asegurando así que solo se van considerando en el proceso candidatas a solución.
+    
 	\newpage
-
-	\subsubsection{Algoritmo}
-Nuestro algoritmo es de tipo iterativo, por lo que usa una pila en la que almacenamos las mochilas que vamos procesando. La poda se produce cuando al añadir un objeto, la mochila resultante supera el peso límite, en cuyo caso esta no es añadida a la pila de candidatas. Cuando encontremos una mochila completa, se compara con la solución actual, y se sustituye en caso de mejorarla. 
-
-  	
-          \small
-    	\texttt{\input{pseudo_mochila_final_bt.tex}}
-          \normalsize
     
-
-  \subsection{Branch \& Bound}
-  
-  Para la versión Branch \& Bound del algoritmo, usamos la misma representación para la solución, un vector de booleanos, y por tanto tenemos el mismo espacio de soluciones.
-  
-  En este caso, un nodo intermedio será del tipo $(\delta_1, \dots, \delta_k)$, y sus hijos serán $(\delta_1, \dots, \delta_k, 1)$ y $(\delta_1, \dots, \delta_k, 0)$.
-  
-  Se realiza un cálculo del máximo beneficio a partir de un nodo intermedio $(\delta_1, \dots, \delta_k)$. Para hallar esta cota, tomamos el peso que queda por llenar y le añadimos el peso de los objetos que tengan la mejor proporción \textit{beneficio}/\textit{peso}, hasta completar la capacidad de la mochila, y comparamos el beneficio asociado a estos objetos con la mejor solución obtenida hasta ahora.
-  
-  La estrategia de poda que se sigue es podar cada rama en la que se encuentre una beneficio máximo (cota superior) menor que el beneficio de la mejor solución encontrada hasta el momento. La estrategia de ramificación utilizada es Maximum-Benefit FIFO, ya que usamos una cola con prioridad ordenada por el mayor beneficio.
-  
 	\subsubsection{Algoritmo}
-
-          \small
-    	\texttt{\input{pseudo_mochila_bb_final.tex}}
-          \normalsize
-
-
-
-\section{Traveling Salesman Problem}
-  \subsection{Enunciado}
-    Dada una lista $S$ de $n$ ciudades, representadas como puntos en el plano:
-    \begin{equation}
-      S = [(x_0,y_0), (x_1,y_1), \dots (x_{n-1},y_{n-1})] \subset \mathbb{R}^2
-    \end{equation}
-    Y definiendo la longitud de recorrer una lista como la suma de las distancias de cada ciudad a la siguiente:
-    \begin{equation}
-     long(S) = \sum_{i \in \mathbb{Z}_n} dist((x_i,y_i), (x_{i+1}, y_{i+1})) = \sum_{i \in \mathbb{Z}_n} \sqrt{(x_i-x_{i+1})^2 + (y_i-y_{i+1})^2}
-    \end{equation}
-    El objetivo es encontrar la permutación de la lista $\sigma : \mathbb{Z}_n \leftrightarrow \mathbb{Z}_n$, verificando que su longitud sea mínima:
-    \begin{equation}
-     long(\sigma(S)) = long([(x_{\sigma(1)},y_{\sigma(1)}), (x_{\sigma(2)},y_{\sigma(2)}), \dots, (x_{\sigma(n)},y_{\sigma(n)})])
-    \end{equation}
+	  Nuestro algoritmo es de tipo iterativo, por lo que usa una pila en la que almacenamos las mochilas que 
+	  vamos procesando. La poda se produce cuando al añadir un objeto, la mochila resultante supera el peso 
+	  límite, en cuyo caso esta no es añadida a la pila de candidatas. Cuando encontremos una mochila completa, 
+	  se compara con la solución actual, y se sustituye en caso de mejorarla. 
     
-  \subsection{Backtracking}
-  
-  
-  Utilizaremos un vector de enteros para representar una solución, donde almacenaremos los índices de las ciudades que se van recorriendo en la ruta. Como fijamos la primera ciudad y únicamente podemos pasar una vez por cada una, el espacio de soluciones tendrá un tamaño de $(n-1)!$.
-  
-  La poda se realiza generando únicamente vectores que representen posibles soluciones, esto es, solo se consideran permutaciones del vector inicial $(1,\dots,n)$. De esta forma descartamos el resto de posibles combinaciones de los elementos. Diremos que, para un nodo $(i_0, \dots, i_k)$, la función de poda da falso si se repite alguno de los índices, es decir, $\exists p\ne q : i_p = i_q$.
-  
-  
-      \newpage
+	  \small
+	    \texttt{\input{pseudo_mochila_final_bt.tex}}
+	  \normalsize
+    
+    
+	\subsection{Branch \& Bound}
+	  Para la versión Branch \& Bound del algoritmo, usamos la misma representación para la solución, 
+	  un vector de booleanos, y por tanto tenemos el mismo espacio de soluciones. En este caso, un nodo 
+	  intermedio será del tipo $(\delta_1, \dots, \delta_k)$, y sus hijos serán $(\delta_1, \dots, \delta_k, 1)$ 
+	  y $(\delta_1, \dots, \delta_k, 0)$.
+	  
+	  Se realiza un cálculo del máximo beneficio a partir de un nodo intermedio $(\delta_1, \dots, \delta_k)$. 
+	  Para hallar esta cota, tomamos el peso que queda por llenar y le añadimos el peso de los objetos que tengan
+	  la mejor proporción \textit{beneficio}/\textit{peso}, hasta completar la capacidad de la mochila, y comparamos
+	  el beneficio asociado a estos objetos con la mejor solución obtenida hasta ahora.
+	  
+	  La estrategia de poda que se sigue es podar cada rama en la que se encuentre una beneficio máximo (cota superior) 
+	  menor que el beneficio de la mejor solución encontrada hasta el momento. La estrategia de ramificación utilizada es 
+	  Maximum-Benefit FIFO, ya que usamos una cola con prioridad ordenada por el mayor beneficio.
       
+	  \subsubsection{Algoritmo}
+	    
+	    \small
+	    \texttt{\input{pseudo_mochila_bb_final.tex}}
+	    \normalsize
+      
+    
+    
+    \section{Traveling Salesman Problem}
+      \subsection{Enunciado}
+	Dada una lista $S$ de $n$ ciudades, representadas como puntos en el plano:
+	\begin{equation}
+	    S = [(x_0,y_0), (x_1,y_1), \dots (x_{n-1},y_{n-1})] \subset \mathbb{R}^2
+	\end{equation}
+	Y definiendo la longitud de recorrer una lista como la suma de las distancias de cada ciudad a la siguiente:
+	\begin{equation}
+	    long(S) = \sum_{i \in \mathbb{Z}_n} dist((x_i,y_i), (x_{i+1}, y_{i+1})) = \sum_{i \in \mathbb{Z}_n} \sqrt{(x_i-x_{i+1})^2 + (y_i-y_{i+1})^2}
+	\end{equation}
+	El objetivo es encontrar la permutación de la lista $\sigma : \mathbb{Z}_n \leftrightarrow \mathbb{Z}_n$, verificando que su longitud sea mínima:
+	\begin{equation}
+	    long(\sigma(S)) = long([(x_{\sigma(1)},y_{\sigma(1)}), (x_{\sigma(2)},y_{\sigma(2)}), \dots, (x_{\sigma(n)},y_{\sigma(n)})])
+    \end{equation}
+    
+      \subsection{Backtracking}
+	Utilizaremos un vector de enteros para representar una solución, donde almacenaremos los 
+	índices de las ciudades que se van recorriendo en la ruta. Como fijamos la primera ciudad 
+	y únicamente podemos pasar una vez por cada una, el espacio de soluciones tendrá un tamaño 
+	de $(n-1)!$.
+	La poda se realiza generando únicamente vectores que representen posibles soluciones, esto es, 
+	solo se consideran permutaciones del vector inicial $(1,\dots,n)$. De esta forma descartamos el 
+	resto de posibles combinaciones de los elementos. Diremos que, para un nodo $(i_0, \dots, i_k)$, 
+	la función de poda da falso si se repite alguno de los índices, es decir, $\exists p\ne q : i_p = i_q$.
+    
+    \newpage
+    
     \subsubsection{Algoritmo}
     
-      Para aplicar backtracking al problema del TSP, utilizamos un algoritmo recursivo, el cual recibe la lista de 
-      ciudades del problema, la ruta con las ciudades que llevamos hasta el momento, su coste, y el índice de la 
-      última ciudad añadida. Calcularemos todas las ramificaciones posibles de la ruta actual, y tomaremos la mejor 
-      de estas. 
-  
-	
-        \small
-  	\texttt{\input{pseudo_tsp_final.tex}}
-        \normalsize
-
-  \subsection{Branch \& Bound}
-  De nuevo, representaremos una solución como un vector de enteros de tamaño $n$, obteniendo el mismo espacio de soluciones de tamaño $(n-1)!$.
-  
-  Dado un nodo intermedio $(i_0, \dots, i_k)$, los posibles hijos serán del tipo\\ $(i_0, \dots, i_k, i_{k+1})$ con $i_{k+1} \notin \{i_0, \dots, i_k\}$, ya que no aceptaremos repeticiones de ciudades (para evitar generar vectores que no sean permutaciones).
-  
-  La cota que se utiliza para la poda es el cálculo del coste (la suma de distancias entre ciudades) hasta el momento. Este coste resulta ser una cota mínima del coste de cualquier posible solución que se obtenga del nodo actual.
-  La poda se realiza en el momento en que la cota mínima supera al coste de la mejor solución hallada hasta el momento.
-  
-  La estrategia de ramificación utilizada en este caso será Least-Cost FIFO, ya que buscamos explorar las soluciones ordenadas por el menor coste.
-
-\subsubsection{Variante: Branch \& Bound con 2-OPT}
-  Una condición para podar una rama, cuando se está realizando la exploración del árbol, puede ser que exista algún cruce de ciudades en el grafo. En ese caso se pueden descartar las soluciones resultantes ya que es seguro que no serán óptimas, siempre que el grafo del problema sea euclídeo.
-
-  \subsubsection{Algoritmo}
-  
+    Para aplicar backtracking al problema del TSP, utilizamos un algoritmo recursivo, el cual recibe la lista de 
+    ciudades del problema, la ruta con las ciudades que llevamos hasta el momento, su coste, y el índice de la 
+    última ciudad añadida. Calcularemos todas las ramificaciones posibles de la ruta actual, y tomaremos la mejor 
+    de estas. 
+    
+    
     \small
-  	\texttt{\input{pseudo_tsp_bb_final.tex}}
-     \normalsize
-
-\section{Planificación en multiprocesadores}
-  \subsection{Enunciado}
-  Tenemos un conjunto de $n$ tareas con un tiempo de ejecución $t_i$ asociado a cada una, existiendo una relación de precedencia
-  entre algunas tareas, de forma que unas han de ejecutarse antes que otras. El objetivo es asignar las tareas entre $k$ procesadores, manteniendo las relaciones de dependencia, de manera que el tiempo de ejecución sea mínimo. 
-  
-  
-  \subsection{Backtracking}
-  En este caso, la representación de la solución se realiza mediante un vector de estructuras con los siguientes datos:
-  \begin{itemize}
-  \item Tarea asignada
-  \item Tiempo de inicio
-  \item Núcleo (\textit{core}) asignado
-  \end{itemize}
-  Además, podemos entender la \textit{tarea} como un tipo de dato que comprende tanto el tiempo de ejecución como referencias (por ejemplo, índices a un vector) de sus dependencias.
-  
-  La función de poda en este caso devuelve falso si la tarea que se va a añadir tiene una dependencia pendiente, esto es, incluye en sus dependencias a otra tarea que aún no se ha terminado de ejecutar.
-  
-  \subsubsection{Algoritmo}
-  
-  \subsection{Branch \& Bound}
-  Para el algoritmo siguiendo la estrategia Branch \& Bound, utilizamos la misma representación para la solución y por tanto tenemos un espacio de soluciones idéntico.
-  
-  Los hijos posibles de un nodo intermedio $(a_1, \dots, a_m)$ (con $a_i$ asignaciones válidas) son del tipo $(a_1, \dots, a_m, a_{m+1})$, donde $a_{m+1}$ es una asignación asociada a una tarea que no está ya en $\{a_1, \dots, a_m\}$.
-  
-  La cota que se utiliza para minorar el tiempo de ejecución de una posible solución es el tiempo de ejecución que lleva hasta el momento. Si en un nodo intermedio, este valor es mayor que la mejor solución hasta el momento, es seguro que no encontraremos una solución óptima al desarrollar el nodo.
-  
-  La estrategia de ramificación es LC-FIFO, usando una cola con prioridad para obtener las posibles planificaciones de menor a mayor tiempo de ejecución.
-  
-  \subsubsection{Algoritmo}
-
-\section{3-Dimensional Matching}
-  \subsection{Enunciado}
+    \texttt{\input{pseudo_tsp_final.tex}}
+    \normalsize
+    
+    \subsection{Branch \& Bound}
+      De nuevo, representaremos una solución como un vector de enteros de tamaño $n$, obteniendo el mismo espacio de soluciones de tamaño $(n-1)!$.
+      
+      Dado un nodo intermedio $(i_0, \dots, i_k)$, los posibles hijos serán del tipo\\ $(i_0, \dots, i_k, i_{k+1})$ con $i_{k+1} \notin \{i_0, \dots, i_k\}$, 
+      ya que no aceptaremos repeticiones de ciudades (para evitar generar vectores que no sean permutaciones).
+      
+      La cota que se utiliza para la poda es el cálculo del coste (la suma de distancias entre ciudades) hasta el momento. Este coste resulta ser una cota 
+      mínima del coste de cualquier posible solución que se obtenga del nodo actual.
+      La poda se realiza en el momento en que la cota mínima supera al coste de la mejor solución hallada hasta el momento.
+      
+      La estrategia de ramificación utilizada en este caso será Least-Cost FIFO, ya que buscamos explorar las soluciones ordenadas por el menor coste.
+      
+      \subsubsection{Variante: Branch \& Bound con 2-OPT}
+	Una condición para podar una rama, cuando se está realizando la exploración del árbol, puede ser que exista algún cruce de ciudades en el grafo. 
+	En ese caso se pueden descartar las soluciones resultantes ya que es seguro que no serán óptimas, siempre que el grafo del problema sea euclídeo.
+    
+    \subsubsection{Algoritmo}
+    
+    \small
+    \texttt{\input{pseudo_tsp_bb_final.tex}}
+    \normalsize
+    
+    \section{Planificación en multiprocesadores}
+    \subsection{Enunciado}
+    Tenemos un conjunto de $n$ tareas con un tiempo de ejecución $t_i$ asociado a cada una, existiendo una 
+    relación de precedencia entre algunas tareas, de forma que unas han de ejecutarse antes que otras. 
+    El objetivo es asignar las tareas entre $k$ procesadores, manteniendo las relaciones de dependencia,
+    de manera que el tiempo de ejecución sea mínimo. 
+    
+    
+    \subsection{Backtracking}
+    En este caso, la representación de la solución se realiza mediante un vector de estructuras con los siguientes datos:
+    \begin{itemize}
+        \item Tarea asignada
+        \item Tiempo de inicio
+        \item Núcleo (\textit{core}) asignado
+    \end{itemize}
+    Además, podemos entender la \textit{tarea} como un tipo de dato que comprende tanto el tiempo de ejecución como referencias (por ejemplo, índices a un vector) de sus dependencias.
+    
+    La función de poda en este caso devuelve falso si la tarea que se va a añadir tiene una dependencia pendiente, esto es, incluye en sus dependencias a otra tarea que aún no se ha terminado de ejecutar.
+    
+    \subsubsection{Algoritmo}
+    
+    \subsection{Branch \& Bound}
+      Para el algoritmo siguiendo la estrategia Branch \& Bound, utilizamos la misma representación para la 
+      solución y por tanto tenemos un espacio de soluciones idéntico.
+      
+      Los hijos posibles de un nodo intermedio $(a_1, \dots, a_m)$ (con $a_i$ asignaciones válidas) son del tipo 
+      $(a_1, \dots, a_m, a_{m+1})$, donde $a_{m+1}$ es una asignación asociada a una tarea que no está ya en 
+      $\{a_1, \dots, a_m\}$.
+      
+      La cota que se utiliza para minorar el tiempo de ejecución de una posible solución es el tiempo de ejecución 
+      que lleva hasta el momento. Si en un nodo intermedio, este valor es mayor que la mejor solución hasta el 
+      momento, es seguro que no encontraremos una solución óptima al desarrollar el nodo.
+      
+      La estrategia de ramificación es LC-FIFO, usando una cola con prioridad para obtener las posibles 
+      planificaciones de menor a mayor tiempo de ejecución.
+    
+      \subsubsection{Algoritmo}
+      
+    \section{3-Dimensional Matchisng}
+    \subsection{Enunciado}
     Sean $X$,$Y$,$Z$ tres conjuntos finitos y sea $T \subset X \times Y \times Z$, subconjunto de tripletas válidas.
     Una asignación válida $M$ es un subconjunto de elementos disjuntos de $T$. Es decir, $M \subset T$ tal que:
     \begin{equation}
-     \forall (x_1,y_1,z_1), (x_2,y_2,z_2) \in M : \quad (x_1 \neq x_2) \vee (y_1 \neq y_2) \vee (z_1 \neq z_2)
-    \end{equation} 
-    Buscamos la asignación válida de mayor cardinal, es decir la $M$ asignación válida maximizando $|M|$.
-    
-  \subsection{Backtracking}
-  En este algoritmo consideraremos todas las asignaciones posibles y nos quedaremos con la asignación que tenga mayor cardinal. 
-  Para ello, consideraremos todas las aristas e iremos comprobando para cada una si es posible añadirla. De ser así, distinguiremos 
-  dos casos: La arista puede pertenecer o no a la solución. Sobre estos dos casos aplicaremos el mismo algoritmo. Cuando no quede
-  ninguna arista que pueda ser añadida, compararemos los tamaños de la solución obtenida y la mejor solución hasta el momento, 
-  actualizando la mejor solución si la actual la mejorase. 
-  
-  Representaremos la solución como un vector de booleanos, que nos indican si la arista asociada al índice se encuentra o 
-  no en la solución. Como cada arista tiene la opción de estar o no estar en la solución, la dimensión del espacio de 
-  soluciones es de $2^n$, siendo $n$ el número de aristas.
-  
-  \subsubsection{Algoritmo}
-
-        \small
-  	\texttt{\input{pseudo_3dmatching_final.tex}}
-        \normalsize
-  
-  \subsection{Branch \& Bound}
-  
-    Para la versión Branch \& Bound del algoritmo, usaremos la misma representación para la solución, un vector de booleanos, por lo que tendremos el mismo espacio de soluciones.
-    
-    Como función de poda sobre una solución parcial, consideraremos la satisfacción que obtendríamos con todas las aristas restantes como cota máxima de la satisfacción posible a obtener. Si la satisfacción máxima de la parte restante sumada con la satisfacción de la solución parcial es menor que la satisfacción de la mejor solución hasta el momento, podemos descartar la solución parcial y obviar todas las ramas derivadas. 
-    
-    La satisfacción estará relacionada con la preferencia de cada arista. Dicha preferencia vendrá dada en un nuevo vector de valores reales, que utilizaremos para calcular el valor de cada arista en base a su preferencia. 
-    
-    \subsubsection{Algoritmo}    
-    \small
-	\texttt{\input{pseudo_3dmatching_bb_final.tex}}
-    \normalsize
-
-\section{El problema de la asignación cuadrática (QAP)}
-  \subsection{Enunciado}
-    Dado un conjunto de $n$ instalaciones con un flujo de transporte y un coste asociado entre ellas, y dadas $n$ posibles 
-    localizaciones, el problema consiste en buscar la localización más adecuada para cada instalación, de forma que el 
-    coste total del transporte entre instalaciones sea el mínimo posible. 
-
-  \subsection{Backtracking}
-  \subsection{Branch \& Bound}
-
-
-\section{Implementaciones}
-% Hay que regenerar las implementaciones cuando
-% terminemos de hacer cambios!
-  \subsection{El problema de la mochila}
-        Versión en C++:
+        \forall (x_1,y_1,z_1), (x_2,y_2,z_2) \in M : \quad (x_1 \neq x_2) \vee (y_1 \neq y_2) \vee (z_1 \neq z_2)
+        \end{equation} 
+        Buscamos la asignación válida de mayor cardinal, es decir la $M$ asignación válida maximizando $|M|$.
         
+        \subsection{Backtracking}
+	  En este algoritmo consideraremos todas las asignaciones posibles y nos quedaremos con la asignación que tenga mayor cardinal. 
+	  Para ello, consideraremos todas las aristas e iremos comprobando para cada una si es posible añadirla. De ser así, distinguiremos 
+	  dos casos: La arista puede pertenecer o no a la solución. Sobre estos dos casos aplicaremos el mismo algoritmo. Cuando no quede
+	  ninguna arista que pueda ser añadida, compararemos los tamaños de la solución obtenida y la mejor solución hasta el momento, 
+	  actualizando la mejor solución si la actual la mejorase. 
+	  
+	  Representaremos la solución como un vector de booleanos, que nos indican si la arista asociada al índice se encuentra o 
+	  no en la solución. Como cada arista tiene la opción de estar o no estar en la solución, la dimensión del espacio de 
+	  soluciones es de $2^n$, siendo $n$ el número de aristas.
+	    
+	  \subsubsection{Algoritmo}
+	    \small
+	    \texttt{\input{pseudo_3dmatching_final.tex}}
+	    \normalsize
+	  
+        \subsection{Branch \& Bound}
+	  Para la versión Branch \& Bound del algoritmo, usaremos la misma representación para la solución, 
+	  un vector de booleanos, por lo que tendremos el mismo espacio de soluciones.
+	  
+	  Como función de poda sobre una solución parcial, consideraremos la satisfacción que obtendríamos con todas 
+	  las aristas restantes como cota máxima de la satisfacción posible a obtener. Si la satisfacción máxima de 
+	  la parte restante sumada con la satisfacción de la solución parcial es menor que la satisfacción de la mejor 
+	  solución hasta el momento, podemos descartar la solución parcial y obviar todas las ramas derivadas. 
+	  
+	  La satisfacción estará relacionada con la preferencia de cada arista. Dicha preferencia vendrá dada en un 
+	  nuevo vector de valores reales, que utilizaremos para calcular el valor de cada arista en base a su preferencia. 
+        
+        \subsubsection{Algoritmo}    
         \small
-  	\texttt{\input{mochila.tex}}
+        \texttt{\input{pseudo_3dmatching_bb_final.tex}}
         \normalsize
         
-        Versión en Haskell:
+        \section{El problema de la asignación cuadrática (QAP)}
+	  \subsection{Enunciado}
+	    Dado un conjunto de $n$ instalaciones con un flujo de transporte y un coste asociado entre ellas, y dadas $n$ posibles 
+	    localizaciones, el problema consiste en buscar la localización más adecuada para cada instalación, de forma que el 
+	    coste total del transporte entre instalaciones sea el mínimo posible. 
         
-        \small
-  	\texttt{\input{backtracking.tex}}
-        \normalsize
+	  \subsection{Backtracking}
+	    En nuestro algoritmo de tipo Backtracking consideraremos todas las posibles opciones para quedarnos con la mejor de ellas.
+	    Tomaremos una instalación y la emplazaremos en un lugar cualquiera. A partir de aquí, colocaremos una nueva instalación
+	    en otro emplazamiento vacío hasta que se agoten. Llegados a este punto, volveremos hacia atrás y consideraremos soluciones
+	    alternativas, colocando las instalaciones en los demás emplazamientos no considerados hasta el momento. Una vez obtenida una
+	    posible solución, compararemos costes con la mejor solución hasta el momento y la actualizaremos si es mejorada.       
+	    
+	    Representaremos la solución como un vector de enteros, que nos indica en que emplazamiento hemos colocado cada ciudad a 
+	    través del índice. El tamaño del espacio de soluciones es de $n!$, que representa los emplazamientos posibles que tenemos 
+	    para cada ciudad. 
+	  
+	  \subsection{Branch \& Bound}
+	    En este caso, volveremos a recorrer todo el árbol de soluciones en profundidad, utilizando una función que nos permite acotar el
+	    coste de una permutación, ahorrándonos explorar ramas del árbol. Para ello, calcularemos el coste total de la permutación hasta el 
+	    momento, y si este es mayor que el coste de la mejor solución, podemos afirmar que todas las soluciones derivadas de la actual no 
+	    son las óptimas, y podemos dejar de explorar la rama, pasando a la siguiente. 
+	    
+	    La solución será representada como en Backtracking, siendo de nuevo el tamaño del espacio de soluciones de $n!$.
+	  
         
-  \subsection{Travelling Salesman Problem}
-        \small
-  	\texttt{\input{tsp.tex}}
-        \normalsize
-  \subsection{Planificación en multiprocesadores}
-        \small
-  	\texttt{\input{planificacion.tex}}
-        \normalsize
-  \subsection{3-Dimensional Matching}
-        \small
-  	\texttt{\input{3matching.tex}}
-        \normalsize
-  \subsection{El problema de la asignación cuadrática (QAP)}
-        \small
-  	%\texttt{\input{terminales.tex}}
-        \normalsize
-
-    
-\end{document}
+        
+    \end{document}

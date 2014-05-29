@@ -160,7 +160,11 @@ QAP: Asignación cuadrática} % Subtitle
     \subsection{Branch \& Bound}
       Para implementar la ramificación y poda necesitaremos definir una función que proporcione una
       cota inferior al coste de una permutación parcial. Como cota superior global del coste, usaremos el
-      coste de la mejor solución que hayamos obtenido hasta el momento.
+      coste de la mejor solución que hayamos obtenido hasta el momento. La poda se realizará cuando la cota
+      mínima supere al coste de la mejor solución hasta el momento.
+      
+      Además, implementamos una estrategia de ramificación LC-Fifo basada en la cota inferior de la permutación
+      inicial.
       
       La \textbf{estimación propuesta} en el guión se basa en colocar cada una de las fábricas que todavía no
       quedan fijas por la permutación en el punto que minimice su flujo de materiales con cada fábrica,

@@ -21,15 +21,15 @@
 \mbox{}\ \ \ \ \textbf{\textcolor{Blue}{end}} \\
 \mbox{} \\
 \mbox{}\ \ \ \ \textbf{\textcolor{Blue}{def}}\ beneficio\textcolor{BrickRed}{(}nodo\textcolor{BrickRed}{)} \\
-\mbox{}\ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{return}}\ $\sum_{i=0}^{\#beneficios} nodo[i]\times beneficios[i]$ \\
+\mbox{}\ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{return}}\ $\mathtt{\sum_{i=0}^{\#beneficios} nodo[i]\times beneficios[i]}$ \\
 \mbox{}\ \ \ \ \textbf{\textcolor{Blue}{end}} \\
 \mbox{} \\
 \mbox{}\ \ \ \ \textbf{\textcolor{Blue}{def}}\ peso\textcolor{BrickRed}{(}nodo\textcolor{BrickRed}{)} \\
-\mbox{}\ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{return}}\ $\sum_{i=0}^{\#pesos} nodo[i]\times pesos[i]$ \\
+\mbox{}\ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{return}}\ $\mathtt{\sum_{i=0}^{\#pesos} nodo[i]\times pesos[i]}$ \\
 \mbox{}\ \ \ \ \textbf{\textcolor{Blue}{end}} \\
 \mbox{} \\
 \mbox{}\ \ \ \ \textbf{\textcolor{Blue}{def}}\ calculaCota\textcolor{BrickRed}{(}nodo\textcolor{BrickRed}{)} \\
-\mbox{}\ \ \ \ \ \ \ \ w\ \textcolor{BrickRed}{=}\ $ \left\{\frac{beneficios[i+\#nodo]}{pesos[i+\#nodo]} : i \in [0..\#pesos]\right\} $ \\
+\mbox{}\ \ \ \ \ \ \ \ w\ \textcolor{BrickRed}{=}\ $\mathtt{\left\{\frac{beneficios[i+\#nodo]}{pesos[i+\#nodo]} : i \in [0..\#pesos]\right\}} $ \\
 \mbox{}\ \ \ \ \ \ \ \ beneficio$\_$extra\ \textcolor{BrickRed}{=}\ \textcolor{Purple}{0} \\
 \mbox{}\ \ \ \ \ \ \ \ restante\ \textcolor{BrickRed}{=}\ capacidad\ \textcolor{BrickRed}{-}\ peso\textcolor{BrickRed}{(}nodo\textcolor{BrickRed}{)} \\
 \mbox{} \\

@@ -16,6 +16,7 @@ typedef unsigned int uint;
 typedef vector<int> Permutacion;
 typedef double Coste;
 
+
 // Función de impresión de vectores
 template<class T>
 ostream& operator<< (ostream& output, vector<T>& v){
@@ -25,6 +26,7 @@ ostream& operator<< (ostream& output, vector<T>& v){
     output << endl;
     return output;
 }
+
 // Función de lectura de vectores
 template<class T>
 istream& operator>> (istream& input, vector<T>& v){
@@ -34,15 +36,16 @@ istream& operator>> (istream& input, vector<T>& v){
     return input;
 }
 
+
+// Datos globales del problema
 uint dimension;
 Permutacion mejor_permutacion;
 Coste mejor_coste;
-// Matriz de pesos
 vector<vector<double>> w;
-// Matriz de longitudes de aristas
 vector<vector<double>> d;
 
-double cost(Permutacion &p, uint n){
+// Coste de una permutación
+double cost (Permutacion &p, uint n){
     double sum(0);
     
     for (uint i=0; i<n; ++i)
@@ -52,6 +55,7 @@ double cost(Permutacion &p, uint n){
     return sum;
 }
 
+// Comprueba todas las permutaciones a partir de una dada
 void permutaciones(Permutacion& p, uint indice = 0){
     // Caso de permutación completa
     // Comprueba si se mejora el óptimo.    
@@ -72,6 +76,7 @@ void permutaciones(Permutacion& p, uint indice = 0){
             uint temp = p[i];
             p[i] = p[indice];
             p[indice] = temp;
+
             #ifdef BBOUND
             // Si la permutación actual es peor que la mejor en cuanto a coste,
             // no la introducimos
@@ -94,16 +99,18 @@ int main(){
     mejor_coste = numeric_limits<Coste>::infinity();
     
     // Lectura del problema
-    cin >> dimension;    
+    cin >> dimension;
+
     // Resolución del problema
     // Permutación identidad.
     Permutacion p(dimension);
     w.resize(dimension);
     d.resize(dimension);
-    for (uint i=0; i<dimension; ++i){
+    for (uint i=0; i<dimension; ++i) {
         w[i].resize(dimension);
         d[i].resize(dimension);
     }
+
     // Lectura del problema
     cin >> w;
     cin >> d;

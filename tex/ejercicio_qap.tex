@@ -164,7 +164,7 @@ QAP: Asignación cuadrática} % Subtitle
       mínima supere al coste de la mejor solución hasta el momento.
       
       Además, implementamos una estrategia de ramificación LC-FIFO basada en la cota inferior de la permutación
-      inicial. Usamos una cola con prioridad.
+      inicial. Usamos una cola con prioridad y tomamos como cota máxima inicial la cota ofrecida por el algoritmo greedy.
       
       La \textbf{estimación propuesta} en el guión se basa en colocar cada una de las fábricas que todavía no
       quedan fijas por la permutación en el punto que minimice su flujo de materiales con cada fábrica,

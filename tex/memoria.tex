@@ -259,6 +259,12 @@ Backtracking y Branch \& Bound} % Subtitle
       
       La estrategia de ramificación utilizada en este caso será Least-Cost FIFO, ya que buscamos explorar las soluciones ordenadas por el menor coste.
       
+      \subsubsection{Algoritmo}
+      
+      \small
+      \texttt{\input{pseudo_tsp_bb_final.tex}}
+      \normalsize
+      
       \subsubsection{Variante: Branch \& Bound con 2-OPT}
 	Una condición para podar una rama, cuando se está realizando la exploración del árbol, puede ser que exista algún cruce de ciudades en el grafo.
 	Entendemos un cruce de ciudades como un caso en el que al permutar dos caminos del problema (cambiando $(a,b),(c,d)$ por $(a,d),(c,b)$), obtenemos
@@ -269,7 +275,7 @@ Backtracking y Branch \& Bound} % Subtitle
     \subsubsection{Algoritmo}
     
     \small
-    \texttt{\input{pseudo_tsp_bb_final.tex}}
+    \texttt{\input{pseudo_tsp_opt_final.tex}}
     \normalsize
     
     \section{Planificación en multiprocesadores}

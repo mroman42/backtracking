@@ -127,9 +127,9 @@ QAP: Asignación cuadrática} % Subtitle
 \section{El problema de la asignación cuadrática (QAP)}
       \subsection{Enunciado}
 	Dado un conjunto de $n$ instalaciones con un flujo de transporte y
-	un conste asociado entre dichas instalaciones, y dadas $n$ posibles localizaciones,
+	un coste asociado entre dichas instalaciones, y dadas $n$ posibles localizaciones,
 	el problema consiste en buscar ubicación a cada una de las instalaciones que
-	minimice el coste del stransporte.
+	minimice el coste del transporte.
 	
 	Siendo $d(i,j)$ la distancia entre la localización $i$ y la $j$
 	y siendo $w(i,j)$ el peso asociado al flujo de materiales entre la instalación
@@ -145,14 +145,18 @@ QAP: Asignación cuadrática} % Subtitle
       \subsection{Backtracking}
 	En nuestro algoritmo de tipo Backtracking consideraremos todas las posibles opciones para quedarnos con la mejor de ellas.
 	Tomaremos una instalación y la emplazaremos en un lugar cualquiera. A partir de aquí, colocaremos una nueva instalación
-	en otro emplazamiento vacío hasta que se agoten. Llegados a este punto, volveremos hacia atrás y consideraremos soluciones
-	alternativas, colocando las instalaciones en los demás emplazamientos no considerados hasta el momento. Una vez obtenida una
-	posible solución, compararemos costes con la mejor solución hasta el momento y la actualizaremos si es mejorada.       
+	en otro emplazamiento vacío hasta que estos se agoten. Llegados a este punto, volveremos hacia atrás y consideraremos soluciones alternativas, colocando las instalaciones en los demás emplazamientos no considerados hasta el momento. Una vez obtenida una posible solución, compararemos costes con la mejor solución hasta el momento y la actualizaremos si es mejorada.       
 	
 	Representaremos la solución como un vector de enteros, que nos indica en que emplazamiento hemos colocado cada ciudad a 
 	través del índice. El tamaño del espacio de soluciones es de $n!$, que representa los emplazamientos posibles que tenemos 
 	para cada ciudad. 
       
       \subsection{Branch \& Bound}
-	
+      
+    En nuestro algoritmo de tipo Branch \& Bound, tendremos la misma representación de la solución, luego el tamaño del espacio de soluciones volverá a ser de $n!$. 
+    
+    
+    
+    Al tratarse de un problema de minimización, la estrategia de poda que se sigue es podar cada rama en la que se encuentre una satisfacción mínima mayor que la satisfacción de la mejor solución encontrada hasta el momento. La estrategia de ramificación utilizada es Least-Cost FIFO, ya que usamos una cola con prioridad ordenada por menor coste.
+    
 \end{document}

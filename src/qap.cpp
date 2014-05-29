@@ -16,25 +16,8 @@ typedef unsigned int uint;
 typedef vector<int> Permutacion;
 typedef double Coste;
 
-
-// Función de impresión de vectores
-template<class T>
-ostream& operator<< (ostream& output, vector<T>& v){
-    for (auto i : v)
-        output << i << ' ';
-    
-    output << endl;
-    return output;
-}
-
-// Función de lectura de vectores
-template<class T>
-istream& operator>> (istream& input, vector<T>& v){
-    for (auto &i : v)
-        input >> i;
-    
-    return input;
-}
+template<class T> ostream& operator<< (ostream& output, vector<T>& v);
+template<class T> istream& operator>> (istream& input, vector<T>& v);
 
 
 // Datos globales del problema
@@ -133,7 +116,7 @@ int main(){
 }
  
 
-/*
+
 // Función de impresión de vectores
 template<class T>
 ostream& operator<< (ostream& output, vector<T>& v){
@@ -152,4 +135,4 @@ istream& operator>> (istream& input, vector<T>& v){
     
     return input;
 }
-*/
+

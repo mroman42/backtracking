@@ -192,16 +192,6 @@ Nodo resuelve(){
         // Caso de recorrido intermedio
         // Prueba posibles permutaciones para los restantes elementos.
         else {
-            // Variables para los Branch & Bound
-            #ifdef BBOUND1
-            double minimo;
-            double coste_actual;
-            #endif
-            #ifdef BBOUND2
-            double minimo_i;
-            double minimo_ii;
-            #endif
-            
             for (uint i = actual.indice; i < dimension; ++i) {
                 // Produce una permutación en la ruta.
                 uint temp = actual.p[i];

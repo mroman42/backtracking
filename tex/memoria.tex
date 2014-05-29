@@ -297,7 +297,7 @@ Backtracking y Branch \& Bound} % Subtitle
     Sean $X$,$Y$,$Z$ tres conjuntos finitos y sea $T \subset X \times Y \times Z$, subconjunto de tripletas válidas.
     Una asignación válida $M$ es un subconjunto de elementos disjuntos de $T$. Es decir, $M \subset T$ tal que:
     \begin{equation}
-        \forall (x_1,y_1,z_1), (x_2,y_2,z_2) \in M : \quad (x_1 \neq x_2) \vee (y_1 \neq y_2) \vee (z_1 \neq z_2)
+        \forall (x_1,y_1,z_1), (x_2,y_2,z_2) \in M : \quad (x_1 \neq x_2) \wedge (y_1 \neq y_2) \wedge (z_1 \neq z_2)
         \end{equation} 
         Buscamos la asignación válida de mayor cardinal, es decir la $M$ asignación válida maximizando $|M|$.
         

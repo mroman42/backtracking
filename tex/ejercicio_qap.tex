@@ -151,7 +151,11 @@ QAP: Asignación cuadrática} % Subtitle
       
       Representaremos la solución como un vector de enteros, que nos indica en que emplazamiento hemos colocado cada ciudad a 
       través del índice. El tamaño del espacio de soluciones es de $n!$, que representa los emplazamientos posibles que tenemos 
-      para cada ciudad. 
+      para cada ciudad.
+      
+      Dado un nodo intermedio $(i_0,i_1,\dots,i_k)$, los posibles hijos de la permutación parcial generada serán
+      de la forma $(i_0,i_1,\dots,i_k, i_{k+1})$, cumpliendo que $i_{k+1} \notin \{i_0,i_1,\dots,i_k\}$. Nótese
+      que la generación de la permutación es idéntica al caso del TSP.
     
     \subsection{Branch \& Bound}
       Para implementar la ramificación y poda necesitaremos definir una función que proporcione una

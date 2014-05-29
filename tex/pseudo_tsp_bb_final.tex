@@ -1,36 +1,37 @@
 % Generator: GNU source-highlight, by Lorenzo Bettini, http://www.gnu.org/software/src-highlite
 \noindent
 \mbox{}\textbf{\textcolor{Blue}{def}}\ tsp\textcolor{BrickRed}{(}ciudades\textcolor{BrickRed}{)} \\
-\mbox{}\ \ \ \ \textbf{\textcolor{Blue}{def}}\ recorrer\textcolor{BrickRed}{(}indice\textcolor{BrickRed}{)} \\
-\mbox{}\ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{if}}\ \textcolor{BrickRed}{(}indice\ \textcolor{BrickRed}{==}\ \#ciudades\textcolor{BrickRed}{)} \\
-\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{if}}\ \textcolor{BrickRed}{(}coste\textcolor{BrickRed}{(}ruta\textcolor{BrickRed}{)}\ \textcolor{BrickRed}{\textless{}}\ mejor$\_$coste\textcolor{BrickRed}{)} \\
-\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ mejor$\_$coste\ \textcolor{BrickRed}{=}\ coste\textcolor{BrickRed}{(}ruta\textcolor{BrickRed}{)} \\
-\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ mejor$\_$ruta\ \ \textcolor{BrickRed}{=}\ ruta \\
+\mbox{}\ \ \ \ \textbf{\textcolor{Blue}{def}}\ recorrer\textcolor{BrickRed}{()} \\
+\mbox{}\ \ \ \ \ \ \ \ mejor\ \textcolor{BrickRed}{=}\ inicial \\
+\mbox{}\ \ \ \ \ \ \ \ actual\ \textcolor{BrickRed}{=}\ posibles\textcolor{BrickRed}{.}pop \\
 \mbox{} \\
-\mbox{}\ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{else}}\ \textbf{\textcolor{Blue}{if}}\ \textcolor{BrickRed}{(}coste\textcolor{BrickRed}{(}ruta\textcolor{BrickRed}{)}\ \textcolor{BrickRed}{\textless{}}\ mejor$\_$coste\textcolor{BrickRed}{)} \\
-\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{for}}\ i\ \textbf{\textcolor{Blue}{in}}\ \textcolor{BrickRed}{[}indice\textcolor{BrickRed}{..}\#ciudades\textcolor{BrickRed}{]} \\
-\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{if}}\textcolor{BrickRed}{(!}hay$\_$cruce\textcolor{BrickRed}{(}i\textcolor{BrickRed}{,}\ indice\textcolor{BrickRed}{))} \\
-\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ swap\textcolor{BrickRed}{(}ruta\textcolor{BrickRed}{[}i\textcolor{BrickRed}{],}\ ruta\textcolor{BrickRed}{[}indice\textcolor{BrickRed}{])} \\
-\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ recorrer\textcolor{BrickRed}{(}indice\textcolor{BrickRed}{+}\textcolor{Purple}{1}\textcolor{BrickRed}{)} \\
-\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ swap\textcolor{BrickRed}{(}ruta\textcolor{BrickRed}{[}indice\textcolor{BrickRed}{],}\ ruta\textcolor{BrickRed}{[}i\textcolor{BrickRed}{])} \\
+\mbox{}\ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{if}}\ \textcolor{BrickRed}{(}indice\ \textcolor{BrickRed}{==}\ \#ciudades\textcolor{BrickRed}{)} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{if}}\ \textcolor{BrickRed}{(}coste\textcolor{BrickRed}{(}actual\textcolor{BrickRed}{)}\ \textcolor{BrickRed}{\textless{}}\ coste\textcolor{BrickRed}{(}mejor\textcolor{BrickRed}{))} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ mejor\ \textcolor{BrickRed}{=}\ actual \\
+\mbox{} \\
+\mbox{}\ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{else}}\ \textbf{\textcolor{Blue}{if}}\ \textcolor{BrickRed}{(}cota$\_$inferior\textcolor{BrickRed}{(}actual\textcolor{BrickRed}{)}\ \textcolor{BrickRed}{\textless{}}\ coste\textcolor{BrickRed}{(}mejor\textcolor{BrickRed}{))} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{for}}\ i\ \textbf{\textcolor{Blue}{in}}\ \textcolor{BrickRed}{[}actual\textcolor{BrickRed}{.}indice\ \textcolor{BrickRed}{...}\ \#ciudades\textcolor{BrickRed}{]} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ hija\ \textcolor{BrickRed}{=}\ actual \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ swap\textcolor{BrickRed}{(}hija\textcolor{BrickRed}{[}i\textcolor{BrickRed}{],}\ hija\textcolor{BrickRed}{[}hija\textcolor{BrickRed}{.}indice\textcolor{BrickRed}{])} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ hija\textcolor{BrickRed}{.}indice\textcolor{BrickRed}{++} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ posibles\textcolor{BrickRed}{.}push\textcolor{BrickRed}{(}hija\textcolor{BrickRed}{)} \\
+\mbox{} \\
+\mbox{}\ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{return}}\ mejor \\
 \mbox{}\ \ \ \ \textbf{\textcolor{Blue}{end}} \\
 \mbox{} \\
-\mbox{}\ \ \ \ mejor$\_$coste\ \textcolor{BrickRed}{=}\ $\infty$ \\
-\mbox{}\ \ \ \ ruta\ \textcolor{BrickRed}{=}\ \textcolor{BrickRed}{[}\textcolor{Purple}{1}\textcolor{BrickRed}{..}\#ciudades\textcolor{BrickRed}{]} \\
-\mbox{}\ \ \ \ recorrer\textcolor{BrickRed}{(}\textcolor{Purple}{1}\textcolor{BrickRed}{)} \\
+\mbox{}\ \ \ \ posibles\ \textcolor{BrickRed}{=}\ new\ Priority\ Queue \\
+\mbox{}\ \ \ \ inicial\ \textcolor{BrickRed}{=}\ \textcolor{BrickRed}{[}\textcolor{Purple}{1}\ \textcolor{BrickRed}{...}\ \#ciudades\textcolor{BrickRed}{]} \\
+\mbox{}\ \ \ \ inicial\textcolor{BrickRed}{.}indice\ \textcolor{BrickRed}{=}\ \textcolor{Purple}{1} \\
+\mbox{}\ \ \ \ posibles\textcolor{BrickRed}{.}push\textcolor{BrickRed}{(}inicial\textcolor{BrickRed}{)} \\
 \mbox{} \\
-\mbox{}\ \ \ \ \textbf{\textcolor{Blue}{return}}\ mejor$\_$coste \\
-\mbox{}\textbf{\textcolor{Blue}{end}} \\
+\mbox{}\ \ \ \ \textbf{\textcolor{Blue}{return}}\ recorrer\textcolor{BrickRed}{()} \\
 \mbox{} \\
-\mbox{}\textbf{\textcolor{Blue}{def}}\ hay$\_$cruces\textcolor{BrickRed}{(}i\textcolor{BrickRed}{,}\ indice\textcolor{BrickRed}{)} \\
-\mbox{}\ \ \ \ opt2\ \textcolor{BrickRed}{=}\ \textbf{\textcolor{Blue}{false}} \\
-\mbox{}\ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{for}}\ j\ \textbf{\textcolor{Blue}{in}}\ \textcolor{BrickRed}{[}\textcolor{Purple}{1}\textcolor{BrickRed}{..}indice\textcolor{BrickRed}{]} \\
-\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ opt2\ \textcolor{BrickRed}{=}\ opt2\ \textcolor{BrickRed}{\&\&}\ \textcolor{BrickRed}{(}d\textcolor{BrickRed}{(}ruta\textcolor{BrickRed}{[}i\textcolor{BrickRed}{],}ruta\textcolor{BrickRed}{[}indice\textcolor{BrickRed}{])}\ \textcolor{BrickRed}{+}\ d\textcolor{BrickRed}{(}ruta\textcolor{BrickRed}{[}j\textcolor{BrickRed}{],}ruta\textcolor{BrickRed}{[}j\textcolor{BrickRed}{-}\textcolor{Purple}{1}\textcolor{BrickRed}{])}\ \textcolor{BrickRed}{\textgreater{}}\ d\textcolor{BrickRed}{(}ruta\textcolor{BrickRed}{[}i\textcolor{BrickRed}{],}ruta\textcolor{BrickRed}{[}j\textcolor{BrickRed}{])}\ \textcolor{BrickRed}{+}\ d\textcolor{BrickRed}{(}ruta\textcolor{BrickRed}{[}indice\textcolor{BrickRed}{],}ruta\textcolor{BrickRed}{[}j\textcolor{BrickRed}{-}\textcolor{Purple}{1}\textcolor{BrickRed}{]))} \\
+\mbox{}\ \ \ \ \textbf{\textcolor{Blue}{def}}\ cota$\_$inferior\textcolor{BrickRed}{(}ruta\textcolor{BrickRed}{)} \\
+\mbox{}\ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{return}}\ coste\ \textcolor{BrickRed}{+}\ $\sum_{i=1}^{\#ciudades} \min_{j=1}^{\#ciudades} dist(i,j)$ \\
+\mbox{}\ \ \ \ \textbf{\textcolor{Blue}{end}} \\
 \mbox{} \\
-\mbox{}\ \ \ \ \textbf{\textcolor{Blue}{return}}\ opt2 \\
-\mbox{}\textbf{\textcolor{Blue}{end}} \\
-\mbox{} \\
-\mbox{}\textbf{\textcolor{Blue}{def}}\ coste\textcolor{BrickRed}{(}ruta\textcolor{BrickRed}{)} \\
-\mbox{}\ \ \ \ \textbf{\textcolor{Blue}{return}}\ $\mathtt{\sum_{i \in \mathbb{Z}_n} dist(ciudades[ruta[i]], ciudades[ruta[i+1]])}$\\
+\mbox{}\ \ \ \ \textbf{\textcolor{Blue}{def}}\ coste\textcolor{BrickRed}{(}ruta\textcolor{BrickRed}{)} \\
+\mbox{}\ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{return}}\ $\sum_{i \in \mathbb{Z}_n} dist(ciudades[ruta[i]], ciudades[ruta[i+1]])$ \\
+\mbox{}\ \ \ \ \textbf{\textcolor{Blue}{end}} \\
 \mbox{}\textbf{\textcolor{Blue}{end}} \\
 \mbox{}

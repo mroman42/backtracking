@@ -137,9 +137,16 @@ Backtracking y Branch \& Bound} % Subtitle
 	fijo $M$ y un conjunto de $n$ elementos que queremos almacenar en nuestro contenedor. Dichos elementos tendrán un peso $\omega_i$
 	determinado, y obtendremos un cierto beneficio $b_i$ por cada objeto almacenado.
 	
-	Nuestro objetivo es maximizar la suma de beneficios, $\sum_{i=1}^{n} b_i\delta_i$, (siendo $\delta_i = 1$ si el i-ésimo objeto 
-	está en la mochila, 0 en caso contrario) con la restricción de que la mochila solo puede llevar un peso máximo, determinado por 
-	su tamaño: $\sum_{i=1}^{n} \omega_i\delta_i \leq M$.
+	Nuestro objetivo es maximizar la suma de beneficios,
+	\begin{equation}
+	 \sum_{i=1}^{n} b_i\delta_i
+	\end{equation}
+	(siendo $\delta_i = 1$ si el i-ésimo objeto está en la mochila, 0 en caso contrario) con la restricción de que la mochila solo puede llevar un peso máximo, determinado por 
+	su tamaño:
+	\begin{equation}
+	  \sum_{i=1}^{n} \omega_i\delta_i \leq M.
+	\end{equation}
+
     
       \subsection{Backtracking}
 	Representamos una mochila como un vector de datos booleanos, $\delta$, de tamaño $n$. Esto implica 
@@ -180,7 +187,7 @@ Backtracking y Branch \& Bound} % Subtitle
 	    \small
 	    \texttt{\input{pseudo_mochila_bb_final.tex}}
 	    \normalsize
-      
+
     
     
     \section{Traveling Salesman Problem}
@@ -235,8 +242,11 @@ Backtracking y Branch \& Bound} % Subtitle
       La estrategia de ramificación utilizada en este caso será Least-Cost FIFO, ya que buscamos explorar las soluciones ordenadas por el menor coste.
       
       \subsubsection{Variante: Branch \& Bound con 2-OPT}
-	Una condición para podar una rama, cuando se está realizando la exploración del árbol, puede ser que exista algún cruce de ciudades en el grafo. 
-	En ese caso se pueden descartar las soluciones resultantes ya que es seguro que no serán óptimas, siempre que el grafo del problema sea euclídeo.
+	Una condición para podar una rama, cuando se está realizando la exploración del árbol, puede ser que exista algún cruce de ciudades en el grafo.
+	Entendemos un cruce de ciudades como un caso en el que al permutar dos caminos del problema (cambiando $(a,b),(c,d)$ por $(a,d),(c,b)$), obtenemos
+	un menor coste.
+	
+	En ese caso se pueden descartar las soluciones resultantes, que no son óptimas porque no son mínimos locales del problema.
     
     \subsubsection{Algoritmo}
     
@@ -291,7 +301,7 @@ Backtracking y Branch \& Bound} % Subtitle
     Sean $X$,$Y$,$Z$ tres conjuntos finitos y sea $T \subset X \times Y \times Z$, subconjunto de tripletas válidas.
     Una asignación válida $M$ es un subconjunto de elementos disjuntos de $T$. Es decir, $M \subset T$ tal que:
     \begin{equation}
-        \forall (x_1,y_1,z_1), (x_2,y_2,z_2) \in M : \quad (x_1 \neq x_2) \vee (y_1 \neq y_2) \vee (z_1 \neq z_2)
+        \forall (x_1,y_1,z_1), (x_2,y_2,z_2) \in M : \quad (x_1 \neq x_2) \wedge (y_1 \neq y_2) \wedge (z_1 \neq z_2)
         \end{equation} 
         Buscamos la asignación válida de mayor cardinal, es decir la $M$ asignación válida maximizando $|M|$.
         
@@ -305,7 +315,7 @@ Backtracking y Branch \& Bound} % Subtitle
 	  Representaremos la solución como un vector de booleanos, que nos indican si la arista asociada al índice se encuentra o 
 	  no en la solución. Como cada arista tiene la opción de estar o no estar en la solución, la dimensión del espacio de 
 	  soluciones es de $2^n$, siendo $n$ el número de aristas.
-	    
+	  
 	  \subsubsection{Algoritmo}
 	    \small
 	    \texttt{\input{pseudo_3dmatching_final.tex}}

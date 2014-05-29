@@ -124,35 +124,77 @@ QAP: Asignación cuadrática} % Subtitle
 }
 \pagebreak
 
-\section{El problema de la asignación cuadrática (QAP)}
-      \subsection{Enunciado}
-	Dado un conjunto de $n$ instalaciones con un flujo de transporte y
-	un conste asociado entre dichas instalaciones, y dadas $n$ posibles localizaciones,
-	el problema consiste en buscar ubicación a cada una de las instalaciones que
-	minimice el coste del stransporte.
-	
-	Siendo $d(i,j)$ la distancia entre la localización $i$ y la $j$
-	y siendo $w(i,j)$ el peso asociado al flujo de materiales entre la instalación
-	$i$ y la $j$, se consiga minimizar:
-	\begin{equation}
-	\sum_{i=1}^n \sum_{j=1}^nw(i,j) d(\sigma(i),\sigma(j))
-	\label{coste}
-	\end{equation}
-
-	donde $\sigma \in \mathcal{S}_n$ define una permutación sobre el conjunto de instalaciones.
-
-    
-      \subsection{Backtracking}
-	En nuestro algoritmo de tipo Backtracking consideraremos todas las posibles opciones para quedarnos con la mejor de ellas.
-	Tomaremos una instalación y la emplazaremos en un lugar cualquiera. A partir de aquí, colocaremos una nueva instalación
-	en otro emplazamiento vacío hasta que se agoten. Llegados a este punto, volveremos hacia atrás y consideraremos soluciones
-	alternativas, colocando las instalaciones en los demás emplazamientos no considerados hasta el momento. Una vez obtenida una
-	posible solución, compararemos costes con la mejor solución hasta el momento y la actualizaremos si es mejorada.       
-	
-	Representaremos la solución como un vector de enteros, que nos indica en que emplazamiento hemos colocado cada ciudad a 
-	través del índice. El tamaño del espacio de soluciones es de $n!$, que representa los emplazamientos posibles que tenemos 
-	para cada ciudad. 
+  \section{El problema de la asignación cuadrática (QAP)}
+    \subsection{Enunciado}
+      Dado un conjunto de $n$ instalaciones con un flujo de transporte y
+      un conste asociado entre dichas instalaciones, y dadas $n$ posibles localizaciones,
+      el problema consiste en buscar ubicación a cada una de las instalaciones que
+      minimice el coste del stransporte.
       
-      \subsection{Branch \& Bound}
-	
+      Siendo $d(i,j)$ la distancia entre la localización $i$ y la $j$
+      y siendo $w(i,j)$ el peso asociado al flujo de materiales entre la instalación
+      $i$ y la $j$, se consiga minimizar:
+      \begin{equation}
+      \sum_{i=1}^n \sum_{j=1}^nw(i,j) d(\sigma(i),\sigma(j))
+      \label{coste}
+      \end{equation}
+
+      donde $\sigma \in \mathcal{S}_n$ define una permutación sobre el conjunto de instalaciones.
+
+
+    \subsection{Backtracking}
+      En nuestro algoritmo de tipo Backtracking consideraremos todas las posibles opciones para quedarnos con la mejor de ellas.
+      Tomaremos una instalación y la emplazaremos en un lugar cualquiera. A partir de aquí, colocaremos una nueva instalación
+      en otro emplazamiento vacío hasta que se agoten. Llegados a este punto, volveremos hacia atrás y consideraremos soluciones
+      alternativas, colocando las instalaciones en los demás emplazamientos no considerados hasta el momento. Una vez obtenida una
+      posible solución, compararemos costes con la mejor solución hasta el momento y la actualizaremos si es mejorada.       
+      
+      Representaremos la solución como un vector de enteros, que nos indica en que emplazamiento hemos colocado cada ciudad a 
+      través del índice. El tamaño del espacio de soluciones es de $n!$, que representa los emplazamientos posibles que tenemos 
+      para cada ciudad. 
+    
+    \subsection{Branch \& Bound}
+      Para implementar la ramificación y poda necesitaremos definir una función que proporcione una
+      cota inferior al coste de una permutación parcial. Como cota superior global del coste, usaremos el
+      coste de la mejor solución que hayamos obtenido hasta el momento.
+      
+      La \textbf{estimación propuesta} en el guión se basa en colocar cada una de las fábricas que todavía no
+      quedan fijas por la permutación en el punto que minimice su flujo de materiales con cada fábrica,
+      permitiendo que cada fábrica pueda colocarse en un sitio distinto a cada paso.
+      
+      Calculamos como función de cota, para una permutación parcial en la que está definido $\sigma(i) \quad \forall i \leq k$,
+      la siguiente suma:
+      \begin{eqnarray*}
+      \displaystyle
+	  & \sum_{i,j \leq k}^n & d(\sigma(i),\sigma(j)) w(i,j) \\
+	+ & \sum_{i \leq k \leq j \leq n}^n & \min_{c \notin \sigma(1..k)}{(d(\sigma(i),c))} w(i,j) \\
+	+ & \sum_{j \leq k \leq i \leq n}^n & \min_{c \notin \sigma(1..k)}{(d(c,\sigma(j))} w(i,j) \\
+	+ & \sum_{k \leq i,j \leq n}^n& \min_{c,e \notin \sigma(1..k)}{(d(c,e)} w(i,j) \\
+      \end{eqnarray*}
+      Donde podemos notar que el último término será siempre nulo, quedando:
+      \begin{eqnarray*}
+      \displaystyle
+	  & \sum_{i,j \leq k}^n & d(\sigma(i),\sigma(j)) w(i,j) \\
+	+ & \sum_{i \leq k \leq j \leq n}^n & \min_{c \notin \sigma(1..k)}{(d(\sigma(i),c))} w(i,j) \\
+	+ & \sum_{j \leq k \leq i \leq n}^n & \min_{c \notin \sigma(1..k)}{(d(c,\sigma(j))} w(i,j) \\
+      \end{eqnarray*}
+      \medskip
+      
+      Como \textbf{propuesta} para mejorar esta estimación, podemos obligar a que una fábrica quede ubicada en un mismo sitio,
+      y que no pueda cambiarse este a cada paso. En este caso, quedaría:
+      \begin{eqnarray*}
+      \displaystyle
+	  & \sum_{i,j \leq k}^n & d(\sigma(i),\sigma(j)) w(i,j) \\
+	+ & \sum_{k\leq j \leq n}^n & \min_{c_j \notin \sigma(1..k)}{\sum^n_{i\leq k} (d(\sigma(i),c_j))} w(i,j) \\
+	+ & \sum_{k\leq i \leq n}^n & \min_{c_i \notin \sigma(1..k)}{\sum^n_{j\leq k} (d(c_i, \sigma(j)))} w(i,j) \\
+      \end{eqnarray*}
+
+      
+      Y como última propuesta, considerar simplemente el coste obtenido hasta el momento también proporciona
+      buenas acotaciones, en un compromiso entre el coste de calcular la cota y su bondad:
+      \begin{eqnarray*}
+      \displaystyle
+	  & \sum_{i,j \leq k}^n & d(\sigma(i),\sigma(j)) w(i,j)
+      \end{eqnarray*}
+      
 \end{document}

@@ -16,8 +16,8 @@ typedef unsigned int uint;
 typedef vector<int> Permutacion;
 typedef double Coste;
 
-template<class T> ostream& operator<< (ostream& output, vector<T>& v);
-template<class T> istream& operator>> (istream& input, vector<T>& v);
+template<class T> ostream& operator << (ostream& output, vector<T>& v);
+template<class T> istream& operator >> (istream& input, vector<T>& v);
 
 
 // Datos globales del problema

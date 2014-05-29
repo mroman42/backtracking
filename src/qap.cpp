@@ -16,6 +16,7 @@ typedef unsigned int uint;
 typedef vector<int> Permutacion;
 typedef double Coste;
 
+
 // Función de impresión de vectores
 template<class T>
 ostream& operator<< (ostream& output, vector<T>& v){
@@ -25,6 +26,7 @@ ostream& operator<< (ostream& output, vector<T>& v){
     output << endl;
     return output;
 }
+
 // Función de lectura de vectores
 template<class T>
 istream& operator>> (istream& input, vector<T>& v){
@@ -34,15 +36,17 @@ istream& operator>> (istream& input, vector<T>& v){
     return input;
 }
 
+
+// Datos globales del problema
 uint dimension;
 Permutacion mejor_permutacion;
 Coste mejor_coste;
-// Matriz de pesos
 vector<vector<double>> w;
-// Matriz de longitudes de aristas
 vector<vector<double>> d;
 
-double cost(Permutacion &p, uint n){
+
+// Coste de una permutación
+double cost (Permutacion &p, uint n){
     double sum(0);
     
     for (uint i=0; i<n; ++i)
@@ -52,6 +56,8 @@ double cost(Permutacion &p, uint n){
     return sum;
 }
 
+
+// Comprueba todas las permutaciones a partir de una dada
 void permutaciones(Permutacion& p, uint indice = 0){
     // Caso de permutación completa
     // Comprueba si se mejora el óptimo.    
@@ -72,6 +78,7 @@ void permutaciones(Permutacion& p, uint indice = 0){
             uint temp = p[i];
             p[i] = p[indice];
             p[indice] = temp;
+
             #ifdef BBOUND
             // Si la permutación actual es peor que la mejor en cuanto a coste,
             // no la introducimos
@@ -93,32 +100,56 @@ void permutaciones(Permutacion& p, uint indice = 0){
 int main(){
     mejor_coste = numeric_limits<Coste>::infinity();
     
+    // Bloque de lecturas
     // Lectura del problema
-    cin >> dimension;    
-    // Resolución del problema
-    // Permutación identidad.
+    cin >> dimension;
+
     Permutacion p(dimension);
     w.resize(dimension);
     d.resize(dimension);
-    for (uint i=0; i<dimension; ++i){
+    for (uint i=0; i<dimension; ++i) {
         w[i].resize(dimension);
         d[i].resize(dimension);
     }
-    // Lectura del problema
+
     cin >> w;
     cin >> d;
     iota(p.begin(), p.end(), 0);
 
+
+    // Bloque de cómputos
+    // Resolución desde la permutación inicial calculando el tiempo que tarda
     auto time1 = chrono::high_resolution_clock::now();
-    // Resolución del problema
     permutaciones (p);
     auto time2 = chrono::high_resolution_clock::now();
     chrono::duration<double> time_span = chrono::duration_cast<chrono::duration<double>>(time2 - time1);
     double time = time_span.count();
 
-    // Muestra la solución
+
+    // Bloque de salidas
     cout << "Mejor coste obtenido: " << mejor_coste << endl
         << "Mejor permutación: " << endl << mejor_permutacion
         << "Tiempo de cómputo: " << time << endl;
 }
  
+
+/*
+// Función de impresión de vectores
+template<class T>
+ostream& operator<< (ostream& output, vector<T>& v){
+    for (auto i : v)
+        output << i << ' ';
+    
+    output << endl;
+    return output;
+}
+
+// Función de lectura de vectores
+template<class T>
+istream& operator>> (istream& input, vector<T>& v){
+    for (auto &i : v)
+        input >> i;
+    
+    return input;
+}
+*/

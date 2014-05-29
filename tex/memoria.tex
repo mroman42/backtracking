@@ -283,6 +283,8 @@ Backtracking y Branch \& Bound} % Subtitle
     \end{itemize}
     Además, podemos entender la \textit{tarea} como un tipo de dato que comprende tanto el tiempo de ejecución como referencias (por ejemplo, índices a un vector) de sus dependencias.
     
+    Al tener esta representación de la solución, no es posible encontrar el tamaño del espacio de soluciones, pues el tiempo de inicio de cada tarea nos impide poder cuantificar dicho tamaño a partir del natural que representa la magnitud del problema. 
+    
     La función de poda en este caso devuelve falso si la tarea que se va a añadir tiene una dependencia pendiente, esto es, incluye en sus dependencias a otra tarea que aún no se ha terminado de ejecutar.
     
     \subsubsection{Algoritmo}
@@ -293,7 +295,7 @@ Backtracking y Branch \& Bound} % Subtitle
     
     \subsection{Branch \& Bound}
       Para el algoritmo siguiendo la estrategia Branch \& Bound, utilizamos la misma representación para la 
-      solución y por tanto tenemos un espacio de soluciones idéntico.
+      solución. De nuevo no podemos encontrar el tamaño del espacio de soluciones. 
       
       Los hijos posibles de un nodo intermedio $(a_1, \dots, a_m)$ (con $a_i$ asignaciones válidas) son del tipo 
       $(a_1, \dots, a_m, a_{m+1})$, donde $a_{m+1}$ es una asignación asociada a una tarea que no está ya en 

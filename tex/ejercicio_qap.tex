@@ -129,7 +129,7 @@ QAP: Asignación cuadrática} % Subtitle
       Dado un conjunto de $n$ instalaciones con un flujo de transporte y
       un conste asociado entre dichas instalaciones, y dadas $n$ posibles localizaciones,
       el problema consiste en buscar ubicación a cada una de las instalaciones que
-      minimice el coste del stransporte.
+      minimice el coste del transporte.
       
       Siendo $d(i,j)$ la distancia entre la localización $i$ y la $j$
       y siendo $w(i,j)$ el peso asociado al flujo de materiales entre la instalación
@@ -164,7 +164,7 @@ QAP: Asignación cuadrática} % Subtitle
       mínima supere al coste de la mejor solución hasta el momento.
       
       Además, implementamos una estrategia de ramificación LC-FIFO basada en la cota inferior de la permutación
-      inicial.
+      inicial. Usamos una cola con prioridad.
       
       La \textbf{estimación propuesta} en el guión se basa en colocar cada una de las fábricas que todavía no
       quedan fijas por la permutación en el punto que minimice su flujo de materiales con cada fábrica,

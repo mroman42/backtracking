@@ -8,7 +8,7 @@ FLAGS=-std=c++11 -Wall -g
 
 
 # make all: Compilar todos los programas
-all: $(patsubst $(SRC)/%.cpp, $(BIN)/%, $(wildcard $(SRC)/*.cpp)) $(BIN)/mochila_bbound $(BIN)/tsp_bbound $(BIN)/tsp_optbound $(BIN)/planificacion_bbound $(BIN)/3matching_bbound $(BIN)/tsp_pq_bbound $(BIN)/tsp_pq_optbound
+all: $(patsubst $(SRC)/%.cpp, $(BIN)/%, $(wildcard $(SRC)/*.cpp)) $(BIN)/mochila_bbound $(BIN)/tsp_bbound $(BIN)/tsp_optbound $(BIN)/planificacion_bbound $(BIN)/3matching_bbound $(BIN)/tsp_pq_bbound $(BIN)/tsp_pq_optbound $(BIN)/qap_bbound1 $(BIN)/qap_bbound2 $(BIN)/qap_bbound3
 
 # Opciones individuales
 $(BIN)/%: $(SRC)/%.cpp

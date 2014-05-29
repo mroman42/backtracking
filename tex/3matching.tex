@@ -9,6 +9,7 @@
 \mbox{}\textbf{\textcolor{RoyalBlue}{\#include}}\ \texttt{\textcolor{Red}{\textless{}iostream\textgreater{}}} \\
 \mbox{}\textbf{\textcolor{RoyalBlue}{\#include}}\ \texttt{\textcolor{Red}{\textless{}vector\textgreater{}}} \\
 \mbox{}\textbf{\textcolor{RoyalBlue}{\#include}}\ \texttt{\textcolor{Red}{\textless{}queue\textgreater{}}} \\
+\mbox{}\textbf{\textcolor{RoyalBlue}{\#include}}\ \texttt{\textcolor{Red}{\textless{}stack\textgreater{}}} \\
 \mbox{}\textbf{\textcolor{RoyalBlue}{\#include}}\ \texttt{\textcolor{Red}{\textless{}chrono\textgreater{}}} \\
 \mbox{}\textbf{\textcolor{RoyalBlue}{\#include}}\ \texttt{\textcolor{Red}{\textless{}utility\textgreater{}}} \\
 \mbox{}\textbf{\textcolor{Blue}{using}}\ \textbf{\textcolor{Blue}{namespace}}\ std\textcolor{BrickRed}{;} \\
@@ -48,11 +49,11 @@
 \mbox{}\textit{\textcolor{Brown}{//\ Señala\ las\ aristas\ seleccionadas\ y\ los\ nodos\ usados\ de\ cada\ conjunto.}} \\
 \mbox{}\textit{\textcolor{Brown}{//\ Señala\ además\ la\ cardinalidad\ de\ la\ asignación\ (su\ valor).}} \\
 \mbox{}\textbf{\textcolor{Blue}{struct}}\ \textcolor{TealBlue}{Matching}\ \textcolor{Red}{\{} \\
+\mbox{}\ \ \ \ \textcolor{ForestGreen}{int}\ valor\textcolor{BrickRed}{;} \\
 \mbox{}\ \ \ \ \textcolor{TealBlue}{vector\textless{}bool\textgreater{}}\ aristas\textcolor{BrickRed}{;} \\
 \mbox{}\ \ \ \ \textcolor{TealBlue}{vector\textless{}bool\textgreater{}}\ nodosa\textcolor{BrickRed}{;} \\
 \mbox{}\ \ \ \ \textcolor{TealBlue}{vector\textless{}bool\textgreater{}}\ nodosb\textcolor{BrickRed}{;} \\
 \mbox{}\ \ \ \ \textcolor{TealBlue}{vector\textless{}bool\textgreater{}}\ nodosc\textcolor{BrickRed}{;} \\
-\mbox{}\ \ \ \ \textcolor{ForestGreen}{int}\ valor\textcolor{BrickRed}{;} \\
 \mbox{} \\
 \mbox{}\ \ \ \ \textbf{\textcolor{Black}{Matching}}\ \textcolor{BrickRed}{()} \\
 \mbox{}\ \ \ \ \textcolor{BrickRed}{:}\ \textbf{\textcolor{Black}{valor}}\textcolor{BrickRed}{(}\textcolor{Purple}{0}\textcolor{BrickRed}{),} \\
@@ -75,7 +76,7 @@
 \mbox{}\textbf{\textcolor{RoyalBlue}{\ \ \ \ \#ifdef}}\ BBOUND \\
 \mbox{}\ \ \ \ \textcolor{TealBlue}{priority$\_$queue\textless{}Matching,\ vector\textless{}Matching\textgreater{},\ cmp\textgreater{}}\ posibles$\_$particiones\textcolor{BrickRed}{;} \\
 \mbox{}\textbf{\textcolor{RoyalBlue}{\ \ \ \ \#else}} \\
-\mbox{}\ \ \ \ \textcolor{TealBlue}{queue\textless{}Matching\textgreater{}}\ posibles$\_$particiones\textcolor{BrickRed}{;} \\
+\mbox{}\ \ \ \ \textcolor{TealBlue}{stack\textless{}Matching\textgreater{}}\ posibles$\_$particiones\textcolor{BrickRed}{;} \\
 \mbox{}\textbf{\textcolor{RoyalBlue}{\ \ \ \ \#endif}} \\
 \mbox{}\ \ \ \ \textcolor{TealBlue}{Matching}\ solucion\textcolor{BrickRed}{;} \\
 \mbox{}\ \ \ \ \textcolor{TealBlue}{uint}\ tamanio\ \textcolor{BrickRed}{=}\ aristas\textcolor{BrickRed}{.}\textbf{\textcolor{Black}{size}}\textcolor{BrickRed}{();} \\
@@ -83,11 +84,7 @@
 \mbox{}\ \ \ \ \textit{\textcolor{Brown}{//\ Prueba\ cada\ posible\ asignación,\ empezando\ por\ la\ vacía.}} \\
 \mbox{}\ \ \ \ posibles$\_$particiones\textcolor{BrickRed}{.}\textbf{\textcolor{Black}{push}}\textcolor{BrickRed}{(}\textbf{\textcolor{Black}{Matching}}\textcolor{BrickRed}{());} \\
 \mbox{}\ \ \ \ \textbf{\textcolor{Blue}{while}}\ \textcolor{BrickRed}{(!}posibles$\_$particiones\textcolor{BrickRed}{.}\textbf{\textcolor{Black}{empty}}\textcolor{BrickRed}{())}\ \textcolor{Red}{\{} \\
-\mbox{}\textbf{\textcolor{RoyalBlue}{\ \ \ \ \ \ \ \ \#ifdef}}\ BBOUND \\
 \mbox{}\ \ \ \ \ \ \ \ \textcolor{TealBlue}{Matching}\ actual\ \textcolor{BrickRed}{=}\ posibles$\_$particiones\textcolor{BrickRed}{.}\textbf{\textcolor{Black}{top}}\textcolor{BrickRed}{();} \\
-\mbox{}\textbf{\textcolor{RoyalBlue}{\ \ \ \ \ \ \ \ \#else}} \\
-\mbox{}\ \ \ \ \ \ \ \ \textcolor{TealBlue}{Matching}\ actual\ \textcolor{BrickRed}{=}\ posibles$\_$particiones\textcolor{BrickRed}{.}\textbf{\textcolor{Black}{front}}\textcolor{BrickRed}{();} \\
-\mbox{}\textbf{\textcolor{RoyalBlue}{\ \ \ \ \ \ \ \ \#endif}} \\
 \mbox{}\ \ \ \ \ \ \ \ posibles$\_$particiones\textcolor{BrickRed}{.}\textbf{\textcolor{Black}{pop}}\textcolor{BrickRed}{();} \\
 \mbox{}\ \ \ \ \ \ \ \ \textcolor{TealBlue}{uint}\ indice\ \textcolor{BrickRed}{=}\ actual\textcolor{BrickRed}{.}aristas\textcolor{BrickRed}{.}\textbf{\textcolor{Black}{size}}\textcolor{BrickRed}{();} \\
 \mbox{} \\
@@ -149,10 +146,11 @@
 \mbox{}\ \ \ \ \textit{\textcolor{Brown}{//\ Bloque\ de\ entradas}} \\
 \mbox{}\ \ \ \ \textcolor{TealBlue}{vector\textless{}Arista\textgreater{}}\ aristas\textcolor{BrickRed}{;} \\
 \mbox{}\ \ \ \ \textcolor{TealBlue}{vector\textless{}int\textgreater{}}\ preferencias\textcolor{BrickRed}{;} \\
-\mbox{}\ \ \ \ \textcolor{ForestGreen}{int}\ preferencia\textcolor{BrickRed}{;} \\
 \mbox{}\ \ \ \ \textcolor{ForestGreen}{int}\ a\textcolor{BrickRed}{,}b\textcolor{BrickRed}{,}c\textcolor{BrickRed}{;} \\
 \mbox{} \\
 \mbox{}\textbf{\textcolor{RoyalBlue}{\ \ \ \ \#ifdef}}\ BBOUND \\
+\mbox{}\ \ \ \ \textcolor{ForestGreen}{int}\ preferencia\textcolor{BrickRed}{;} \\
+\mbox{} \\
 \mbox{}\ \ \ \ \textbf{\textcolor{Blue}{while}}\ \textcolor{BrickRed}{(}cin\ \textcolor{BrickRed}{\textgreater{}\textgreater{}}\ a\ \textcolor{BrickRed}{\textgreater{}\textgreater{}}\ b\ \textcolor{BrickRed}{\textgreater{}\textgreater{}}\ c\ \textcolor{BrickRed}{\textgreater{}\textgreater{}}\ preferencia\textcolor{BrickRed}{)}\textcolor{Red}{\{} \\
 \mbox{}\ \ \ \ \ \ \ \ aristas\textcolor{BrickRed}{.}\textbf{\textcolor{Black}{push$\_$back}}\textcolor{BrickRed}{(}\textbf{\textcolor{Black}{Arista}}\textcolor{BrickRed}{(}a\textcolor{BrickRed}{,}b\textcolor{BrickRed}{,}c\textcolor{BrickRed}{));} \\
 \mbox{}\ \ \ \ \ \ \ \ preferencias\textcolor{BrickRed}{.}\textbf{\textcolor{Black}{push$\_$back}}\textcolor{BrickRed}{(}preferencia\textcolor{BrickRed}{);} \\

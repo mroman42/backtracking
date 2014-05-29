@@ -7,10 +7,13 @@
 \mbox{}\textit{\textcolor{Brown}{\ */}} \\
 \mbox{}\textbf{\textcolor{RoyalBlue}{\#include}}\ \texttt{\textcolor{Red}{\textless{}vector\textgreater{}}} \\
 \mbox{}\textbf{\textcolor{RoyalBlue}{\#include}}\ \texttt{\textcolor{Red}{\textless{}queue\textgreater{}}} \\
+\mbox{}\textbf{\textcolor{RoyalBlue}{\#include}}\ \texttt{\textcolor{Red}{\textless{}stack\textgreater{}}} \\
 \mbox{}\textbf{\textcolor{RoyalBlue}{\#include}}\ \texttt{\textcolor{Red}{\textless{}algorithm\textgreater{}}} \\
 \mbox{}\textbf{\textcolor{RoyalBlue}{\#include}}\ \texttt{\textcolor{Red}{\textless{}utility\textgreater{}}} \\
 \mbox{}\textbf{\textcolor{RoyalBlue}{\#include}}\ \texttt{\textcolor{Red}{\textless{}numeric\textgreater{}}} \\
 \mbox{}\textbf{\textcolor{RoyalBlue}{\#include}}\ \texttt{\textcolor{Red}{\textless{}iostream\textgreater{}}} \\
+\mbox{}\textbf{\textcolor{RoyalBlue}{\#include}}\ \texttt{\textcolor{Red}{\textless{}chrono\textgreater{}}} \\
+\mbox{} \\
 \mbox{}\textbf{\textcolor{Blue}{using}}\ \textbf{\textcolor{Blue}{namespace}}\ std\textcolor{BrickRed}{;} \\
 \mbox{} \\
 \mbox{}\textbf{\textcolor{Blue}{typedef}}\ \textcolor{ForestGreen}{double}\ tiempo\textcolor{BrickRed}{;} \\
@@ -111,15 +114,27 @@
 \mbox{}\textcolor{TealBlue}{uint}\ Planificador\textcolor{BrickRed}{::}\textbf{\textcolor{Black}{gap}}\textcolor{BrickRed}{(}\textcolor{TealBlue}{vector\textless{}Tarea\textgreater{}}\ \textcolor{BrickRed}{\&}procesador\textcolor{BrickRed}{)}\textcolor{Red}{\{} \\
 \mbox{}\ \ \ \ \textbf{\textcolor{Blue}{for}}\ \textcolor{BrickRed}{(}\textcolor{TealBlue}{uint}\ i\textcolor{BrickRed}{=}\textcolor{Purple}{0}\textcolor{BrickRed}{;}\ i\textcolor{BrickRed}{\textless{}}num$\_$cores\textcolor{BrickRed}{;}\ \textcolor{BrickRed}{++}i\textcolor{BrickRed}{)}\textcolor{Red}{\{} \\
 \mbox{}\ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{if}}\ \textcolor{BrickRed}{(}procesador\textcolor{BrickRed}{[}i\textcolor{BrickRed}{].}\textbf{\textcolor{Black}{empty}}\textcolor{BrickRed}{())}\textcolor{Red}{\{} \\
-\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{return}}\ i\textcolor{BrickRed}{+}\textcolor{Purple}{1}\textcolor{BrickRed}{;} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{return}}\ i\textcolor{BrickRed}{;} \\
 \mbox{}\ \ \ \ \ \ \ \ \textcolor{Red}{\}} \\
 \mbox{}\ \ \ \ \textcolor{Red}{\}} \\
-\mbox{}\ \ \ \ \textbf{\textcolor{Blue}{return}}\ \textcolor{Purple}{0}\textcolor{BrickRed}{;} \\
+\mbox{}\ \ \ \ \textbf{\textcolor{Blue}{return}}\ \textcolor{BrickRed}{-}\textcolor{Purple}{1}\textcolor{BrickRed}{;} \\
 \mbox{}\textcolor{Red}{\}} \\
+\mbox{} \\
+\mbox{}\textbf{\textcolor{Blue}{struct}}\ \textcolor{TealBlue}{cmp}\ \textcolor{Red}{\{} \\
+\mbox{}\ \ \ \ \textcolor{ForestGreen}{bool}\ \textbf{\textcolor{Blue}{operator}}\textcolor{BrickRed}{()(}\textbf{\textcolor{Blue}{const}}\ Planificador\textcolor{BrickRed}{::}Planificacion\textcolor{BrickRed}{\&}\ una\textcolor{BrickRed}{,} \\
+\mbox{}\ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{const}}\ Planificador\textcolor{BrickRed}{::}Planificacion\textcolor{BrickRed}{\&}\ otra\textcolor{BrickRed}{)}\ \textcolor{Red}{\{} \\
+\mbox{}\ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{return}}\ una\textcolor{BrickRed}{.}t$\_$ejecucion\ \textcolor{BrickRed}{\textless{}}\ otra\textcolor{BrickRed}{.}t$\_$ejecucion\textcolor{BrickRed}{;} \\
+\mbox{}\ \ \ \ \textcolor{Red}{\}} \\
+\mbox{}\textcolor{Red}{\}}\textcolor{BrickRed}{;} \\
 \mbox{} \\
 \mbox{}\textit{\textcolor{Brown}{//\ Crea\ planificaciones}} \\
 \mbox{}Planificador\textcolor{BrickRed}{::}\textcolor{TealBlue}{Planificacion}\ Planificador\textcolor{BrickRed}{::}\textbf{\textcolor{Black}{planifica}}\textcolor{BrickRed}{()}\ \textcolor{Red}{\{} \\
-\mbox{}\ \ \ \ \textcolor{TealBlue}{queue\textless{}Planificacion\textgreater{}}\ posibles\textcolor{BrickRed}{;} \\
+\mbox{}\textbf{\textcolor{RoyalBlue}{\ \ \ \ \#ifdef}}\ BBOUND \\
+\mbox{}\ \ \ \ \textcolor{TealBlue}{priority$\_$queue\textless{}Planificacion,\ vector\textless{}Planificacion\textgreater{},\ cmp\textgreater{}}\ posibles\textcolor{BrickRed}{;} \\
+\mbox{}\textbf{\textcolor{RoyalBlue}{\ \ \ \ \#else}} \\
+\mbox{}\ \ \ \ \textcolor{TealBlue}{stack\textless{}Planificacion\textgreater{}}\ posibles\textcolor{BrickRed}{;} \\
+\mbox{}\textbf{\textcolor{RoyalBlue}{\ \ \ \ \#endif}} \\
+\mbox{} \\
 \mbox{}\ \ \ \ \textcolor{TealBlue}{Planificacion}\ solucion\textcolor{BrickRed}{;} \\
 \mbox{}\ \ \ \ solucion\textcolor{BrickRed}{.}t$\_$ejecucion\ \textcolor{BrickRed}{=}\ numeric$\_$limits\textcolor{BrickRed}{\textless{}}tiempo\textcolor{BrickRed}{\textgreater{}::}\textbf{\textcolor{Black}{infinity}}\textcolor{BrickRed}{();} \\
 \mbox{} \\
@@ -127,7 +142,7 @@
 \mbox{} \\
 \mbox{} \\
 \mbox{}\ \ \ \ \textbf{\textcolor{Blue}{while}}\ \textcolor{BrickRed}{(!}posibles\textcolor{BrickRed}{.}\textbf{\textcolor{Black}{empty}}\textcolor{BrickRed}{())}\ \textcolor{Red}{\{} \\
-\mbox{}\ \ \ \ \ \ \ \ \textcolor{TealBlue}{Planificacion}\ actual\ \textcolor{BrickRed}{=}\ posibles\textcolor{BrickRed}{.}\textbf{\textcolor{Black}{front}}\textcolor{BrickRed}{();} \\
+\mbox{}\ \ \ \ \ \ \ \ \textcolor{TealBlue}{Planificacion}\ actual\ \textcolor{BrickRed}{=}\ posibles\textcolor{BrickRed}{.}\textbf{\textcolor{Black}{top}}\textcolor{BrickRed}{();} \\
 \mbox{}\ \ \ \ \ \ \ \ posibles\textcolor{BrickRed}{.}\textbf{\textcolor{Black}{pop}}\textcolor{BrickRed}{();} \\
 \mbox{} \\
 \mbox{}\ \ \ \ \ \ \ \ \textit{\textcolor{Brown}{//\ Si\ es\ una\ planificación\ de\ todos\ las\ tareas,\ comprobamos\ si\ es\ mejor\ que\ la\ que\ ya\ tenemos}} \\
@@ -144,8 +159,7 @@
 \mbox{}\textit{\textcolor{Brown}{\ \ \ \ \ \ \ \ \ \ \ \ \ */}} \\
 \mbox{} \\
 \mbox{} \\
-\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{if}}\ \textcolor{BrickRed}{(}core\textcolor{BrickRed}{)}\textcolor{Red}{\{} \\
-\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ core\textcolor{BrickRed}{-\/-;} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{if}}\ \textcolor{BrickRed}{(}core\ \textcolor{BrickRed}{\textgreater{}}\ \textcolor{BrickRed}{-}\textcolor{Purple}{1}\textcolor{BrickRed}{)}\textcolor{Red}{\{} \\
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textit{\textcolor{Brown}{//\ Comprueba\ si\ tiene\ dependencia\ con...}} \\
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{for}}\ \textcolor{BrickRed}{(}\textcolor{TealBlue}{uint}\ j\textcolor{BrickRed}{=}\textcolor{Purple}{0}\textcolor{BrickRed}{;}\ j\textcolor{BrickRed}{\textless{}}actual\textcolor{BrickRed}{.}restantes\textcolor{BrickRed}{.}\textbf{\textcolor{Black}{size}}\textcolor{BrickRed}{();}\ \textcolor{BrickRed}{++}j\textcolor{BrickRed}{)}\textcolor{Red}{\{} \\
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ dependencia\ \textcolor{BrickRed}{=}\ \textbf{\textcolor{Blue}{false}}\textcolor{BrickRed}{;} \\
@@ -198,7 +212,7 @@
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{Red}{\}} \\
 \mbox{} \\
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ actual\textcolor{BrickRed}{.}t$\_$ejecucion\ \textcolor{BrickRed}{+=}\ minimo\textcolor{BrickRed}{;} \\
-\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  \\
+\mbox{} \\
 \mbox{}\textbf{\textcolor{RoyalBlue}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \#ifdef}}\ BBOUND \\
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{if}}\ \textcolor{BrickRed}{(}actual\textcolor{BrickRed}{.}t$\_$ejecucion\ \textcolor{BrickRed}{\textless{}}\ solucion\textcolor{BrickRed}{.}t$\_$ejecucion\textcolor{BrickRed}{)} \\
 \mbox{}\textbf{\textcolor{RoyalBlue}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \#endif}} \\
@@ -241,11 +255,18 @@
 \mbox{}\ \ \ \ \textcolor{Red}{\}} \\
 \mbox{}\ \ \ \ \textcolor{TealBlue}{Planificador}\ \textbf{\textcolor{Black}{instancia}}\textcolor{BrickRed}{(}tareas\textcolor{BrickRed}{);} \\
 \mbox{} \\
+\mbox{}\ \ \ \ \textbf{\textcolor{Blue}{auto}}\ time1\ \textcolor{BrickRed}{=}\ chrono\textcolor{BrickRed}{::}high$\_$resolution$\_$clock\textcolor{BrickRed}{::}\textbf{\textcolor{Black}{now}}\textcolor{BrickRed}{();} \\
+\mbox{} \\
 \mbox{}\ \ \ \ Planificador\textcolor{BrickRed}{::}\textcolor{TealBlue}{Planificacion}\ solucion\ \textcolor{BrickRed}{=}\ instancia\textcolor{BrickRed}{.}\textbf{\textcolor{Black}{planifica}}\textcolor{BrickRed}{();} \\
+\mbox{} \\
+\mbox{}\ \ \ \ \textbf{\textcolor{Blue}{auto}}\ time2\ \textcolor{BrickRed}{=}\ chrono\textcolor{BrickRed}{::}high$\_$resolution$\_$clock\textcolor{BrickRed}{::}\textbf{\textcolor{Black}{now}}\textcolor{BrickRed}{();} \\
+\mbox{}\ \ \ \ chrono\textcolor{BrickRed}{::}\textcolor{TealBlue}{duration\textless{}double\textgreater{}}\ time$\_$span\ \textcolor{BrickRed}{=}\ chrono\textcolor{BrickRed}{::}duration$\_$cast\textcolor{BrickRed}{\textless{}}chrono\textcolor{BrickRed}{::}duration\textcolor{BrickRed}{\textless{}}\textcolor{ForestGreen}{double}\textcolor{BrickRed}{\textgreater{}}\ \textcolor{BrickRed}{\textgreater{}(}time2\ \textcolor{BrickRed}{-}\ time1\textcolor{BrickRed}{);} \\
+\mbox{}\ \ \ \ \textcolor{ForestGreen}{double}\ time\ \textcolor{BrickRed}{=}\ time$\_$span\textcolor{BrickRed}{.}\textbf{\textcolor{Black}{count}}\textcolor{BrickRed}{();} \\
 \mbox{} \\
 \mbox{}\ \ \ \ \textbf{\textcolor{Blue}{for}}\ \textcolor{BrickRed}{(}\textbf{\textcolor{Blue}{auto}}\textcolor{BrickRed}{\&}\ asig\ \textcolor{BrickRed}{:}\ solucion\textcolor{BrickRed}{.}historial\textcolor{BrickRed}{)} \\
 \mbox{}\ \ \ \ \ \ \ \ cout\ \textcolor{BrickRed}{\textless{}\textless{}}\ \texttt{\textcolor{Red}{"{}Core\ "{}}}\ \textcolor{BrickRed}{\textless{}\textless{}}\ asig\textcolor{BrickRed}{.}core\ \textcolor{BrickRed}{\textless{}\textless{}}\ \texttt{\textcolor{Red}{"{}:\ tarea\ "{}}}\ \textcolor{BrickRed}{\textless{}\textless{}}\ asig\textcolor{BrickRed}{.}tarea\ \textcolor{BrickRed}{\textless{}\textless{}}\ \texttt{\textcolor{Red}{"{}\ (comenzando\ en\ "{}}}\ \textcolor{BrickRed}{\textless{}\textless{}}\ asig\textcolor{BrickRed}{.}t$\_$inicio\ \textcolor{BrickRed}{\textless{}\textless{}}\ \texttt{\textcolor{Red}{"{})"{}}}\ \textcolor{BrickRed}{\textless{}\textless{}}\ endl\textcolor{BrickRed}{;} \\
 \mbox{} \\
 \mbox{}\ \ \ \ cout\ \textcolor{BrickRed}{\textless{}\textless{}}\ \texttt{\textcolor{Red}{"{}Tiempo\ total:\ "{}}}\ \textcolor{BrickRed}{\textless{}\textless{}}\ solucion\textcolor{BrickRed}{.}t$\_$ejecucion\ \textcolor{BrickRed}{\textless{}\textless{}}\ endl\textcolor{BrickRed}{;} \\
+\mbox{}\ \ \ \ cout\ \textcolor{BrickRed}{\textless{}\textless{}}\ \texttt{\textcolor{Red}{"{}Tiempo\ de\ cómputo:\ "{}}}\ \textcolor{BrickRed}{\textless{}\textless{}}\ time\ \textcolor{BrickRed}{\textless{}\textless{}}\ endl\textcolor{BrickRed}{;} \\
 \mbox{}\textcolor{Red}{\}} \\
 \mbox{}

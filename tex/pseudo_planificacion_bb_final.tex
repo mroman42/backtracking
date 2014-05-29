@@ -2,7 +2,7 @@
 \noindent
 \mbox{}\textbf{\textcolor{Blue}{def}}\ planifica\textcolor{BrickRed}{(}ncores\textcolor{BrickRed}{,}\ tareas\textcolor{BrickRed}{)} \\
 \mbox{}\ \ \ \ \textbf{\textcolor{Blue}{def}}\ resolver\textcolor{BrickRed}{()} \\
-\mbox{}\ \ \ \ \ \ \ \ posibles\ \textcolor{BrickRed}{=}\ new\ Priority\ Queue \\
+\mbox{}\ \ \ \ \ \ \ \ posibles\ \textcolor{BrickRed}{=}\ new\ Priority Queue \\
 \mbox{}\ \ \ \ \ \ \ \ solución\ \textcolor{BrickRed}{=}\ \textcolor{BrickRed}{[]} \\
 \mbox{}\ \ \ \ \ \ \ \ tiempo\ \textcolor{BrickRed}{=}\ $\infty$ \\
 \mbox{} \\
@@ -35,28 +35,29 @@
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ posibles\textcolor{BrickRed}{.}push\textcolor{BrickRed}{(}copia\textcolor{BrickRed}{)} \\
 \mbox{} \\
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{if}}\ \textcolor{BrickRed}{(}\textbf{\textcolor{Blue}{not}}\ actual\textcolor{BrickRed}{.}ejecutando\textcolor{BrickRed}{.}empty?\textcolor{BrickRed}{)} \\
-\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ min$\_$restante\ \textcolor{BrickRed}{=}\ min\textcolor{Red}{\{}tarea\textcolor{BrickRed}{.}tiempo\textcolor{BrickRed}{,}\ tarea\ $\in$\ actual\textcolor{BrickRed}{.}ejecutando\textcolor{Red}{\}} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ min$\_$restante\ \textcolor{BrickRed}{=}\ $min\left\{tarea.tiempo: tarea \in actual.ejecutando\right\}$ \\
 \mbox{} \\
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{for}}\ \textcolor{BrickRed}{(}tarea\ \textbf{\textcolor{Blue}{in}}\ actual\textcolor{BrickRed}{.}restantes\textcolor{BrickRed}{)} \\
 \mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tarea\textcolor{BrickRed}{.}tiempo\ \textcolor{BrickRed}{-=}\ min$\_$restante \\
 \mbox{} \\
-\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ posibles\textcolor{BrickRed}{.}push\textcolor{BrickRed}{(}actual\textcolor{BrickRed}{)}\ \textbf{\textcolor{Blue}{if}}\ t$\_$ejecucion\textcolor{BrickRed}{(}actual\textcolor{BrickRed}{)}\ \textcolor{BrickRed}{\textless{}}\ t$\_$ejecucion\textcolor{BrickRed}{(}solucion\textcolor{BrickRed}{)} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{if}}\ \textcolor{BrickRed}{(}t$\_$ejecucion\textcolor{BrickRed}{(}actual\textcolor{BrickRed}{)}\ \textcolor{BrickRed}{\textless{}}\ t$\_$ejecucion\textcolor{BrickRed}{(}solucion\textcolor{BrickRed}{)}\textcolor{BrickRed}{)} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 
+posibles\textcolor{BrickRed}{.}push\textcolor{BrickRed}{(}actual\textcolor{BrickRed}{)} \\
 \mbox{} \\
 \mbox{}\ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{return}}\ solucion \\
 \mbox{}\ \ \ \ \textbf{\textcolor{Blue}{end}} \\
 \mbox{} \\
 \mbox{}\ \ \ \ \textbf{\textcolor{Blue}{def}}\ t$\_$ejecucion\textcolor{BrickRed}{(}planificacion\textcolor{BrickRed}{)} \\
-\mbox{}\ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{return}}\ max\textcolor{Red}{\{}planificacion\textcolor{BrickRed}{[}i\textcolor{BrickRed}{].}t$\_$inicio\ \textcolor{BrickRed}{+}\ planificacion\textcolor{BrickRed}{[}i\textcolor{BrickRed}{].}tarea\textcolor{BrickRed}{.}tiempo\textcolor{BrickRed}{,} \\
-\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ i\ $\in$\ \textcolor{Red}{\{}\textcolor{Purple}{1}\textcolor{BrickRed}{,}\ \textcolor{BrickRed}{...}\ \#planificacion\textcolor{Red}{\}\}} \\
+\mbox{}\ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{return}}\ $max\left\{ planificacion[i].t\_inicio : i \in \{1, \dots \#planificacion \} \right\}$ \\
 \mbox{}\ \ \ \ \textbf{\textcolor{Blue}{end}} \\
 \mbox{} \\
 \mbox{}\ \ \ \ \textbf{\textcolor{Blue}{def}}\ get$\_$core\textcolor{BrickRed}{(}multiprocesador\textcolor{BrickRed}{)} \\
-\mbox{}\ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{return}}\ min\textcolor{Red}{\{}i\ \textcolor{BrickRed}{\textless{}}\ ncores\textcolor{BrickRed}{,}\ multiprocesador\textcolor{BrickRed}{[}i\textcolor{BrickRed}{].}empty?\textcolor{Red}{\}} \\
+\mbox{}\ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{return}}\ $min\left\{i < ncores : multiprocesador[i].empty? \right\}$ \\
 \mbox{}\ \ \ \ \textbf{\textcolor{Blue}{end}} \\
 \mbox{} \\
 \mbox{}\ \ \ \ \textbf{\textcolor{Blue}{def}}\ tiene$\_$dependencias\textcolor{BrickRed}{(}tarea\textcolor{BrickRed}{,}\ plan\textcolor{BrickRed}{)} \\
-\mbox{}\ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{return}}\ $\exists$\ i\ \textcolor{BrickRed}{:}\ tarea\ $\in$\ plan\textcolor{BrickRed}{.}ejecutando\textcolor{BrickRed}{[}i\textcolor{BrickRed}{].}dependencias\ \textbf{\textcolor{Blue}{or}} \\
-\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ $\exists$\ i\ \textcolor{BrickRed}{:}\ tarea\ $\in$\ plan\textcolor{BrickRed}{.}restantes\textcolor{BrickRed}{[}i\textcolor{BrickRed}{].}dependencias \\
+\mbox{}\ \ \ \ \ \ \ \ \textbf{\textcolor{Blue}{return}}\ $\exists i : tarea \in plan.ejecutando[i].dependencias$ \textbf{\textcolor{Blue}{or}} \\
+\mbox{}\ \ \ \ \ \ \ \ \ \ \ \ $\exists i : tarea \in plan.restantes[i].dependencias$ \\
 \mbox{}\ \ \ \ \textbf{\textcolor{Blue}{end}} \\
 \mbox{} \\
 \mbox{}\ \ \ \ \textbf{\textcolor{Blue}{return}}\ resolver\textcolor{BrickRed}{()} \\

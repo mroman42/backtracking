@@ -36,10 +36,7 @@ $(BIN)/qap_bbound3: $(SRC)/qap.cpp
 	g++ $< -o $@ $(FLAGS) -DBBOUND3
 
 # Archivos .tex
-.PHONY: tex
-
-tex:
-	./gentex.sh
+.PHONY: all clean cleanall
 
 
 # Limpieza de los ejecutables

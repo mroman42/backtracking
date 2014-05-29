@@ -135,4 +135,3 @@ istream& operator>> (istream& input, vector<T>& v){
     
     return input;
 }
-

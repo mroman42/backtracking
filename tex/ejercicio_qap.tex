@@ -154,5 +154,9 @@ QAP: Asignación cuadrática} % Subtitle
       \subsection{Branch \& Bound}
       
     En nuestro algoritmo de tipo Branch \& Bound, tendremos la misma representación de la solución, luego el tamaño del espacio de soluciones volverá a ser de $n!$. 
-	
+    
+    
+    
+    Al tratarse de un problema de minimización, la estrategia de poda que se sigue es podar cada rama en la que se encuentre una satisfacción mínima mayor que la satisfacción de la mejor solución encontrada hasta el momento. La estrategia de ramificación utilizada es Least-Cost FIFO, ya que buscamos el mínimo coste en una cola con prioridad.
+    
 \end{document}

@@ -1,0 +1,162 @@
+%%%%
+% Modificación de una plantilla de Latex para adaptarla al castellano.
+%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Thin Sectioned Essay
+% LaTeX Template
+% Version 1.0 (3/8/13)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original Author:
+% Nicolas Diaz (nsdiaz@uc.cl) with extensive modifications by:
+% Vel (vel@latextemplates.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[a4paper, 11pt]{article} % Font size (can be 10pt, 11pt or 12pt) and paper size (remove a4paper for US letter paper)
+
+\usepackage[protrusion=true,expansion=true]{microtype} % Better typography
+\usepackage{graphicx} % Required for including pictures
+\usepackage[usenames,dvipsnames]{color} % Coloring code
+\usepackage{wrapfig} % Allows in-line images
+\usepackage[utf8]{inputenc}
+
+% Imágenes
+\usepackage{graphicx} 
+
+\usepackage{amsmath}
+% para importar svg
+%\usepackage[generate=all]{svgfig}
+
+% sudo apt-get install texlive-lang-spanish
+\usepackage[spanish]{babel} % English language/hyphenation
+\selectlanguage{spanish}
+% Hay que pelearse con babel-spanish para el alineamiento del punto decimal
+\decimalpoint
+\usepackage{dcolumn}
+\newcolumntype{d}[1]{D{.}{\esperiod}{#1}}
+\makeatletter
+\addto\shorthandsspanish{\let\esperiod\es@period@code}
+\makeatother
+
+\usepackage{longtable}
+\usepackage{tabu}
+\usepackage{supertabular}
+
+\usepackage{multicol}
+\newsavebox\ltmcbox
+
+% Para algoritmos
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{amsthm}
+\input{spanishAlgorithmic.tex}
+
+% Para matrices
+\usepackage{amsmath}
+
+% Símbolos matemáticos
+\usepackage{amssymb}
+\let\oldemptyset\emptyset
+\let\emptyset\varnothing
+
+\usepackage[section]{placeins} % Para gráficas en su sección.
+\usepackage{mathpazo} % Use the Palatino font
+\usepackage[T1]{fontenc} % Required for accented characters
+\newenvironment{allintypewriter}{\ttfamily}{\par}
+\setlength{\parindent}{0pt}
+\parskip=8pt
+\linespread{1.05} % Change line spacing here, Palatino benefits from a slight increase by default
+
+\newcommand{\ef}[1]{$\mathcal{O}#1$}
+
+\makeatletter
+\renewcommand\@biblabel[1]{\textbf{#1.}} % Change the square brackets for each bibliography item from '[1]' to '1.'
+\renewcommand{\@listI}{\itemsep=0pt} % Reduce the space between items in the itemize and enumerate environments and the bibliography
+\newcommand{\imagen}[2]{\begin{center} \includegraphics[width=90mm]{#1} \\#2 \end{center}}
+
+\renewcommand{\maketitle}{ % Customize the title - do not edit title and author name here, see the TITLE block below
+\begin{flushright} % Right align
+{\LARGE\@title} % Increase the font size of the title
+
+\vspace{50pt} % Some vertical space between the title and author name
+
+{\large\@author} % Author name
+\\\@date % Date
+
+\vspace{40pt} % Some vertical space between the author block and abstract
+\end{flushright}
+}
+
+%----------------------------------------------------------------------------------------
+%	TITLE
+%----------------------------------------------------------------------------------------
+
+\title{\textbf{Práctica 3}\\ % Title
+QAP: Asignación cuadrática} % Subtitle
+
+\author{\textsc{Óscar Bermúdez,\\Francisco David Charte,\\Ignacio Cordón,\\José Carlos Entrena,\\Mario Román} % Author
+\\{\textit{Universidad de Granada}}} % Institution
+
+\date{\today} % Date
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+\maketitle % Print the title section
+
+\renewcommand{\abstractname}{Resumen} % Uncomment to change the name of the abstract to something else
+\begin{abstract}
+\end{abstract}
+{\parskip=2pt
+\tableofcontents
+}
+\pagebreak
+
+\section{El problema de la asignación cuadrática (QAP)}
+      \subsection{Enunciado}
+	Dado un conjunto de $n$ instalaciones con un flujo de transporte y
+	un coste asociado entre dichas instalaciones, y dadas $n$ posibles localizaciones,
+	el problema consiste en buscar ubicación a cada una de las instalaciones que
+	minimice el coste del transporte.
+	
+	Siendo $d(i,j)$ la distancia entre la localización $i$ y la $j$
+	y siendo $w(i,j)$ el peso asociado al flujo de materiales entre la instalación
+	$i$ y la $j$, se consiga minimizar:
+	\begin{equation}
+	\sum_{i=1}^n \sum_{j=1}^nw(i,j) d(\sigma(i),\sigma(j))
+	\label{coste}
+	\end{equation}
+
+	donde $\sigma \in \mathcal{S}_n$ define una permutación sobre el conjunto de instalaciones.
+
+    
+      \subsection{Backtracking}
+	En nuestro algoritmo de tipo Backtracking consideraremos todas las posibles opciones para quedarnos con la mejor de ellas.
+	Tomaremos una instalación y la emplazaremos en un lugar cualquiera. A partir de aquí, colocaremos una nueva instalación
+	en otro emplazamiento vacío hasta que estos se agoten. Llegados a este punto, volveremos hacia atrás y consideraremos soluciones alternativas, colocando las instalaciones en los demás emplazamientos no considerados hasta el momento. Una vez obtenida una posible solución, compararemos costes con la mejor solución hasta el momento y la actualizaremos si es mejorada.       
+	
+	Representaremos la solución como un vector de enteros, que nos indica en que emplazamiento hemos colocado cada ciudad a 
+	través del índice. El tamaño del espacio de soluciones es de $n!$, que representa los emplazamientos posibles que tenemos 
+	para cada ciudad. 
+      
+      \subsection{Branch \& Bound}
+      
+    En nuestro algoritmo de tipo Branch \& Bound, tendremos la misma representación de la solución, luego el tamaño del espacio de soluciones volverá a ser de $n!$. 
+    
+    
+    
+    Al tratarse de un problema de minimización, la estrategia de poda que se sigue es podar cada rama en la que se encuentre una satisfacción mínima mayor que la satisfacción de la mejor solución encontrada hasta el momento. La estrategia de ramificación utilizada es Least-Cost FIFO, ya que usamos una cola con prioridad ordenada por menor coste.
+    
+\end{document}

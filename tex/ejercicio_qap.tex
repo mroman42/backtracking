@@ -135,7 +135,7 @@ QAP: Asignación cuadrática} % Subtitle
 	y siendo $w(i,j)$ el peso asociado al flujo de materiales entre la instalación
 	$i$ y la $j$, se consiga minimizar:
 	\begin{equation}
-	\sum_{i,j} w(i,j) d(\sigma(i),\sigma(j))
+	\sum_{i=1}^n \sum_{j=1}^nw(i,j) d(\sigma(i),\sigma(j))
 	\label{coste}
 	\end{equation}
 
@@ -154,10 +154,5 @@ QAP: Asignación cuadrática} % Subtitle
 	para cada ciudad. 
       
       \subsection{Branch \& Bound}
-	En este caso, volveremos a recorrer todo el árbol de soluciones en profundidad, utilizando una función que nos permite acotar el
-	coste de una permutación, ahorrándonos explorar ramas del árbol. Para ello, calcularemos el coste total de la permutación hasta el 
-	momento, y si este es mayor que el coste de la mejor solución, podemos afirmar que todas las soluciones derivadas de la actual no 
-	son las óptimas, y podemos dejar de explorar la rama, pasando a la siguiente. 
 	
-	La solución será representada como en Backtracking, siendo de nuevo el tamaño del espacio de soluciones de $n!$.
 \end{document}

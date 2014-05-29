@@ -56,22 +56,75 @@ void permutaciones(Permutacion& p, uint indice = 0){
     // Caso de recorrido intermedio
     // Prueba posibles permutaciones para los restantes elementos.
     else {
+        // Variables para los Branch & Bound
+        #ifdef BBOUND1
+        double coste;
+        double minimo;
+        double actual;
+        #endif
+        #ifdef BBOUND2
+        double coste;
+        double minimo_i;
+        double minimo_ii;
+        #endif
+        
         for (uint i = indice; i < dimension; ++i) {
             // Produce una permutación en la ruta.
             uint temp = p[i];
             p[i] = p[indice];
             p[indice] = temp;
 
-            #ifdef BBOUND
+            #ifdef BBOUND1
+            coste = cost(p,indice + 1);
+            
+            // Calculamos una cota inferior para el problema
+            for (uint h = indice + 1; h < dimension; ++h ){
+                minimo = numeric_limits<Coste>::infinity();
+                for (uint j = indice + 1; j < dimension; ++j){
+                    actual = 0;
+                    for (uint k = 0; k < indice + 1; ++k){
+                        actual += w[k][h] * d[p[k]][p[j]] + w[h][k] * d[p[j]][p[k]];
+                    }
+                    actual += w[h][h] * d[p[j]][p[j]];
+                    
+                    if (actual < minimo)
+                        minimo = actual;
+                }
+                coste += minimo;
+            }
+            if (coste < mejor_coste)
+                permutaciones (p, indice + 1);
+            
+            #else 
+            #ifdef BBOUND2
+            coste = cost(p,indice + 1);
+            
+            // Calculamos una cota inferior para el problema
+            for (uint h = 0; h < indice + 1; ++h){
+                for (uint j = indice + 1; j < dimension; ++j){
+                    minimo_i = minimo_ii = numeric_limits<Coste>::infinity();
+                    for (uint k = indice + 1; k < dimension; ++k){
+                        minimo_i = (d[p[h]][p[k]] < minimo_i ? d[p[h]][p[k]] : minimo_i);
+                        minimo_ii = (d[p[k]][p[h]] < minimo_ii ? d[p[k]][p[h]] : minimo_ii);
+                    }
+                    coste += w[h][j] * minimo_i + w[j][h] * minimo_ii;   
+                }
+            }
+            if (coste < mejor_coste)
+                permutaciones (p, indice + 1);
+            
+            #else
+            #ifdef BBOUND3
             // Si la permutación actual es peor que la mejor en cuanto a coste,
             // no la introducimos
             if (cost(p,indice + 1) < mejor_coste)
-                permutaciones (p, indice + 1);
+                permutaciones (p, indice + 1);            
             #else
             // Estudia permutaciones con ese cambio.
             permutaciones (p, indice + 1);
             #endif
-            
+            #endif
+            #endif
             // Deshace la permutación
             p[indice] = p[i];
             p[i] = temp;

@@ -27,7 +27,7 @@ public:
 private:
     bool depende(int una, int otra);
     bool empty(const vector<Tarea> &procesador);
-    uint gap(vector<Tarea> &procesador);
+    int gap(vector<Tarea> &procesador);
 public:
     Planificacion planifica();
     Planificador(vector<Tarea> tareas) :problema(tareas) {}

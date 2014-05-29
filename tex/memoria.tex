@@ -343,6 +343,9 @@ Backtracking y Branch \& Bound} % Subtitle
 	  Para la versión Branch \& Bound del algoritmo, usaremos la misma representación para la solución, 
 	  un vector de booleanos, por lo que tendremos el mismo espacio de soluciones.
 	  
+	  Los hijos posibles de un nodo intermedio $(a_1, \dots, a_m)$ (con $a_i$ asignaciones válidas) son del tipo 
+	  $(a_1, \dots, a_m, a_{m+1})$, donde $a_{m+1}$ es una asignación válida que no está ya en $\{a_1, \dots, a_m\}$.
+	  
 	  Como función de poda sobre una solución parcial, consideraremos la satisfacción que obtendríamos con todas 
 	  las aristas restantes como cota máxima de la satisfacción posible a obtener. Si la satisfacción máxima de 
 	  la parte restante sumada con la satisfacción de la solución parcial es menor que la satisfacción de la mejor 

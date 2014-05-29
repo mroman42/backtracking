@@ -57,12 +57,12 @@ void permutaciones(Ruta& ruta, Coste coste_actual, uint indice){
     // Caso de la ruta finalizada
     // Comprueba si se mejora el óptimo.    
     if (indice == dimension) {
-	    Coste coste_total = coste_actual + distancia(ruta[indice-1], ruta[0]);
-
-	    if (coste_total < mejor_coste) {
-	        mejor_ruta = ruta;
-	        mejor_coste = coste_total;
-	    }
+        Coste coste_total = coste_actual + distancia(ruta[indice-1], ruta[0]);
+        
+        if (coste_total < mejor_coste) {
+            mejor_ruta = ruta;
+            mejor_coste = coste_total;
+        }
     }
     
     #ifdef BBOUND
@@ -72,23 +72,23 @@ void permutaciones(Ruta& ruta, Coste coste_actual, uint indice){
         return;
     #endif
     
-
+    
     // Caso de recorrido intermedio
     // Prueba posibles permutaciones para los restantes elementos.
     else {
         for (uint i = indice; i < dimension; ++i) {
-    	    #ifdef OPTBOUND
-	        // Caso en el que la permutación introduciría un cruce de caminos.
-	        // Por optimización OPT-2, no puede ser el óptimo.
-	        bool opt2 = false;
-	        for (uint j = 1; j < indice and !opt2; j++)
-		        opt2 = cruce(ruta[i],ruta[indice-1], ruta[j],ruta[j-1]);
-
-	        if (opt2)
-		        continue;
+            #ifdef OPTBOUND
+            // Caso en el que la permutación introduciría un cruce de caminos.
+            // Por optimización OPT-2, no puede ser el óptimo.
+            bool opt2 = false;
+            for (uint j = 1; j < indice and !opt2; j++)
+                opt2 = cruce(ruta[i],ruta[indice-1], ruta[j],ruta[j-1]);
+            
+            if (opt2)
+                continue;
             #endif
-
-
+            
+            
             // Produce una permutación en la ruta.
             uint temp = ruta[i];
             ruta[i] = ruta[indice];
@@ -124,17 +124,17 @@ int main() {
     // Crea una primera ruta con la permutación identidad.
     Ruta ruta(dimension);
     iota(ruta.begin(),ruta.end(),0);
-
+    
     auto time1 = chrono::high_resolution_clock::now();
     permutaciones(ruta, coste_actual, 1);
     auto time2 = chrono::high_resolution_clock::now();
     chrono::duration<double> time_span = chrono::duration_cast<chrono::duration<double>>(time2 - time1);
     double time = time_span.count();
-
+    
     // Muestra la solución
     cout << "Mejor coste obtenido: " << mejor_coste << endl
-              << "Mejor ruta: " << endl << mejor_ruta
-	      << "Tiempo de cómputo: " << time << endl;
+        << "Mejor ruta: " << endl << mejor_ruta
+        << "Tiempo de cómputo: " << time << endl;
     
     
     // Depuración

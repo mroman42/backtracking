@@ -159,7 +159,7 @@ Backtracking y Branch \& Bound} % Subtitle
 	\subsubsection{Algoritmo}
 	  Nuestro algoritmo es de tipo iterativo, por lo que usa una pila en la que almacenamos las mochilas que 
 	  vamos procesando. La poda se produce cuando al añadir un objeto, la mochila resultante supera el peso 
-	  límite, en cuyo caso esta no es añadida a la pila de candidatas. Cuando encontremos una mochila completa, 
+	  límite, en cuyo caso, esta no es añadida a la pila de candidatas. Cuando encontremos una mochila completa, 
 	  se compara con la solución actual, y se sustituye en caso de mejorarla. 
     
 	  \small
@@ -348,7 +348,12 @@ Backtracking y Branch \& Bound} % Subtitle
 	  
 	  La satisfacción estará relacionada con la preferencia de cada arista. Dicha preferencia vendrá dada en un 
 	  nuevo vector de valores reales, que utilizaremos para calcular el valor de cada arista en base a su preferencia. 
-        
+      
+      Al tratarse de un problema de maximización, la estrategia de poda que se sigue es podar cada rama en la que se
+      encuentre una satisfacción máxima (cota superior) menor que la satisfacción de la mejor solución encontrada hasta el
+      momento. La estrategia de ramificación utilizada es Maximum-Benefit FIFO, ya que usamos una cola con prioridad
+      ordenada por el mayor beneficio.
+    
         \subsubsection{Algoritmo}    
         \small
         \texttt{\input{pseudo_3dmatching_bb_final.tex}}

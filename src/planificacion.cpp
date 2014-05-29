@@ -109,8 +109,8 @@ bool Planificador::empty(const vector<Tarea> &procesador){
 }
 
 // Busca procesadores vacíos
-uint Planificador::gap(vector<Tarea> &procesador){
-    for (uint i=0; i<num_cores; ++i){
+int Planificador::gap(vector<Tarea> &procesador){
+    for (unsigned i=0; i<num_cores; ++i){
         if (procesador[i].empty()){
             return i;
         }
@@ -151,7 +151,7 @@ Planificador::Planificacion Planificador::planifica() {
         }
         else {
             bool dependencia;
-            uint core = gap(actual.procesador_actual);
+            int core = gap(actual.procesador_actual);
             /*
              Si hay core libre, intentamos planificar algún proceso en dicho core
              */

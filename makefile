@@ -23,11 +23,8 @@ $(BIN)/tsp_bbound: $(SRC)/tsp.cpp
 $(BIN)/tsp_optbound: $(SRC)/tsp.cpp
 	g++ $< -o $@ $(FLAGS) -DOPTBOUND -DBBOUND
 
-$(BIN)/tsp_pq_bbound: $(SRC)/tsp_pq.cpp
-	g++ $< -o $@ $(FLAGS) -DBBOUND
-
 $(BIN)/tsp_pq_optbound: $(SRC)/tsp_pq.cpp
-	g++ $< -o $@ $(FLAGS) -DOPTBOUND -DBBOUND
+	g++ $< -o $@ $(FLAGS) -DOPTBOUND
 
 $(BIN)/planificacion_bbound: $(SRC)/planificacion.cpp
 	g++ $< -o $@ $(FLAGS) -DBBOUND

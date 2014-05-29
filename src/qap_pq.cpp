@@ -105,6 +105,50 @@ void actualiza_cota3 (Nodo &actual){
     actual.cota = cost(actual.p,actual.indice + 1);
 }
 
+double coste_greedy (Permutacion actual){
+    double min = numeric_limits<Coste>::infinity();
+    uint s = actual.size();
+    uint max_w_index, min_d_index;
+    double max_weight, min_distance;
+    Permutacion p, mejor;
+    
+    for (uint i = 0; i < s; ++i){
+        p = actual;
+        vector<bool> fab_asignada(s,false);
+        vector<bool> loc_asignada(s,false);
+        uint j = i;
+        
+        for (uint recorridas = 1; recorridas < s; ++recorridas){
+            fab_asignada[j] = true;
+            loc_asignada[p[j]] = true;
+            max_weight = 0;
+            min_distance = numeric_limits<Coste>::infinity();
+            
+            for (uint k = 0; k < s; ++k){
+                if (!fab_asignada[k]){
+                    if (w[i][k] > max_weight){
+                        max_w_index = k;
+                        max_weight = w[i][k];
+                    }
+                    if (d[i][k] < min_distance){
+                        min_d_index = k;
+                        min_distance = d[i][k];
+                    }
+                }   
+            }
+            
+            p[max_w_index] = min_d_index;
+            j = max_w_index;
+        }
+        
+        if (cost(p, dimension) < min){
+            mejor = p;
+        }
+    }
+    
+    return cost(mejor, dimension);
+}
+
 struct cmp {
     bool operator()(Nodo& una, Nodo& otra) {
         return una.cota < otra.cota;
@@ -123,7 +167,7 @@ Nodo resuelve(){
     iota(mejor.p.begin(), mejor.p.end(), 0);
     
     posibles.push(mejor);
-    mejor_coste = numeric_limits<Coste>::infinity();
+    mejor_coste = coste_greedy(mejor.p);
     
     while(!posibles.empty()){
         #ifdef BBOUND
@@ -139,7 +183,7 @@ Nodo resuelve(){
         if (actual.indice == dimension) {
             Coste total = cost(actual.p,dimension);
             
-            if (total < mejor_coste) {
+            if (total <= mejor_coste) {
                 mejor.p = actual.p;
                 mejor_coste = total;
             }

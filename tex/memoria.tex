@@ -328,7 +328,23 @@ Backtracking y Branch \& Bound} % Subtitle
 	  \subsection{Enunciado}
 	    Dado un conjunto de $n$ instalaciones con un flujo de transporte y un coste asociado entre ellas, y dadas $n$ posibles 
 	    localizaciones, el problema consiste en buscar la localización más adecuada para cada instalación, de forma que el 
-	    coste total del transporte entre instalaciones sea el mínimo posible. 
+	    coste total del transporte entre instalaciones sea el mínimo posible.
+	    
+	    Dado un conjunto de $n$ instalaciones con un flujo de transporte y
+	    un conste asociado entre dichas instalaciones, y dadas $n$ posibles localizaciones,
+	    el problema consiste en buscar ubicación a cada una de las instalaciones que
+	    minimice el coste del stransporte.
+	    
+	    Siendo $d(i,j)$ la distancia entre la localización $i$ y la $j$
+	    y siendo $w(i,j)$ el peso asociado al flujo de materiales entre la instalación
+	    $i$ y la $j$, se consiga minimizar:
+	    \begin{equation}
+	    \sum_{i,j} w(i,j) d(\sigma(i),\sigma(j))
+	    \label{coste}
+	    \end{equation}
+
+	    donde $\sigma \in \mathcal{S}_n$ define una permutación sobre el conjunto de instalaciones.
+
         
 	  \subsection{Backtracking}
 	    En nuestro algoritmo de tipo Backtracking consideraremos todas las posibles opciones para quedarnos con la mejor de ellas.

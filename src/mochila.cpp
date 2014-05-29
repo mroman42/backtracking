@@ -50,12 +50,12 @@ Mochila resolver(int limite, vector<int> pesos, vector<int> beneficios) {
     // Prueba cada una de las posibles mochilas.
     while (!posibles_mochilas.empty()) {
         Mochila actual = posibles_mochilas.top();
-        
+        cout << actual.first;
         posibles_mochilas.pop();
         
         // Caso de mochila llena
         // Calculamos su valor y si es mejor que la mejor mochila actual.
-        if (actual.first.size() == tamanio) {
+        if (actual.first.size() == tamanio) { 
             if (actual.second > max_valor) {
                 max_valor = actual.second;
                 solucion = actual;
@@ -140,6 +140,8 @@ int main () {
         beneficios.push_back(leido);
     }
     
+    cout << "ÁRBOL DE ESTADOS:" << endl; 
+
     auto time1 = chrono::high_resolution_clock::now();
     Mochila resultado = resolver(limite, pesos, beneficios);
     auto time2 = chrono::high_resolution_clock::now();

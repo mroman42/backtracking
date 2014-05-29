@@ -1,6 +1,6 @@
 def planifica(ncores, tareas)
     def resolver()
-        posibles = new Priority Queue
+        posibles = new PriorityQueue
         solución = []
         tiempo = LATEXinfty
 

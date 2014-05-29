@@ -12,6 +12,7 @@
 #include <algorithm>
 #include <chrono>
 #include <queue>
+#include <stack>
 
 using namespace std;
 
@@ -87,7 +88,12 @@ vector<int> get_minimos() {
 }
 
 Nodo resuelve() {
-    priority_queue<Nodo, vector<Nodo>, cmp> posibles;
+    #ifdef BBOUND
+        priority_queue<Nodo, vector<Nodo>, cmp> posibles;
+    #else
+        stack<Nodo> posibles;
+    #endif
+
     unsigned dim = ciudades.size();
 
     // Generamos una ruta inicial, fijamos la primera ciudad
@@ -96,7 +102,6 @@ Nodo resuelve() {
 
     vector<int> min_distancias = get_minimos();
     mejor.cota_restantes = accumulate(min_distancias.begin(), min_distancias.end(), 0);
-    cout << min_distancias;
 
     posibles.push(mejor);
     mejor.coste = numeric_limits<Coste>::infinity();
@@ -115,15 +120,19 @@ Nodo resuelve() {
                 mejor.coste = total;
             }
         }
-        // Poda: No generamos más hijos si no vamos a mejorar la solución
-        else if (actual.coste + actual.cota_restantes < mejor.coste) {
+        #ifdef BBOUND
+            // Poda: No generamos más hijos si no vamos a mejorar la solución
+            else if (actual.coste + actual.cota_restantes < mejor.coste) {
+        #else
+            else {
+        #endif
             for (unsigned i = actual.indice; i < dim; ++i) {
                 bool opt2 = false;
 
                 #ifdef OPTBOUND
                     // Caso en el que la permutación introduciría un cruce de caminos
                     // Por optimización OPT-2, no puede ser el óptimo
-                    for (unsigned j = 1; j < indice && !opt2; j++)
+                    for (unsigned j = 1; j < actual.indice && !opt2; j++)
                         opt2 = cruce(actual.ruta[i],actual.ruta[actual.indice-1],
                             actual.ruta[j], actual.ruta[j-1]);
                 #endif

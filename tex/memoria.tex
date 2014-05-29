@@ -321,14 +321,16 @@ Backtracking y Branch \& Bound} % Subtitle
     \begin{equation}
         \forall (x_1,y_1,z_1), (x_2,y_2,z_2) \in M : \quad (x_1 \neq x_2) \wedge (y_1 \neq y_2) \wedge (z_1 \neq z_2)
         \end{equation} 
-        Buscamos la asignación válida de mayor cardinal, es decir la $M$ asignación válida maximizando $|M|$.
+        Buscamos la asignación válida de mayor cardinal, es decir la $M$ asignación válida maximizando la satisfacción.
         
         \subsection{Backtracking}
-	  En este algoritmo consideraremos todas las asignaciones posibles y nos quedaremos con la asignación que tenga mayor cardinal. 
-	  Para ello, consideraremos todas las aristas e iremos comprobando para cada una si es posible añadirla. De ser así, distinguiremos 
-	  dos casos: La arista puede pertenecer o no a la solución. Sobre estos dos casos aplicaremos el mismo algoritmo. Cuando no quede
-	  ninguna arista que pueda ser añadida, compararemos los tamaños de la solución obtenida y la mejor solución hasta el momento, 
-	  actualizando la mejor solución si la actual la mejorase. 
+	  En este algoritmo consideraremos todas las asignaciones posibles y nos quedaremos con la asignación que tenga mayor satisfacción
+	  que, en este caso, coincide con el cardinal.
+	  
+	  Para ello, consideraremos todas las aristas e iremos comprobando para cada una si es posible añadirla. De ser así, distinguiremos dos
+	  casos: La arista puede pertenecer o no a la solución. Sobre estos dos casos aplicaremos el mismo algoritmo. Cuando no quede ninguna
+	  arista que pueda ser añadida, compararemos los tamaños de la solución obtenida y la mejor solución hasta el momento, actualizando
+	  la mejor solución si la actual la mejorase. 
 	  
 	  Representaremos la solución como un vector de booleanos, que nos indican si la arista asociada al índice se encuentra o 
 	  no en la solución. Como cada arista tiene la opción de estar o no estar en la solución, la dimensión del espacio de 
@@ -351,7 +353,7 @@ Backtracking y Branch \& Bound} % Subtitle
 	  la parte restante sumada con la satisfacción de la solución parcial es menor que la satisfacción de la mejor 
 	  solución hasta el momento, podemos descartar la solución parcial y obviar todas las ramas derivadas. 
 	  
-	  La satisfacción estará relacionada con la preferencia de cada arista. Dicha preferencia vendrá dada en un 
+	  En este caso, la satisfacción estará relacionada con la preferencia de cada arista. Dicha preferencia vendrá dada en un 
 	  nuevo vector de valores reales, que utilizaremos para calcular el valor de cada arista en base a su preferencia. 
       
       Al tratarse de un problema de maximización, la estrategia de poda que se sigue es podar cada rama en la que se
